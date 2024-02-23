@@ -6,7 +6,7 @@ import Tabs from './app/component/tab';
 export default function App() {
   return (
     <NavigationContainer>
-      <Tabs />
+      <Tabs/>
     </NavigationContainer>
   );
 }

@@ -40,7 +40,8 @@ const Tabs = () => {
                     elevation: 0,
                     borderRadius: 15,
                     height: 80,
-                }
+                },
+                headerShown: false,
             }}
         >
             <Tab.Screen name="Home" component={Home}
@@ -56,11 +57,10 @@ const Tabs = () => {
                     tabBarIcon: () => (
                         <FontAwesome5 name="camera" color={'#A6CF98'} size={30}/>
                     ),
-                    tabBarButton: (props) => (
-                        <CustomTabbutton {...props}/>
+                    // tabBarButton: (props) => (
+                    //     <CustomTabbutton {...props}/>
                         
-                    ),
-                    tabBarVisible: false,
+                    // )
                 }}
             />
             <Tab.Screen name="Profile" component={Profile}
