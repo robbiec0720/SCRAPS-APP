@@ -51,7 +51,7 @@ const Tabs = () => {
                     ),
                 }}
             />
-            <Tab.Screen name="check" component={Camera}
+            <Tab.Screen name="Camera" component={Camera}
                 options={{
                     tabBarIcon: () => (
                         <FontAwesome5 name="camera" color={'#A6CF98'} size={30}/>
@@ -59,7 +59,8 @@ const Tabs = () => {
                     tabBarButton: (props) => (
                         <CustomTabbutton {...props}/>
                         
-                    )
+                    ),
+                    tabBarVisible: false,
                 }}
             />
             <Tab.Screen name="Profile" component={Profile}

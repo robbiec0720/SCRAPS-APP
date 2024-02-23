@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import {Camera, CameraType} from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+import Button from "../component/Button";
 
 export default function CameraScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -20,28 +21,29 @@ export default function CameraScreen() {
     }, [])
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-            <Text styles={styles.boldtext}>Camera</Text>
+            <Camera
+                style={styles.camera}
+                type={type}
+                flashMode={flash}
+                ref={cameraRef}
+            >
+            </Camera>
+            <View>
+              <Button title={'Take a picture'} icon="camera" />
             </View>
-        <StatusBar style="auto" />
-      </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
+      backgroundColor: '#000',
       justifyContent: 'center',
     },
-    header: {
-      padding: 20,
-      backgroundColor: '#FA7070',
-    },
-    boldtext: {
-      fontWeight: 'bold',
-      fontWeight: 200,
-    },
-  });
+    camera: {
+        flex: 1,
+        borderRadius: 20,
+    }
+});
   
