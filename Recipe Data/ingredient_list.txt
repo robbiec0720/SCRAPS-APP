@@ -1,4 +1,3 @@
-
 whole asparagus
 canola oil
 fideo noodles
@@ -26,8 +25,8 @@ frozen baby carrots
 instant beef granules
 kellogg's corn
 crabmeat juice
-cocktail sausages
 grains of salt
+cocktail sausages
 salad delight spices
 whitefish filets
 amount of salt
@@ -3473,7 +3472,6 @@ lean beef brisket
 quarter
 whipping cream type bread
 lemon and/or
-piccalilli
 brown bits from meat
 szechuan seasoning
 broiled shrimp
@@ -4888,8 +4886,8 @@ fresh dates
 white creme
 yellow food coloring
 firm white fish
-whole wheat pita bread
 biscuit recipe
+whole wheat pita bread
 fresh red gizzards
 block regular margarine
 lime slices
@@ -8627,7 +8625,6 @@ extra large pasta shells
 carton creamed cottage cheese
 red sour cherries
 ro-tel tomato peppers
-country gravy
 pineapple yogurt dressing
 creamette macaroni
 white chestnuts
@@ -10266,7 +10263,6 @@ grape soda
 jell-o
 mixed peppers
 mixed dried beans
-co-jack cheese
 broth from turkey
 pineapple chunks
 catsup jars water
@@ -10282,7 +10278,6 @@ fresh bananas
 powdered ranch dressing
 soft rye
 black coffee
-jumbo shell pasta
 dry red wine
 drops black walnut flavoring
 long-grained raw white rice
