@@ -53,41 +53,98 @@ export default function CameraScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Button size={25} icon={flash === Camera.Constants.FlashMode.off ? 'flash-off' : 'flash'} onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} />
-                <Text style={styles.headerTitle}>Camera</Text>
-            </View>
-            <Camera
-                style={styles.camera}
-                type={type}
-                flashMode={flash}
-                autoFocus={Camera.Constants.AutoFocus.on}
-                ref={cameraRef}
-            >
-            </Camera>
-            <View style={styles.modeSelection}>
-            <TouchableOpacity style={mode === 'single' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('single')}>
-                <Text style={mode === 'single' ? { color: '#000' } : { color: '#fff' }}>Single</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={mode === 'batch' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('batch')}>
-                <Text style={mode === 'batch' ? { color: '#000' } : { color: '#fff' }}>Batch</Text>
-            </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-                <View style={styles.imageCountButton}>
-                    <Text style={styles.imageCountText}>{image.length}</Text>
+            {mode === 'single' ? (
+                <><View style={styles.header}>
+                    <Button size={25} icon={flash === Camera.Constants.FlashMode.off ? 'flash-off' : 'flash'} onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} />
+                    <Text style={styles.headerTitle}>Camera</Text>
                 </View>
-                {image.length > 0 ?
-                    <View style={styles.imageActionButtons}>
-                        <Button style={styles.button} size={50} icon="reload" onPress={() => setImage([])}/>
-                        <Button size={100} style={styles.button} icon="radio-button-on" onPress={takePicture}/>
-                        <Button style={styles.button} size={50} icon="checkmark-sharp" onPress={saveImage}/>
-                    </View>
-                    :
-                    <Button size={100} style={styles.button} icon="radio-button-on" onPress={takePicture}/>
-                }
-            </View>
+                {image.length === 0 ? (
+                    <Camera
+                        style={styles.camera}
+                        type={type}
+                        flashMode={flash}
+                        autoFocus={Camera.Constants.AutoFocus.on}
+                        ref={cameraRef}
+                    >
+                    </Camera>
+                ) : (
+                    <Image source={{uri: image[0]}} style={styles.camera}/>
+                )}
+                {image.length === 0 ? (
+                    <View style={styles.modeSelection}>
+                            <TouchableOpacity style={mode === 'single' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('single')}>
+                                <Text style={mode === 'single' ? { color: '#000' } : { color: '#fff' }}>Single</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={mode === 'batch' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('batch')}>
+                                <Text style={mode === 'batch' ? { color: '#000' } : { color: '#fff' }}>Batch</Text>
+                            </TouchableOpacity>
+                        </View>
+                ) : (
+                    <View style={styles.modeSelection}>
+                            <TouchableOpacity style={mode === 'single' ? styles.modeButton : styles.modeButton}>
+                                <Text style={mode === 'single' ? { color: '#fff' } : { color: '#fff' }}></Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={mode === 'batch' ? styles.modeButton : styles.modeButton}>
+                                <Text style={mode === 'batch' ? { color: '#fff' } : { color: '#fff' }}></Text>
+                            </TouchableOpacity>
+                        </View>
+                )}
+                <View style={styles.buttonContainer}>
+                    {image.length > 0 ?
+                        <View style={styles.imageActionButtons}>
+                            <Button style={styles.button} size={50} icon="reload" onPress={() => setImage([])} />
+                            <Button style={styles.button} size={50} icon="checkmark-sharp" onPress={saveImage} />
+                        </View>
+                        :
+                        <Button size={100} style={styles.button} icon="radio-button-on" onPress={takePicture} />}
+                </View></>
+            ) : (
+                <><View style={styles.header}>
+                        <Button size={25} icon={flash === Camera.Constants.FlashMode.off ? 'flash-off' : 'flash'} onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} />
+                        <Text style={styles.headerTitle}>Camera</Text>
+                    </View><Camera
+                        style={styles.camera}
+                        type={type}
+                        flashMode={flash}
+                        autoFocus={Camera.Constants.AutoFocus.on}
+                        ref={cameraRef}
+                    >
+                    </Camera>
+                    {image.length === 0 ? (
+                        <View style={styles.modeSelection}>
+                            <TouchableOpacity style={mode === 'single' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('single')}>
+                                <Text style={mode === 'single' ? { color: '#000' } : { color: '#fff' }}>Single</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={mode === 'batch' ? styles.modeButtonActive : styles.modeButton} onPress={() => setMode('batch')}>
+                                <Text style={mode === 'batch' ? { color: '#000' } : { color: '#fff' }}>Batch</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <View style={styles.modeSelection}>
+                            <TouchableOpacity style={mode === 'single' ? styles.modeButton : styles.modeButton}>
+                                <Text style={mode === 'single' ? { color: '#fff' } : { color: '#fff' }}></Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={mode === 'batch' ? styles.modeButton : styles.modeButton}>
+                                <Text style={mode === 'batch' ? { color: '#fff' } : { color: '#fff' }}></Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.imageCountButton}>
+                            <Text style={styles.imageCountText}>{image.length}</Text>
+                        </View>
+                        {image.length > 0 ?
+                            <View style={styles.imageActionButtons}>
+                                <Button style={styles.button} size={50} icon="reload" onPress={() => setImage([])} />
+                                <Button size={100} style={styles.button} icon="radio-button-on" onPress={takePicture} />
+                                <Button style={styles.button} size={50} icon="checkmark-sharp" onPress={saveImage} />
+                            </View>
+                            :
+                            <Button size={100} style={styles.button} icon="radio-button-on" onPress={takePicture} />}
+                    </View></>
+            )}
         </View>
+        
     );
 }
 
