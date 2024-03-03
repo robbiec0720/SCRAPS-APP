@@ -40,6 +40,8 @@ const Tabs = () => {
                     elevation: 0,
                     borderRadius: 15,
                     height: 80,
+                    backgroundColor: '#000',
+                    borderTopWidth: 0,
                 },
                 headerShown: false,
             }}
