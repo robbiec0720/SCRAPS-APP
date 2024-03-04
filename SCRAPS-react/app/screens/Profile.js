@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-            <Text styles={styles.boldtext}>Profile</Text>
+                <Text style={styles.boldtext}>PROFILE</Text>
             </View>
         <StatusBar style="auto" />
       </View>
@@ -14,19 +14,22 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    header: {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
       padding: 20,
       backgroundColor: '#FA7070',
-    },
-    boldtext: {
+      width: '100%',
+      alignItems: 'center',
+  },
+  boldtext: {
       fontWeight: 'bold',
-      fontWeight: 200,
-    },
-  });
+      fontSize: 20, 
+      color: '#fff', 
+  },
+});
   

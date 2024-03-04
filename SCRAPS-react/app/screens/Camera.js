@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import {Camera, CameraType} from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import Button from "../component/Button";
+import { useImages } from '../context/imagecontext';
 
 export default function CameraScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -12,6 +12,7 @@ export default function CameraScreen() {
     const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
     const [mode, setMode] = useState('single');
     const cameraRef = useRef(null);
+    const { images, addImage, clearImages } = useImages();
 
     useEffect(() => {
         (async () => {
@@ -44,6 +45,7 @@ export default function CameraScreen() {
             try {
                 const savedImages = await Promise.all(image.map(image => MediaLibrary.createAssetAsync(image)));
                 alert('Pictures saved!');
+                image.forEach(image => addImage(image));
                 setImage([]);
             } catch (e) {
                 console.log(e);
