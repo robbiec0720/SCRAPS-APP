@@ -43,7 +43,7 @@ export default function CameraScreen() {
     const saveImage = async () => {
         if (image.length > 0) {
             try {
-                const savedImages = await Promise.all(image.map(image => MediaLibrary.createAssetAsync(image)));
+                //const savedImages = await Promise.all(image.map(image => MediaLibrary.createAssetAsync(image)));
                 alert('Pictures saved!');
                 image.forEach(image => addImage(image));
                 setImage([]);
