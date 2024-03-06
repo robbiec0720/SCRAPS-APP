@@ -4,6 +4,7 @@ import {Camera, CameraType} from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import Button from "../component/Button";
 import { useImages } from '../context/imagecontext';
+import * as Haptics from 'expo-haptics';
 
 export default function CameraScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -26,6 +27,7 @@ export default function CameraScreen() {
         return <Text> No access to Camera</Text>
     }
     const takePicture = async () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
         if (cameraRef.current) {
             try {
                 const data = await cameraRef.current.takePictureAsync();
