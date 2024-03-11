@@ -1,9 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import InputField from "../component/InputField";
+import SubmitButton from "../component/SubmitButton";
+
 
 export default function Home() {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = () => {
+        try {
+          setLoading(true);
+          if(!username || !email || !password){
+            Alert.alert('Please fill all fields');
+            setLoading(false);
+            return;
+          }
+          console.log('Register data ==> ', {username, email, password});
+          setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            //console.log(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -12,11 +35,33 @@ export default function Home() {
             <View style={styles.registerContainer}>
                 <Text style={styles.createAccountText}>Create Account</Text>
                 <View style={{ marginHorizontal: 20}}>
-                   <InputField inputFieldName={'Username'} />
-                   <InputField inputFieldName={'Email'} />
-                   <InputField inputFieldName={'Password'} />
+                   <InputField
+                    inputFieldName={'Username'} 
+                    value={username} 
+                    setValue={setUsername} 
+                    />
+                   <InputField 
+                    inputFieldName={'Email'} 
+                    keyboardType="email-address" 
+                    autoComplete="email"
+                    value={email} 
+                    setValue={setEmail} 
+                    />
+                   <InputField 
+                    inputFieldName={'Password'} 
+                    secureTextEntry={true}
+                    value={password} 
+                    setValue={setPassword}  
+                    />
                 </View>
             </View>
+            {/* <Text> {JSON.stringify({ username, email, password}, null, 4)} </Text> */}
+            <SubmitButton 
+             buttonName={"Register"} 
+             loading={loading}
+             handleSubmit={handleSubmit}
+             />
+             
         <StatusBar style="auto" />
       </View>
     );
