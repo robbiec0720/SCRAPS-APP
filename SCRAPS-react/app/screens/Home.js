@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useImages } from '../context/imagecontext'; // Make sure the path is correct
 
-export default function Home() {
+export default function Home({navigation}) {
     const { images, setImages} = useImages();
 
     const removeImage = (index) => {
@@ -18,19 +18,26 @@ export default function Home() {
 
             {images.length > 0 && (
                 <ScrollView contentContainerStyle={styles.container}>
-                {images.map((uri, index) => (
-                    <View key={index} style={styles.imageContainer}>
-                        <Image source={{ uri }} style={styles.image} />
-                        <TouchableOpacity
-                            style={styles.removeButton}
-                            onPress={() => removeImage(index)}
-                        >
-                            <Text style={styles.removeButtonText}>Remove</Text>
-                        </TouchableOpacity>
-                    </View>
-                ))}
-            </ScrollView>
+                    {images.map((uri, index) => (
+                        <View key={index} style={styles.imageContainer}>
+                            <Image source={{ uri }} style={styles.image} />
+                            <TouchableOpacity
+                                style={styles.removeButton}
+                                onPress={() => removeImage(index)}
+                            >
+                                <Text style={styles.buttonText}>Remove</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
             )}
+
+            <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => navigation.navigate("Preference")}  
+            >
+                <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
 
             <StatusBar style="auto" />
         </View>
@@ -73,7 +80,15 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 5,
     },
-    removeButtonText: {
+    continueButton: {
+        position: 'absolute',
+        right: 10,
+        bottom: 100,
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+    },
+    buttonText: {
         color: '#ffffff',
         fontSize: 14,
     },
