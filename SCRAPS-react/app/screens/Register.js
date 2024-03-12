@@ -5,7 +5,7 @@ import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
 
 
-export default function Profile({navigation}) {
+export default function Register({navigation}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

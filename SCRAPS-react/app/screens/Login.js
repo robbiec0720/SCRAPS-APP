@@ -56,7 +56,7 @@ export default function Login({navigation}) {
                 Don't have an accountt?{" "} 
                 <Text 
                     style={styles.loginLinkText}
-                    onPress={() => navigation.navigate('Profile')}
+                    onPress={() => navigation.navigate('Register')}
                 >
                     Register here
                 </Text>{" "}
