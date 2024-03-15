@@ -62,7 +62,7 @@ const userLogin = (req, res) => {
    };
 
    db.query(user.checkUserExists, [username, password], (err, results) => {
-    if (err) throw error;
+    if (err) throw err;
 
     const count = parseInt(results.rows[0].count);
     if (results.rows[0] != "null") {

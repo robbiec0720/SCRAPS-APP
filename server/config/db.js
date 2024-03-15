@@ -1,11 +1,14 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    host: 'scraps.c54s8oiyq7zw.us-east-2.rds.amazonaws.com',
+    host: process.env.HOST,
     port: 5432,
-    database: 'scraps',
-    user: 'squirtle',
-    password: 'capstone24',
+    database: process.env.DATABASE,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
     ssl: {rejectUnauthorized: false}
 });
 
