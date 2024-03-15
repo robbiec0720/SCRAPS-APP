@@ -62,25 +62,38 @@ const userLogin = (req, res) => {
    };
 
    db.query(user.checkUserExists, [username, password], (err, results) => {
-    if (err) throw err;  
+    if (err) throw error;
 
     const count = parseInt(results.rows[0].count);
-    if (results.rows.length > 0) {
+    if (results.rows[0] != "null") {
 
-
-      
        return res.status(201).send({
         success:true,
         message:'login successful',
-        user: {
+        user: { 
+          id: results.rows[0].id,
+          username: results.rows[0].username,
+          email: results.rows[0].email,
+          vegeterian: results.rows[0].vegeterian,
+          vegan: results.rows[0].vegan,
+          halal: results.rows[0].halal,
+          kosher: results.rows[0].kosher,
+          lactose: results.rows[0].lactose,
+          gluten: results.rows[0].gluten,
+          nut: results.rows[0].nut,
+          shellfish: results.rows[0].shellfish,
+          pescatarian: results.rows[0].pescatarian,
+          saved_ingredients: results.rows[0].saved_ingredients,
         }
-       });
-      };
+      });
+    };
+    
     return res.status(404).send({
       success:false,
       message:'login unsuccessful'
     })
-   });
+
+  });
 };
 
 
