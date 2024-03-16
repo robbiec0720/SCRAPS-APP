@@ -38,7 +38,6 @@ const createUser = (req, res) => {
         message:'email already exists'
       })
     }
-
     
     db.query(user.createUser, [username, email, password], (err, results) => {
       if (err) throw err;
@@ -66,7 +65,6 @@ const userLogin = (req, res) => {
 
     const count = parseInt(results.rows[0].count);
     if (results.rows[0] != "null") {
-
        return res.status(201).send({
         success:true,
         message:'login successful',
