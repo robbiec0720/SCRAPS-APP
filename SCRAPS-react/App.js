@@ -22,7 +22,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name = "HomeTabs" component={HomeTabs} options={{headerShown:false}}/>
-        <Stack.Screen name = "Preference" component={Preference} options={{headerShown:false}}></Stack.Screen> 
+        <Stack.Screen name = "Preference" component={Preference} options={{headerShown:false}}/>
         <Stack.Screen name = "Register" component={Register} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
