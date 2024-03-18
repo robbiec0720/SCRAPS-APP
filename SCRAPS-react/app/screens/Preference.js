@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Text, View, Switch, Keyboard, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Switch, Keyboard, FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function Preference({navigation}) {
@@ -7,7 +7,9 @@ export default function Preference({navigation}) {
     const [cookTime, setCookTime] = useState('60');
     const [missingIngredients, setMissingIngredients] = useState('5');
     const [isStarred, setIsStarred] = useState(false);
-  
+    const [ingredients, setIngredients] = useState(['Tomato', 'Lettuce', 'Ground Beef', 'Bun', 'Cheese', 'Mustard']);
+    const [newIngredient, setNewIngredient] = useState('');
+
     const placeholder = {
       label: 'Any',
       value: 'any',
@@ -27,7 +29,20 @@ export default function Preference({navigation}) {
         console.log('Max Cook Time:', cookTime);
         console.log('Max Missing Ingredients:', missingIngredients);
         console.log('Starred Recipes Only?:', isStarred);
-      };
+    };
+
+    const handleAddIngredient = () => {
+        if (newIngredient.trim() !== '') {
+            setIngredients([...ingredients, newIngredient]);
+            setNewIngredient('');
+        }
+    };
+
+    const handleRemoveIngredient = (index) => {
+        const updatedItems = [...ingredients];
+        updatedItems.splice(index, 1);
+        setIngredients(updatedItems);
+    };
 
     return (
         <View style={styles.container}>
@@ -83,6 +98,28 @@ export default function Preference({navigation}) {
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.header}>
+                <Text style={styles.boldtext}>Ingredients</Text>
+            </View>
+            {ingredients.map((ingredient, index) => (
+                <View key={index} style={styles.row}>
+                <Text style={styles.label}>{ingredient}</Text>
+                <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                    <Text style={styles.buttonText}>Remove</Text>
+                </TouchableOpacity>
+                </View>
+            ))}
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Ingredient"
+                    value={newIngredient}
+                    onChangeText={setNewIngredient}
+                />
+                <TouchableOpacity style={styles.addButton} onPress={handleAddIngredient}>
+                    <Text style={styles.buttonText}>Add</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -118,6 +155,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 8,
         borderRadius: 5,
+        justifyContent: 'center'
     },
     buttonText: {
         color: '#ffffff',
@@ -147,6 +185,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 8,
         borderRadius: 5,
+        justifyContent: 'center'
     },
     dropdown: {
         fontSize: 16,
@@ -157,5 +196,29 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         color: 'black',
         paddingRight: 30
+    },
+    addButton: {
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+        marginLeft: 10,
+        justifyContent: 'center',
+    },
+    removeButton: {
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        marginBottom: 20,
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        width: 100,
     },
 });
