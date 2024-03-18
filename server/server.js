@@ -41,13 +41,48 @@ const dbpool = new Pool({
 let recipes = []
 app.get('/recipes', (req, res) => {
     dbpool
-        .query('SELECT * FROM recipes;')
+        .query('SELECT * FROM recipes limit 10;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
                 recipes.push(query_res.rows[i]);
             }
             const data = {recipes};
-            console.log(recipes);
+            //console.log(recipes);
             res.json(data);
         }).catch(err => console.log(err));
+});
+
+let filter_recipe = recipes;
+app.post('/filter', (req, res) => {
+    const{vegan, vegetarian, lactose, gluten, halal, kosher, nut, shellfish, pescatarian} = req.body;
+    if(vegan === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.vegan);
+    }
+    if(vegetarian === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.vegetarian);
+    }
+    if(lactose === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.lactose);
+    }
+    if(gluten === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.gluten);
+    }
+    if(halal === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.halal);
+    }
+    if(kosher === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.kosher);
+    }
+    if(nut === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.nut);
+    }
+    if(shellfish === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.shellfish);
+    }
+    if(pescatarian === true){
+        filter_recipe = filter_recipe.filter(filter_recipe => filter_recipe.pescatarian);
+    }
+    const data = {filter_recipe};
+    console.log(filter_recipe);
+    res.json(data);
 });
