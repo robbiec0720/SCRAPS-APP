@@ -48,7 +48,7 @@ export default function Preference({navigation}) {
         <View style={styles.container}>
             <TouchableOpacity
                 style={styles.backButton}
-                onPress={() => navigation.navigate("Home")}  
+                onPress={() => navigation.navigate("HomeTabs")}  
             >
                 <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>

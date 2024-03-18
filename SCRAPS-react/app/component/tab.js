@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import Home from "../screens/Home";
 import Camera from "../screens/Camera";
-import Profile from "../screens/Profile";
+import Register from "../screens/Register";
+import Login from "../screens/Login";
 import { TouchableOpacity, View } from "react-native";
 
 const Tab = createBottomTabNavigator()
@@ -65,9 +66,9 @@ const Tabs = () => {
                     // )
                 }}
             />
-            <Tab.Screen name="Profile" component={Profile}
+            <Tab.Screen name="Login" component={Login}
                 options={{
-                    tabBarLabel: 'Profile',
+                    tabBarLabel: 'Register',
                     tabBarIcon: () => (
                     <FontAwesome5 name="user-cog" color={'#A6CF98'} size={30}/>
                     ),
