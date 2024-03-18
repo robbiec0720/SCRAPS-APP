@@ -41,7 +41,7 @@ const dbpool = new Pool({
 let recipes = []
 app.get('/recipes', (req, res) => {
     dbpool
-        .query('SELECT * FROM recipes limit 10;')
+        .query('SELECT * FROM recipes limit;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
                 recipes.push(query_res.rows[i]);
