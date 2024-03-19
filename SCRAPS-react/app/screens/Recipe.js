@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     header: {
         padding: 20,
         backgroundColor: '#FA7070',
-        width: '100%',
+        width: 500,
         alignItems: 'center',
     },
     boldtext: {
