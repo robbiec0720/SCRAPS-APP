@@ -42,7 +42,7 @@ const dbpool = new Pool({
 app.get('/recipes', (req, res) => {
     let recipes = []
     //const {username} = req.body;
-    username = 'xhuddini';
+    username = 'bob';
     Promise.all([
         dbpool.query('SELECT * FROM recipes LIMIT 10;'),
         dbpool.query('SELECT * FROM users WHERE username = $1::text;', [username])
@@ -52,13 +52,13 @@ app.get('/recipes', (req, res) => {
         }
         let user = usersResult.rows;
 
-        if (row.length === 0) {
+        if (user.length === 0) {
             res.status(401).send("Invalid username.");
             return;
         }
         
         user = user[0];
-        //console.log(user.vegan);
+
         if(user.vegan === true){
             recipes = recipes.filter(recipes => recipes.vegan);
         }
@@ -86,7 +86,7 @@ app.get('/recipes', (req, res) => {
         if(user.pescatarian === true){
             recipes = recipes.filter(recipes => recipes.pescatarian);
         }
-        console.log(user);
+        
         const data = {recipes};
         res.json(data);
     }).catch(err => {
