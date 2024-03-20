@@ -104,10 +104,10 @@ export default function Preference({navigation}) {
                 <ScrollView style={styles.scrollContainer}>
                     {ingredients.map((ingredient, index) => (
                         <View key={index} style={styles.row}>
-                        <Text style={styles.label}>{ingredient}</Text>
-                        <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
-                            <Text style={styles.buttonText}>Remove</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.label}>{ingredient}</Text>
+                            <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                                <Text style={styles.buttonText}>Remove</Text>
+                            </TouchableOpacity>
                         </View>
                     ))}
                 </ScrollView>

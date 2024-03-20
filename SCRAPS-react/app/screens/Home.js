@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'rea
 import { useImages } from '../context/imagecontext'; // Make sure the path is correct
 
 export default function Home({navigation}) {
-    const { images, setImages} = useImages();
+    const { images, setImages } = useImages();
 
     const removeImage = (index) => {
         setImages(images.filter((_, i) => i !== index));
