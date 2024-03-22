@@ -8,24 +8,24 @@ import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
 
 
-export default function ForgotPassword({navigation}){
-    const [email, setEmail] = useState('');
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+export default function ResetEmail({navigation}){
+    const [password, setPassword] = useState('');
+    const [oldEmail, setOldEmail] = useState('');
+    const [newEmail, setNewEmail] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
         try{
             setLoading(true);
-            if(!email || !oldPassword || !newPassword) {
+            if(!oldEmail || !newEmail || !password) {
                 Alert.alert('Please fill all fields');
                 setLoading(false);
                 return;
             }
             setLoading(false);
             const { data } = await axios.post(
-                'http://192.168.1.129:8080/api/v1/user/resetPassword', 
-                {oldPassword, email, newPassword}
+                'http://192.168.1.129:8080/api/v1/user/resetEmail', 
+                {oldEmail, newEmail, password}
             );
             alert(data && data.message);
             navigation.navigate('Login');
@@ -43,22 +43,23 @@ export default function ForgotPassword({navigation}){
             </View>
             <View>
                 <InputField
-                    inputFieldName={"Email"}
+                    inputFieldName={"Current Email"}
                     keyboardType="email-address"
                     autoComplete="email"
-                    value={email}
-                    setValue={setEmail}
+                    value={oldEmail}
+                    setValue={setOldEmail}
                 />
                 <InputField
-                    inputFieldName={"Current Password"}
-                    value={oldPassword}
-                    setValue={setOldPassword}
-                    secureTextEntry={true}
+                    inputFieldName={"New Email"}
+                    keyboardType="email-address"
+                    autoComplete="email"
+                    value={newEmail}
+                    setValue={setNewEmail}
                 />
                 <InputField
-                    inputFieldName={"New Password"}
-                    value={newPassword}
-                    setValue={setNewPassword}
+                    inputFieldName={"Password"}
+                    value={password}
+                    setValue={setPassword}
                     secureTextEntry={true}
                 />
             </View>

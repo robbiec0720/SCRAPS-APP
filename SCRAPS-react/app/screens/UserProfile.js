@@ -22,13 +22,13 @@ export default function UserProfile({ navigation }) {
                 <View style = {styles.resetEmailBtn}>
                     <SubmitButton 
                         buttonName={"Reset Email"}
-                        handleSubmit={() => {navigation.navigate('ForgotEmail')}}
+                        handleSubmit={() => {navigation.navigate('ResetEmail')}}
                     />
                 </View>
                 <View style = {styles.resetPasswordBtn}>
                     <SubmitButton 
                         buttonName={"Reset Password"}
-                        handleSubmit={() => {navigation.navigate('ForgotPassword')}}
+                        handleSubmit={() => {navigation.navigate('ResetPassword')}}
                     />
                 </View>
                 <View style={styles.dietaryRestrictionsBtn}>
