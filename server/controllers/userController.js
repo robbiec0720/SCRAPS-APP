@@ -60,11 +60,11 @@ const userLogin = (req, res) => {
     });
    };
 
-   db.query(user.checkUserExists, [username, password], (err, results) => {
+   db.query(user.checkUserExistsByUsername, [username, password], (err, results) => {
     if (err) throw err;
 
-    const count = parseInt(results.rows[0].count);
-    if (results.rows[0] != "null") {
+    //const count = parseInt(results.rows[0].count);
+    if (results.rows.length != 0) {
        return res.status(201).send({
         success:true,
         message:'login successful',
@@ -94,9 +94,62 @@ const userLogin = (req, res) => {
   });
 };
 
+const resetPassword = (req, res) => {
+  const {oldPassword, email, newPassword} = req.body;
+  if (!oldPassword || !email || !newPassword){
+    return res.status(500).send({
+      success:false,
+      message: 'Please provide username or password'
+    });
+   };
+
+  db.query(user.checkUserExistsByEmail, [email,oldPassword], (err, results) => {
+    if (results.rows.length == 0) {
+      return res.status(500).send({
+        success:false,
+        message:'user does not exist'
+      });
+    }
+    db.query(user.resetPassword, [newPassword, email, oldPassword], (err, results) => {
+      return res.status(201).send({
+        success:true,
+        message:'password reset successfully'
+      })
+    });
+  }); 
+};
+
+const resetEmail = (req, res) => {
+  const {oldEmail, newEmail, password} = req.body;
+
+  if (!oldEmail || !newEmail || !password){
+    return res.status(500).send({
+      success:false,
+      message: 'Please provide username or password'
+    });
+   };
+
+  db.query(user.checkUserExistsByEmail, [oldEmail,password], (err, results) => {
+    if (results.rows.length == 0) {
+      return res.status(500).send({
+        success:false,
+        message:'user does not exist'
+      });
+    }
+    db.query(user.resetEmail, [newEmail,oldEmail, password], (err, results) => {
+      return res.status(201).send({
+        success:true,
+        message:'email reset successfully'
+      })
+    });
+  }); 
+};
+
 
 module.exports = {
   getUsers,
   createUser,
   userLogin,
+  resetPassword,
+  resetEmail,
 };
