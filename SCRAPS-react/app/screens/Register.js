@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
+import axios from 'axios';
 
 
 export default function Register({navigation}) {
@@ -11,7 +12,7 @@ export default function Register({navigation}) {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         try {
           setLoading(true);
           if(!username || !email || !password){
@@ -20,8 +21,15 @@ export default function Register({navigation}) {
             return;
           }
           //console.log('Register data ==> ', {username, email, password});
-          setLoading(false);
+          const { data } = await axios.post(
+            'http://192.168.1.129:8080/api/v1/user/register', 
+            {username, email, password}
+          );
+          alert(data && data.message);
+          navigation.navigate('Login');
+          // setLoading(false);
         } catch (error) {
+            alert(error.response.data.message);
             setLoading(false);
             //console.log(error);
         }
