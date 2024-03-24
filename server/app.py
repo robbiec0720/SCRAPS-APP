@@ -44,7 +44,7 @@ def fetch_recipes():
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM recipes 10;")
+            cursor.execute("SELECT * FROM recipes limit 10;")
             recipes = cursor.fetchall()
             cursor.close()
             conn.close()
