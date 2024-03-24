@@ -60,17 +60,51 @@ def hello():
 @app.route("/recommend", methods=["GET"])
 def get_data():
     #username = request.form.get("username")
-    username = 'bob'
+    username = 'apple'
     users = fetch_users(username)
     recipes = fetch_recipes()
-    if users is not None and recipes is not None:
-        return jsonify({"users": users, "recipes": recipes})
-    else:
-        return jsonify({"error": "Failed to fetch data"}), 500
+
     #Filter based on diet restrictions
+
+    user = users[0]
+    #Vegetarian
+    if(user[2] == True):
+        recipes = [recipe for recipe in recipes if recipe[5]]
+    #Vegan
+    if(user[3] == True):
+        recipes = [recipe for recipe in recipes if recipe[4]]
+    #halal
+    if(user[4] == True):
+        recipes = [recipe for recipe in recipes if recipe[8]]
+    #Kosher
+    if(user[5] == True):
+        recipes = [recipe for recipe in recipes if recipe[9]]
+    #Lactose
+    if(user[6] == True):
+        recipes = [recipe for recipe in recipes if recipe[6]]
+    #Gluten
+    if(user[7] == True):
+        recipes = [recipe for recipe in recipes if recipe[7]]
+    #Nut
+    if(user[8] == True):
+        recipes = [recipe for recipe in recipes if recipe[10]]
+    #Shellfish
+    if(user[9] == True):
+        recipes = [recipe for recipe in recipes if recipe[11]]
+    #Pescatarian
+    if(user[10] == True):
+        recipes = [recipe for recipe in recipes if recipe[12]]
+   
     #recommendation system(tfidf, cosine sim)
+    
+        
     #filter user pref
     #return recipes
+    return jsonify({"recipes": recipes})
+    # if users is not None and recipes is not None:
+    #     return jsonify({"users": users, "recipes": recipes})
+    # else:
+    #     return jsonify({"error": "Failed to fetch data"}), 500
 
 
 
