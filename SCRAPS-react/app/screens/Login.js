@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { StatusBar } from 'expo-status-bar';
 import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { AuthContext } from "../context/authContext";
 import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
 
 export default function Login({navigation}) {
+    const [login, setLogin] = useContext(AuthContext);
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         try {
           setLoading(true);
           if(!username || !password){
@@ -17,14 +22,28 @@ export default function Login({navigation}) {
             setLoading(false);
             return;
           }
-          console.log('Login data ==> ', {username, password});
+          //console.log('Login data ==> ', {username, password});
           setLoading(false);
+          const { data } = await axios.post(
+            'http://192.168.1.129:8080/api/v1/user/login', 
+            {username, password}
+          );
+          setLogin(data);
+          await AsyncStorage.setItem('@auth', JSON.stringify(data));
+          alert(data && data.message);
+          navigation.navigate("UserProfile");
         } catch (error) {
+            alert(error.response.data.message);
             setLoading(false);
             //console.log(error);
         }
     }
 
+    // const getLocalStorageData = async () => {
+    //   let data = await AsyncStorage.getItem('@auth');
+    //   console.log('local storage', data);
+    // }
+    // getLocalStorageData();
     return (
         <View style={styles.container}>
             <View style={styles.header}>
