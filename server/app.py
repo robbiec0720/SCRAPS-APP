@@ -3,6 +3,9 @@ import psycopg2
 from psycopg2 import OperationalError
 import os
 from dotenv import load_dotenv
+import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 load_dotenv()
 
@@ -41,7 +44,7 @@ def fetch_recipes():
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM recipes LIMIT 10;")
+            cursor.execute("SELECT * FROM recipes 10;")
             recipes = cursor.fetchall()
             cursor.close()
             conn.close()
@@ -96,11 +99,31 @@ def get_data():
         recipes = [recipe for recipe in recipes if recipe[12]]
    
     #recommendation system(tfidf, cosine sim)
+    user_ingredients = "sugar butter milk vanilla nuts"
+    vocab = []
     
-        
+    tfidf = TfidfVectorizer()
+
+    for ingredients in [recipe[3] for recipe in recipes]:
+        ingredients = ingredients.replace(";", " ")
+        vocab.append(ingredients)
+
+    doctfidf = tfidf.fit_transform(vocab)
+    querytfidf = tfidf.fit(vocab)
+    querytfidf = querytfidf.transform([user_ingredients])
+
+    cosineSimilarities = cosine_similarity(querytfidf, doctfidf).flatten()
+       
+   
+    zipped_recipes = list(zip(recipes, cosineSimilarities))
+    sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
+    sorted_recipes = [recipe[0] for recipe in sorted_recipes]
+    
     #filter user pref
+
+
     #return recipes
-    return jsonify({"recipes": recipes})
+    return jsonify({"recipes": sorted_recipes})
     # if users is not None and recipes is not None:
     #     return jsonify({"users": users, "recipes": recipes})
     # else:
@@ -109,4 +132,4 @@ def get_data():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
