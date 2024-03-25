@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AuthProvider } from './app/context/authContext';
 import Tabs from './app/component/tab';
 import Login from './app/screens/Login';
+import Recipe from './app/screens/Recipe';
 import Register from './app/screens/Register';
 import Preference from './app/screens/Preference';
 import UserProfile from './app/screens/UserProfile';
@@ -31,6 +32,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name = "HomeTabs" component={HomeTabs} options={{headerShown:false}}/>
         <Stack.Screen name = "Preference" component={Preference} options={{headerShown:false}}/>
+        <Stack.Screen name = "Recipe" component={Recipe} options={{headerShown:false}}/>
         <Stack.Screen name = "Register" component={Register} options={{headerShown:false}}/>
         <Stack.Screen name = "UserProfile" component={UserProfile} options={{headerShown:false}}/>
         <Stack.Screen name = "ResetPassword" component={ResetPassword} options={{headerShown:false}}/>

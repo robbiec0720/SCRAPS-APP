@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Text, View, Switch, Keyboard, FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Switch, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function Preference({navigation}) {
@@ -7,7 +7,7 @@ export default function Preference({navigation}) {
     const [cookTime, setCookTime] = useState('60');
     const [missingIngredients, setMissingIngredients] = useState('5');
     const [isStarred, setIsStarred] = useState(false);
-    const [ingredients, setIngredients] = useState(['Tomato', 'Lettuce', 'Ground Beef', 'Bun', 'Cheese', 'Mustard']);
+    const [ingredients, setIngredients] = useState(['Tomato', 'Lettuce', 'Ground Beef', 'Bun', 'Cheese', 'Mustard', 'Ketchup', 'Bacon', 'Salt']);
     const [newIngredient, setNewIngredient] = useState('');
 
     const placeholder = {
@@ -42,6 +42,7 @@ export default function Preference({navigation}) {
         const updatedItems = [...ingredients];
         updatedItems.splice(index, 1);
         setIngredients(updatedItems);
+        console.log(ingredients)
     };
 
     return (
@@ -97,29 +98,37 @@ export default function Preference({navigation}) {
                 >
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
-            </View>
-            <View style={styles.header}>
-                <Text style={styles.boldtext}>Ingredients</Text>
-            </View>
-            {ingredients.map((ingredient, index) => (
-                <View key={index} style={styles.row}>
-                <Text style={styles.label}>{ingredient}</Text>
-                <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
-                    <Text style={styles.buttonText}>Remove</Text>
-                </TouchableOpacity>
+                <View style={styles.header}>
+                    <Text style={styles.boldtext}>Ingredients</Text>
                 </View>
-            ))}
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter Ingredient"
-                    value={newIngredient}
-                    onChangeText={setNewIngredient}
-                />
-                <TouchableOpacity style={styles.addButton} onPress={handleAddIngredient}>
-                    <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
+                <ScrollView style={styles.scrollContainer}>
+                    {ingredients.map((ingredient, index) => (
+                        <View key={index} style={styles.row}>
+                            <Text style={styles.label}>{ingredient}</Text>
+                            <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                                <Text style={styles.buttonText}>Remove</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter Ingredient"
+                        value={newIngredient}
+                        onChangeText={setNewIngredient}
+                    />
+                    <TouchableOpacity style={styles.addButton} onPress={handleAddIngredient}>
+                        <Text style={styles.buttonText}>Add</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+            <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => navigation.navigate("Recipe")}  
+            >
+                <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
     header: {
         padding: 20,
         backgroundColor: '#FA7070',
-        width: '100%',
+        width: 500,
         alignItems: 'center',
     },
     table: {
@@ -147,6 +156,33 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20, 
         color: '#fff', 
+    },
+    saveButton: {
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+        justifyContent: 'center'
+    },
+    continueButton: {
+        position: 'absolute',
+        right: 10,
+        bottom: 25,
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+    },
+    addButton: {
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+        marginLeft: 10,
+        justifyContent: 'center',
+    },
+    removeButton: {
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 5,
+        justifyContent: 'center',
     },
     backButton: {
         position: 'absolute',
@@ -181,12 +217,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    saveButton: {
-        backgroundColor: 'red',
-        padding: 8,
-        borderRadius: 5,
-        justifyContent: 'center'
-    },
     dropdown: {
         fontSize: 16,
         paddingVertical: 12,
@@ -196,19 +226,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         color: 'black',
         paddingRight: 30
-    },
-    addButton: {
-        backgroundColor: 'red',
-        padding: 8,
-        borderRadius: 5,
-        marginLeft: 10,
-        justifyContent: 'center',
-    },
-    removeButton: {
-        backgroundColor: 'red',
-        padding: 8,
-        borderRadius: 5,
-        justifyContent: 'center',
     },
     inputContainer: {
         flexDirection: 'row',
@@ -220,5 +237,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
         width: 100,
+    },
+    scrollContainer: {
+        maxHeight: 350, 
+        width: 375
     },
 });
