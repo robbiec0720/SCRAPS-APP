@@ -33,10 +33,6 @@ export default function App() {
         <Stack.Screen name = "HomeTabs" component={HomeTabs} options={{headerShown:false}}/>
         <Stack.Screen name = "Preference" component={Preference} options={{headerShown:false}}/>
         <Stack.Screen name = "Recipe" component={Recipe} options={{headerShown:false}}/>
-        <Stack.Screen name = "Register" component={Register} options={{headerShown:false}}/>
-        <Stack.Screen name = "UserProfile" component={UserProfile} options={{headerShown:false}}/>
-        <Stack.Screen name = "ResetPassword" component={ResetPassword} options={{headerShown:false}}/>
-        <Stack.Screen name = "ResetEmail" component={ResetEmail} options={{headerShown:false}}/>
       </Stack.Navigator>
       </AuthProvider>
     </NavigationContainer>

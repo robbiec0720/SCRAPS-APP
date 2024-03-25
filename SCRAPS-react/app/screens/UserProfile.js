@@ -1,13 +1,19 @@
-import { View, Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 import SubmitButton from '../component/SubmitButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 export default function UserProfile({ navigation }) {
-    const [login] = useContext(AuthContext);
+    const [login, setLogin] = useContext(AuthContext);
 
+    const handleLogout = async () => {
+        setLogin({user: null});
+        await AsyncStorage.removeItem('@auth');
+        alert('Logout Successfully');
+    }
 
     return(
         <SafeAreaView style={styles.container}>
@@ -36,7 +42,13 @@ export default function UserProfile({ navigation }) {
                         buttonName={"Dietary Restrictions"}
                     />
                 </View>
-                <Text style={styles.logoutText}>Log Out</Text>
+                <TouchableOpacity>
+                    <Text 
+                        style={styles.logoutText} 
+                        onPress={handleLogout}>
+                        Log Out
+                    </Text>
+                </TouchableOpacity>
                 <Text style={styles.deleteAccountText}>Delete My Account</Text>
             </ScrollView>
         </SafeAreaView>
