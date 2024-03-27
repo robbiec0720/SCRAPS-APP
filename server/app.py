@@ -43,7 +43,7 @@ def fetch_recipes():
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM recipes limit 10;")
+            cursor.execute("SELECT * FROM recipes;")
             recipes = cursor.fetchall()
             cursor.close()
             conn.close()
@@ -74,8 +74,8 @@ def get_data():
     recipes = fetch_recipes()
 
     #Filter based on diet restrictions & Preference
-    max_cook_time = 10
-    max_missing_ingredients = 2
+    max_cook_time = 0
+    max_missing_ingredients = 0
 
     user = users[0]
     #Vegetarian
@@ -107,23 +107,22 @@ def get_data():
         recipes = [recipe for recipe in recipes if recipe[12]]
    
     recipes = [recipe for recipe in recipes if recipe[13] <= max_cook_time]
-    #recommendation system(tfidf, cosine sim)
-    user_ingredients = "sugar butter milk vanilla nuts"
+    user_ingredients = "sugar butter milk vanilla nuts flour"
     user_ingredient_list = user_ingredients.split()
-    vocab = []
 
     filtered_recipes = []
     for recipe in recipes:
         recipe_ingredients = recipe[3].split(';')  # Assuming recipe ingredients are separated by ';'
-        print(recipe_ingredients)
-        missing_ingredients = sum(1 for ingredient in user_ingredient_list if ingredient not in recipe_ingredients)
-        print(missing_ingredients)
+        missing_ingredients = sum(1 for ingredient in recipe_ingredients if ingredient not in user_ingredient_list)
         if missing_ingredients <= max_missing_ingredients:
             filtered_recipes.append(recipe)
-    print(filtered_recipes)
+    
+    #recommendation system(tfidf, cosine sim)
+            
     tfidf = TfidfVectorizer()
 
-    for ingredients in [recipes[3] for recipes in recipes]:
+    vocab = []
+    for ingredients in [filtered_recipes[3] for filtered_recipes in filtered_recipes]:
         ingredients = ingredients.replace(";", " ")
         vocab.append(ingredients)
 
@@ -134,18 +133,14 @@ def get_data():
     cosineSimilarities = cosine_similarity(querytfidf, doctfidf).flatten()
        
    
-    zipped_recipes = list(zip(recipes, cosineSimilarities))
+    zipped_recipes = list(zip(filtered_recipes, cosineSimilarities))
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
-    sorted_recipes = [recipe[0] for recipe in sorted_recipes]
+    sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
 
     limited_recipes = sorted_recipes[:100]
     
     #return recipes
-    return jsonify({"recipes": recipes})
-    # if users is not None and recipes is not None:
-    #     return jsonify({"users": users, "recipes": recipes})
-    # else:
-    #     return jsonify({"error": "Failed to fetch data"}), 500
+    return jsonify({"recipes": limited_recipes})
 
 
 
