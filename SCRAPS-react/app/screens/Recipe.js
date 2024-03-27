@@ -68,7 +68,7 @@ export default function Home({navigation}) {
 
             {recipes.length > 0 && (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    {recipes.map(recipe => (
+                    {recipes.map((recipe, index) => (
                         <View style={styles.recipeContainer}>
                             {/* <Text>Test</Text> */}
                             <RecipeCard recipe={recipe}></RecipeCard>
