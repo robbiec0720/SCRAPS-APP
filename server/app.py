@@ -1,9 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 import psycopg2
 from psycopg2 import OperationalError
 import os
 from dotenv import load_dotenv
-import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -62,12 +61,21 @@ def hello():
 
 @app.route("/recommend", methods=["POST"])
 def get_data():
-    #username = request.form.get("username")
+    # data = request.json
+    # cuisine_type = data['cuisineType']
+    # cook_time = data['cookTime']
+    # missing_ingredients = data['missingIngredients']
+    # is_starred = data['isStarred']
+    # s_ingredients = data['ingredients']
+    # print(s_ingredients)
+    username = request.form.get("username")
     username = 'apple'
     users = fetch_users(username)
     recipes = fetch_recipes()
 
-    #Filter based on diet restrictions
+    #Filter based on diet restrictions & Preference
+    max_cook_time = 0
+    max_missing_ingredients = 0
 
     user = users[0]
     #Vegetarian
@@ -98,13 +106,26 @@ def get_data():
     if(user[10] == True):
         recipes = [recipe for recipe in recipes if recipe[12]]
    
-    #recommendation system(tfidf, cosine sim)
-    user_ingredients = "sugar butter milk vanilla nuts"
-    vocab = []
+    #Filter based on Cook time
+    recipes = [recipe for recipe in recipes if recipe[13] <= max_cook_time]
+
+    user_ingredients = "sugar butter milk vanilla nuts flour"
+    user_ingredient_list = user_ingredients.split()
+
+    #Filter based on # of missing ingredients
+    filtered_recipes = []
+    for recipe in recipes:
+        recipe_ingredients = recipe[3].split(';')  
+        missing_ingredients = sum(1 for ingredient in recipe_ingredients if ingredient not in user_ingredient_list)
+        if missing_ingredients <= max_missing_ingredients:
+            filtered_recipes.append(recipe)
     
+    #recommendation system(tfidf, cosine sim)
+            
     tfidf = TfidfVectorizer()
 
-    for ingredients in [recipe[3] for recipe in recipes]:
+    vocab = []
+    for ingredients in [filtered_recipes[3] for filtered_recipes in filtered_recipes]:
         ingredients = ingredients.replace(";", " ")
         vocab.append(ingredients)
 
@@ -115,21 +136,14 @@ def get_data():
     cosineSimilarities = cosine_similarity(querytfidf, doctfidf).flatten()
        
    
-    zipped_recipes = list(zip(recipes, cosineSimilarities))
+    zipped_recipes = list(zip(filtered_recipes, cosineSimilarities))
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
-    sorted_recipes = [recipe[0] for recipe in sorted_recipes]
+    sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
 
     limited_recipes = sorted_recipes[:100]
     
-    #filter user pref
-
-
     #return recipes
     return jsonify({"recipes": limited_recipes})
-    # if users is not None and recipes is not None:
-    #     return jsonify({"users": users, "recipes": recipes})
-    # else:
-    #     return jsonify({"error": "Failed to fetch data"}), 500
 
 
 

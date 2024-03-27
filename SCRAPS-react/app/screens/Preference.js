@@ -8,10 +8,18 @@ export default function Preference({navigation}) {
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
 
-    const handleSave = () => {
+    const handleSave = async () => {
         Keyboard.dismiss();
         console.log('Max Cook Time:', cookTime);
         console.log('Max Missing Ingredients:', missing);
+        try {
+            const { data } = await axios.post(
+                'http://127.0.0.1:8000/recommend', 
+                {cuisineType, cookTime, missingIngredients, isStarred, ingredients}
+              );
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleAddIngredient = () => {
