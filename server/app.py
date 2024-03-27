@@ -106,13 +106,16 @@ def get_data():
     if(user[10] == True):
         recipes = [recipe for recipe in recipes if recipe[12]]
    
+    #Filter based on Cook time
     recipes = [recipe for recipe in recipes if recipe[13] <= max_cook_time]
+
     user_ingredients = "sugar butter milk vanilla nuts flour"
     user_ingredient_list = user_ingredients.split()
 
+    #Filter based on # of missing ingredients
     filtered_recipes = []
     for recipe in recipes:
-        recipe_ingredients = recipe[3].split(';')  # Assuming recipe ingredients are separated by ';'
+        recipe_ingredients = recipe[3].split(';')  
         missing_ingredients = sum(1 for ingredient in recipe_ingredients if ingredient not in user_ingredient_list)
         if missing_ingredients <= max_missing_ingredients:
             filtered_recipes.append(recipe)
