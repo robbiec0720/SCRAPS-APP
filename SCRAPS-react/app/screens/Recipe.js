@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
+import { useInfo } from '../context/infoContext';
+import { AuthContext } from '../context/authContext';
 
-const handleLinkPress = () => {
+const handleLinkPress = (recipe) => {
     if (recipe.link) {
         Linking.openURL(recipe.link);
     }
@@ -11,7 +13,7 @@ const handleLinkPress = () => {
 
 const RecipeCard = ({ recipe }) => {
     return (
-        <TouchableOpacity onPress={handleLinkPress} style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>{recipe.title}</Text>
             <Text style={styles.cuisineType}>{recipe.cuisine_type}</Text>
             <Text style={styles.ingredientsTitle}>Ingredients:</Text>
@@ -20,47 +22,51 @@ const RecipeCard = ({ recipe }) => {
                     <Text key={index} style={styles.ingredient}>{ingredient}</Text>
                 ))}
             </View>
-            {recipe.link && (
-                <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
-            )}
-      </TouchableOpacity>
+            <TouchableOpacity onPress={handleLinkPress}>
+                {recipe.link && (
+                    <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
+                )}
+            </TouchableOpacity>
+      </View>
     );
 };    
 
 export default function Home({navigation}) {
-    // const recipes = [
-    //     {
-    //       id: 1,
-    //       title: 'Spaghetti Carbonara',
-    //       cuisine_type: 'Italian',
-    //       ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
-    //       link: 'https://bing,com',
-    //     },
-    //     {
-    //       id: 2,
-    //       title: 'Chicken Curry',
-    //       cuisine_type: 'Indian',
-    //       ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
-    //       link: 'https://google.com',
-    //     },
-    //     {
-    //         id: 3,
-    //         title: 'Bacon Cheeseburger',
-    //         cuisine_type: 'American',
-    //         ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
-    //         link: 'https://google.com',
-    //     },
-    //     {
-    //         id: 4,
-    //         title: 'Cereal',
-    //         cuisine_type: 'American',
-    //         ingredients: ['Cereal', 'Milk'],
-    //         link: 'https://google.com',
-    //     },
-    //     // Add more recipes as needed
-    //   ];
+    const recipes = [
+        {
+          id: 1,
+          title: 'Spaghetti Carbonara',
+          cuisine_type: 'Italian',
+          ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
+          link: 'https://bing,com',
+        },
+        {
+          id: 2,
+          title: 'Chicken Curry',
+          cuisine_type: 'Indian',
+          ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
+          link: 'https://google.com',
+        },
+        {
+            id: 3,
+            title: 'Bacon Cheeseburger',
+            cuisine_type: 'American',
+            ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
+            link: 'https://google.com',
+        },
+        {
+            id: 4,
+            title: 'Cereal',
+            cuisine_type: 'American',
+            ingredients: ['Cereal', 'Milk'],
+            link: 'https://google.com',
+        },
+        // Add more recipes as needed
+      ];
 
-    const { ingredients, addIngredient, removeIngredient } = useIngredients();
+    const { ingredients } = useIngredients();
+    const { cookTime, missing } = useInfo();
+    const [login, setLogin] = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
@@ -68,23 +74,11 @@ export default function Home({navigation}) {
                 <Text style={styles.boldtext}>Recipes</Text>
             </View>
             
-
             {recipes.length > 0 && (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     {recipes.map((recipe, index) => (
                         <View style={styles.recipeContainer}>
-                            {/* <Text>Test</Text> */}
                             <RecipeCard recipe={recipe}></RecipeCard>
-                        </View>
-                    ))}
-                </ScrollView>
-            )}
-
-            {ingredients.length > 0 && (
-                <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    {ingredients.map((ingredient, index) => (
-                        <View style={styles.recipeContainer}>
-                            <Text>{ingredient}</Text>
                         </View>
                     ))}
                 </ScrollView>

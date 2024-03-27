@@ -1,19 +1,17 @@
 import React, { createContext, useState, useContext } from 'react';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
-import { useImages } from '../context/imagecontext'; // Make sure the path is correct
+import { useInfo } from '../context/infoContext';
 
 export default function Preference({navigation}) {
-    const [cookTime, setCookTime] = useState('60');
-    const [missingIngredients, setMissingIngredients] = useState('5');
     const [newIngredient, setNewIngredient] = useState('');
-    // const { images, setImages } = useImages();
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
+    const { cookTime, missing, setCookTime, setMissing } = useInfo();
 
     const handleSave = () => {
         Keyboard.dismiss();
         console.log('Max Cook Time:', cookTime);
-        console.log('Max Missing Ingredients:', missingIngredients);
+        console.log('Max Missing Ingredients:', missing);
     };
 
     const handleAddIngredient = () => {
@@ -25,7 +23,7 @@ export default function Preference({navigation}) {
 
     const handleRemoveIngredient = (index) => {
         removeIngredient(index);
-        // console.log(ingredients);
+        console.log(ingredients);
     };
 
     return (
@@ -54,8 +52,8 @@ export default function Preference({navigation}) {
                     <TextInput
                         style={[styles.input, styles.rightAligned]}
                         keyboardType="numeric"
-                        value={missingIngredients}
-                        onChangeText={text => setMissingIngredients(text)}
+                        value={missing}
+                        onChangeText={text => setMissing(text)}
                     />
                 </View>
                 <TouchableOpacity
@@ -68,7 +66,7 @@ export default function Preference({navigation}) {
                     <Text style={styles.boldtext}>Ingredients</Text>
                 </View>
                 <ScrollView style={styles.scrollContainer}>
-                    {/* {ingredients.length > 0 && 
+                    {ingredients.length > 0 && 
                         (ingredients.map((ingredient, index) => (
                             <View key={index} style={styles.row}>
                                 <Text style={styles.label}>{ingredient}</Text>
@@ -76,7 +74,7 @@ export default function Preference({navigation}) {
                                     <Text style={styles.buttonText}>Remove</Text>
                                 </TouchableOpacity>
                             </View>
-                    )))} */}
+                    )))}
                 </ScrollView>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -184,16 +182,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    dropdown: {
-        fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        color: 'black',
-        paddingRight: 30
-    },
     inputContainer: {
         flexDirection: 'row',
         marginBottom: 20,
@@ -206,7 +194,7 @@ const styles = StyleSheet.create({
         width: 100,
     },
     scrollContainer: {
-        maxHeight: 350, 
+        maxHeight: 425, 
         width: 375
     },
 });
