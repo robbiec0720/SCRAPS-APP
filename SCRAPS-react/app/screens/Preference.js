@@ -1,34 +1,17 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Text, View, Switch, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useIngredients } from '../context/ingredientContext';
+import { useInfo } from '../context/infoContext';
 
 export default function Preference({navigation}) {
-    const [cuisineType, setCuisineType] = useState('any');
-    const [cookTime, setCookTime] = useState('60');
-    const [missingIngredients, setMissingIngredients] = useState('5');
-    const [isStarred, setIsStarred] = useState(false);
-    const [ingredients, setIngredients] = useState(['Tomato', 'Lettuce', 'Ground Beef', 'Bun', 'Cheese', 'Mustard', 'Ketchup', 'Bacon', 'Salt']);
     const [newIngredient, setNewIngredient] = useState('');
-
-    const placeholder = {
-      label: 'Any',
-      value: 'any',
-    };
-  
-    const cuisineTypes = [
-        { label: 'Italian', value: 'italian' },
-        { label: 'Mexican', value: 'mexican' },
-        { label: 'Chinese', value: 'chinese' },
-        { label: 'Indian', value: 'indian' },
-        // Add more cuisine types as needed
-    ];
+    const { ingredients, addIngredient, removeIngredient } = useIngredients();
+    const { cookTime, missing, setCookTime, setMissing } = useInfo();
 
     const handleSave = async () => {
-        // Keyboard.dismiss();
-        // console.log('Cuisine Type(s):', cuisineType);
-        // console.log('Max Cook Time:', cookTime);
-        // console.log('Max Missing Ingredients:', missingIngredients);
-        // console.log('Starred Recipes Only?:', isStarred);
+        Keyboard.dismiss();
+        console.log('Max Cook Time:', cookTime);
+        console.log('Max Missing Ingredients:', missing);
         try {
             const { data } = await axios.post(
                 'http://127.0.0.1:8000/recommend', 
@@ -37,21 +20,18 @@ export default function Preference({navigation}) {
         } catch (err) {
             console.log(err);
         }
-        
     };
 
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
-            setIngredients([...ingredients, newIngredient]);
+            addIngredient(newIngredient);
             setNewIngredient('');
         }
     };
 
     const handleRemoveIngredient = (index) => {
-        const updatedItems = [...ingredients];
-        updatedItems.splice(index, 1);
-        setIngredients(updatedItems);
-        console.log(ingredients)
+        removeIngredient(index);
+        console.log(ingredients);
     };
 
     return (
@@ -67,16 +47,6 @@ export default function Preference({navigation}) {
             </View>
             <View style={styles.table}>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Cuisine Type:</Text>
-                    <RNPickerSelect
-                        style={styles.dropdown}
-                        placeholder={placeholder}
-                        items={cuisineTypes}
-                        onValueChange={(value) => setCuisineType(value)}
-                        value={cuisineType}
-                    />
-                </View>
-                <View style={styles.row}>
                     <Text style={styles.label}>Max Cook Time (minutes):</Text>
                     <TextInput
                         style={[styles.input, styles.rightAligned]}
@@ -90,15 +60,8 @@ export default function Preference({navigation}) {
                     <TextInput
                         style={[styles.input, styles.rightAligned]}
                         keyboardType="numeric"
-                        value={missingIngredients}
-                        onChangeText={text => setMissingIngredients(text)}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Starred Recipes Only?:</Text>
-                    <Switch
-                        value={isStarred}
-                        onValueChange={value => setIsStarred(value)}
+                        value={missing}
+                        onChangeText={text => setMissing(text)}
                     />
                 </View>
                 <TouchableOpacity
@@ -111,14 +74,15 @@ export default function Preference({navigation}) {
                     <Text style={styles.boldtext}>Ingredients</Text>
                 </View>
                 <ScrollView style={styles.scrollContainer}>
-                    {ingredients.map((ingredient, index) => (
-                        <View key={index} style={styles.row}>
-                            <Text style={styles.label}>{ingredient}</Text>
-                            <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
-                                <Text style={styles.buttonText}>Remove</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+                    {ingredients.length > 0 && 
+                        (ingredients.map((ingredient, index) => (
+                            <View key={index} style={styles.row}>
+                                <Text style={styles.label}>{ingredient}</Text>
+                                <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                                    <Text style={styles.buttonText}>Remove</Text>
+                                </TouchableOpacity>
+                            </View>
+                    )))}
                 </ScrollView>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -226,16 +190,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    dropdown: {
-        fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        color: 'black',
-        paddingRight: 30
-    },
     inputContainer: {
         flexDirection: 'row',
         marginBottom: 20,
@@ -248,7 +202,7 @@ const styles = StyleSheet.create({
         width: 100,
     },
     scrollContainer: {
-        maxHeight: 350, 
+        maxHeight: 425, 
         width: 375
     },
 });

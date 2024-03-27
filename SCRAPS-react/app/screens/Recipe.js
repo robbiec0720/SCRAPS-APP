@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
+import { useIngredients } from '../context/ingredientContext';
+import { useInfo } from '../context/infoContext';
+import { AuthContext } from '../context/authContext';
 
-const handleLinkPress = () => {
+const handleLinkPress = (recipe) => {
     if (recipe.link) {
         Linking.openURL(recipe.link);
     }
@@ -10,7 +13,7 @@ const handleLinkPress = () => {
 
 const RecipeCard = ({ recipe }) => {
     return (
-        <TouchableOpacity onPress={handleLinkPress} style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>{recipe.title}</Text>
             <Text style={styles.cuisineType}>{recipe.cuisine_type}</Text>
             <Text style={styles.ingredientsTitle}>Ingredients:</Text>
@@ -19,10 +22,12 @@ const RecipeCard = ({ recipe }) => {
                     <Text key={index} style={styles.ingredient}>{ingredient}</Text>
                 ))}
             </View>
-            {recipe.link && (
-                <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
-            )}
-      </TouchableOpacity>
+            <TouchableOpacity onPress={handleLinkPress}>
+                {recipe.link && (
+                    <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
+                )}
+            </TouchableOpacity>
+      </View>
     );
 };    
 
@@ -59,18 +64,20 @@ export default function Home({navigation}) {
         // Add more recipes as needed
       ];
 
+    const { ingredients } = useIngredients();
+    const { cookTime, missing } = useInfo();
+    const [login, setLogin] = useContext(AuthContext);
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>Recipes</Text>
             </View>
             
-
             {recipes.length > 0 && (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     {recipes.map((recipe, index) => (
                         <View style={styles.recipeContainer}>
-                            {/* <Text>Test</Text> */}
                             <RecipeCard recipe={recipe}></RecipeCard>
                         </View>
                     ))}
