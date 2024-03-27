@@ -1,9 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 import psycopg2
 from psycopg2 import OperationalError
 import os
 from dotenv import load_dotenv
-import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -44,7 +43,7 @@ def fetch_recipes():
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM recipes;")
+            cursor.execute("SELECT * FROM recipes limit 10;")
             recipes = cursor.fetchall()
             cursor.close()
             conn.close()
@@ -62,12 +61,21 @@ def hello():
 
 @app.route("/recommend", methods=["POST"])
 def get_data():
-    #username = request.form.get("username")
+    # data = request.json
+    # cuisine_type = data['cuisineType']
+    # cook_time = data['cookTime']
+    # missing_ingredients = data['missingIngredients']
+    # is_starred = data['isStarred']
+    # s_ingredients = data['ingredients']
+    # print(s_ingredients)
+    username = request.form.get("username")
     username = 'apple'
     users = fetch_users(username)
     recipes = fetch_recipes()
 
-    #Filter based on diet restrictions
+    #Filter based on diet restrictions & Preference
+    max_cook_time = 10
+    max_missing_ingredients = 2
 
     user = users[0]
     #Vegetarian
@@ -98,13 +106,24 @@ def get_data():
     if(user[10] == True):
         recipes = [recipe for recipe in recipes if recipe[12]]
    
+    recipes = [recipe for recipe in recipes if recipe[13] <= max_cook_time]
     #recommendation system(tfidf, cosine sim)
     user_ingredients = "sugar butter milk vanilla nuts"
+    user_ingredient_list = user_ingredients.split()
     vocab = []
-    
+
+    filtered_recipes = []
+    for recipe in recipes:
+        recipe_ingredients = recipe[3].split(';')  # Assuming recipe ingredients are separated by ';'
+        print(recipe_ingredients)
+        missing_ingredients = sum(1 for ingredient in user_ingredient_list if ingredient not in recipe_ingredients)
+        print(missing_ingredients)
+        if missing_ingredients <= max_missing_ingredients:
+            filtered_recipes.append(recipe)
+    print(filtered_recipes)
     tfidf = TfidfVectorizer()
 
-    for ingredients in [recipe[3] for recipe in recipes]:
+    for ingredients in [recipes[3] for recipes in recipes]:
         ingredients = ingredients.replace(";", " ")
         vocab.append(ingredients)
 
@@ -121,11 +140,8 @@ def get_data():
 
     limited_recipes = sorted_recipes[:100]
     
-    #filter user pref
-
-
     #return recipes
-    return jsonify({"recipes": limited_recipes})
+    return jsonify({"recipes": recipes})
     # if users is not None and recipes is not None:
     #     return jsonify({"users": users, "recipes": recipes})
     # else:
