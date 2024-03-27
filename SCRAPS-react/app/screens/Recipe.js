@@ -1,6 +1,7 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
+import { useIngredients } from '../context/ingredientContext';
 
 const handleLinkPress = () => {
     if (recipe.link) {
@@ -27,37 +28,39 @@ const RecipeCard = ({ recipe }) => {
 };    
 
 export default function Home({navigation}) {
-    const recipes = [
-        {
-          id: 1,
-          title: 'Spaghetti Carbonara',
-          cuisine_type: 'Italian',
-          ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
-          link: 'https://bing,com',
-        },
-        {
-          id: 2,
-          title: 'Chicken Curry',
-          cuisine_type: 'Indian',
-          ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
-          link: 'https://google.com',
-        },
-        {
-            id: 3,
-            title: 'Bacon Cheeseburger',
-            cuisine_type: 'American',
-            ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
-            link: 'https://google.com',
-        },
-        {
-            id: 4,
-            title: 'Cereal',
-            cuisine_type: 'American',
-            ingredients: ['Cereal', 'Milk'],
-            link: 'https://google.com',
-        },
-        // Add more recipes as needed
-      ];
+    // const recipes = [
+    //     {
+    //       id: 1,
+    //       title: 'Spaghetti Carbonara',
+    //       cuisine_type: 'Italian',
+    //       ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
+    //       link: 'https://bing,com',
+    //     },
+    //     {
+    //       id: 2,
+    //       title: 'Chicken Curry',
+    //       cuisine_type: 'Indian',
+    //       ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
+    //       link: 'https://google.com',
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Bacon Cheeseburger',
+    //         cuisine_type: 'American',
+    //         ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
+    //         link: 'https://google.com',
+    //     },
+    //     {
+    //         id: 4,
+    //         title: 'Cereal',
+    //         cuisine_type: 'American',
+    //         ingredients: ['Cereal', 'Milk'],
+    //         link: 'https://google.com',
+    //     },
+    //     // Add more recipes as needed
+    //   ];
+
+    const { ingredients, addIngredient, removeIngredient } = useIngredients();
 
     return (
         <View style={styles.container}>
@@ -72,6 +75,16 @@ export default function Home({navigation}) {
                         <View style={styles.recipeContainer}>
                             {/* <Text>Test</Text> */}
                             <RecipeCard recipe={recipe}></RecipeCard>
+                        </View>
+                    ))}
+                </ScrollView>
+            )}
+
+            {ingredients.length > 0 && (
+                <ScrollView contentContainerStyle={styles.scrollContainer}>
+                    {ingredients.map((ingredient, index) => (
+                        <View style={styles.recipeContainer}>
+                            <Text>{ingredient}</Text>
                         </View>
                     ))}
                 </ScrollView>

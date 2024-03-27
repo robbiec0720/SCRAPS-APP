@@ -1,48 +1,31 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Text, View, Switch, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useIngredients } from '../context/ingredientContext';
+import { useImages } from '../context/imagecontext'; // Make sure the path is correct
 
 export default function Preference({navigation}) {
-    const [cuisineType, setCuisineType] = useState('any');
     const [cookTime, setCookTime] = useState('60');
     const [missingIngredients, setMissingIngredients] = useState('5');
-    const [isStarred, setIsStarred] = useState(false);
-    const [ingredients, setIngredients] = useState(['Tomato', 'Lettuce', 'Ground Beef', 'Bun', 'Cheese', 'Mustard', 'Ketchup', 'Bacon', 'Salt']);
     const [newIngredient, setNewIngredient] = useState('');
-
-    const placeholder = {
-      label: 'Any',
-      value: 'any',
-    };
-  
-    const cuisineTypes = [
-        { label: 'Italian', value: 'italian' },
-        { label: 'Mexican', value: 'mexican' },
-        { label: 'Chinese', value: 'chinese' },
-        { label: 'Indian', value: 'indian' },
-        // Add more cuisine types as needed
-    ];
+    // const { images, setImages } = useImages();
+    const { ingredients, addIngredient, removeIngredient } = useIngredients();
 
     const handleSave = () => {
         Keyboard.dismiss();
-        console.log('Cuisine Type(s):', cuisineType);
         console.log('Max Cook Time:', cookTime);
         console.log('Max Missing Ingredients:', missingIngredients);
-        console.log('Starred Recipes Only?:', isStarred);
     };
 
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
-            setIngredients([...ingredients, newIngredient]);
+            addIngredient(newIngredient);
             setNewIngredient('');
         }
     };
 
     const handleRemoveIngredient = (index) => {
-        const updatedItems = [...ingredients];
-        updatedItems.splice(index, 1);
-        setIngredients(updatedItems);
-        console.log(ingredients)
+        removeIngredient(index);
+        // console.log(ingredients);
     };
 
     return (
@@ -57,16 +40,6 @@ export default function Preference({navigation}) {
                 <Text style={styles.boldtext}>Preferences</Text>
             </View>
             <View style={styles.table}>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Cuisine Type:</Text>
-                    <RNPickerSelect
-                        style={styles.dropdown}
-                        placeholder={placeholder}
-                        items={cuisineTypes}
-                        onValueChange={(value) => setCuisineType(value)}
-                        value={cuisineType}
-                    />
-                </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Max Cook Time (minutes):</Text>
                     <TextInput
@@ -85,13 +58,6 @@ export default function Preference({navigation}) {
                         onChangeText={text => setMissingIngredients(text)}
                     />
                 </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Starred Recipes Only?:</Text>
-                    <Switch
-                        value={isStarred}
-                        onValueChange={value => setIsStarred(value)}
-                    />
-                </View>
                 <TouchableOpacity
                     style={styles.saveButton}
                     onPress={handleSave}  
@@ -102,14 +68,15 @@ export default function Preference({navigation}) {
                     <Text style={styles.boldtext}>Ingredients</Text>
                 </View>
                 <ScrollView style={styles.scrollContainer}>
-                    {ingredients.map((ingredient, index) => (
-                        <View key={index} style={styles.row}>
-                            <Text style={styles.label}>{ingredient}</Text>
-                            <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
-                                <Text style={styles.buttonText}>Remove</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+                    {/* {ingredients.length > 0 && 
+                        (ingredients.map((ingredient, index) => (
+                            <View key={index} style={styles.row}>
+                                <Text style={styles.label}>{ingredient}</Text>
+                                <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                                    <Text style={styles.buttonText}>Remove</Text>
+                                </TouchableOpacity>
+                            </View>
+                    )))} */}
                 </ScrollView>
                 <View style={styles.inputContainer}>
                     <TextInput
