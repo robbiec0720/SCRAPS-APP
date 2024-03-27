@@ -44,7 +44,7 @@ def fetch_recipes():
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM recipes limit 10;")
+            cursor.execute("SELECT * FROM recipes;")
             recipes = cursor.fetchall()
             cursor.close()
             conn.close()
@@ -60,7 +60,7 @@ def fetch_recipes():
 def hello():
     return "Hello, World!"
 
-@app.route("/recommend", methods=["GET"])
+@app.route("/recommend", methods=["POST"])
 def get_data():
     #username = request.form.get("username")
     username = 'apple'
@@ -118,12 +118,14 @@ def get_data():
     zipped_recipes = list(zip(recipes, cosineSimilarities))
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
     sorted_recipes = [recipe[0] for recipe in sorted_recipes]
+
+    limited_recipes = sorted_recipes[:100]
     
     #filter user pref
 
 
     #return recipes
-    return jsonify({"recipes": sorted_recipes})
+    return jsonify({"recipes": limited_recipes})
     # if users is not None and recipes is not None:
     #     return jsonify({"users": users, "recipes": recipes})
     # else:
