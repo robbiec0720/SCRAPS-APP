@@ -23,12 +23,21 @@ export default function Preference({navigation}) {
         // Add more cuisine types as needed
     ];
 
-    const handleSave = () => {
-        Keyboard.dismiss();
-        console.log('Cuisine Type(s):', cuisineType);
-        console.log('Max Cook Time:', cookTime);
-        console.log('Max Missing Ingredients:', missingIngredients);
-        console.log('Starred Recipes Only?:', isStarred);
+    const handleSave = async () => {
+        // Keyboard.dismiss();
+        // console.log('Cuisine Type(s):', cuisineType);
+        // console.log('Max Cook Time:', cookTime);
+        // console.log('Max Missing Ingredients:', missingIngredients);
+        // console.log('Starred Recipes Only?:', isStarred);
+        try {
+            const { data } = await axios.post(
+                'http://127.0.0.1:8000/recommend', 
+                {cuisineType, cookTime, missingIngredients, isStarred, ingredients}
+              );
+        } catch (err) {
+            console.log(err);
+        }
+        
     };
 
     const handleAddIngredient = () => {
