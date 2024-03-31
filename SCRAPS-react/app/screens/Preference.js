@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
+import axios from 'axios';
 
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
@@ -14,8 +15,8 @@ export default function Preference({navigation}) {
         console.log('Max Missing Ingredients:', missing);
         try {
             const { data } = await axios.post(
-                'http://127.0.0.1:8000/recommend', 
-                {cuisineType, cookTime, missingIngredients, isStarred, ingredients}
+                'http://192.168.1.129:5000/recommend', 
+                {cookTime}
               );
         } catch (err) {
             console.log(err);

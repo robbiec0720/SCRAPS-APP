@@ -13,10 +13,10 @@ app = Flask(__name__)
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host=os.getenv('PSQL_HOST'),
-            database=os.getenv('PSQL_DATABASE'),
-            user=os.getenv('PSQL_USER'),
-            password=os.getenv('PSQL_PASSWORD'))
+            host=os.getenv('HOST'),
+            database=os.getenv('DATABASE'),
+            user=os.getenv('USER'),
+            password=os.getenv('PASSWORD'))
         return conn
     except OperationalError as e:
         print(f"Connection error: {e}")
@@ -68,6 +68,19 @@ def get_data():
     # is_starred = data['isStarred']
     # s_ingredients = data['ingredients']
     # print(s_ingredients)
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error: no JSON recieved'}), 400
+        
+        cookTime = data.get('cookTime')
+        print("COOKTIME", cookTime)
+
+        return jsonify({'message': cookTime }), 200 
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    
     username = request.form.get("username")
     username = 'apple'
     users = fetch_users(username)
@@ -148,4 +161,4 @@ def get_data():
 
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
