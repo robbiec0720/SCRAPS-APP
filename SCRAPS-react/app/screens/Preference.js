@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
@@ -37,15 +38,15 @@ export default function Preference({navigation}) {
 
     return (
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.boldtext}>Preferences</Text>
+            </View>
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.navigate("HomeTabs")}  
             >
                 <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
-            <View style={styles.header}>
-                <Text style={styles.boldtext}>Preferences</Text>
-            </View>
             <View style={styles.table}>
                 <View style={styles.row}>
                     <Text style={styles.label}>Max Cook Time (minutes):</Text>
@@ -71,31 +72,31 @@ export default function Preference({navigation}) {
                 >
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
-                <View style={styles.header}>
-                    <Text style={styles.boldtext}>Ingredients</Text>
-                </View>
-                <ScrollView style={styles.scrollContainer}>
-                    {ingredients.length > 0 && 
-                        (ingredients.map((ingredient, index) => (
-                            <View key={index} style={styles.row}>
-                                <Text style={styles.label}>{ingredient}</Text>
-                                <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
-                                    <Text style={styles.buttonText}>Remove</Text>
-                                </TouchableOpacity>
-                            </View>
-                    )))}
-                </ScrollView>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter Ingredient"
-                        value={newIngredient}
-                        onChangeText={setNewIngredient}
-                    />
-                    <TouchableOpacity style={styles.addButton} onPress={handleAddIngredient}>
-                        <Text style={styles.buttonText}>Add</Text>
-                    </TouchableOpacity>
-                </View>
+            </View>
+            <View style={styles.header}>
+                <Text style={styles.boldtext}>Ingredients</Text>
+            </View>
+            <ScrollView style={styles.scrollContainer}>
+                {ingredients.length > 0 && 
+                    (ingredients.map((ingredient, index) => (
+                        <View key={index} style={styles.row}>
+                            <Text style={styles.label}>{ingredient}</Text>
+                            <TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={styles.removeButton}>
+                                <Text style={styles.buttonText}>Remove</Text>
+                            </TouchableOpacity>
+                        </View>
+                )))}
+            </ScrollView>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Ingredient"
+                    value={newIngredient}
+                    onChangeText={setNewIngredient}
+                />
+                <TouchableOpacity style={styles.addButton} onPress={handleAddIngredient}>
+                    <Text style={styles.buttonText}>Add</Text>
+                </TouchableOpacity>
             </View>
             <TouchableOpacity
                 style={styles.continueButton}
@@ -103,6 +104,7 @@ export default function Preference({navigation}) {
             >
                 <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
+            <StatusBar style="auto" />
         </View>
     )
 }
@@ -111,19 +113,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
     },
     header: {
         padding: 20,
         backgroundColor: '#FA7070',
-        width: 500,
+        width: '100%',
         alignItems: 'center',
     },
     table: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 5,
         marginHorizontal: 10
     },
     boldtext: {
@@ -132,40 +133,45 @@ const styles = StyleSheet.create({
         color: '#fff', 
     },
     saveButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 10,
     },
     continueButton: {
-        position: 'absolute',
-        right: 10,
-        bottom: 25,
-        backgroundColor: 'red',
+        width: '20%',
+        marginBottom: 10,
+        marginRight: 5,
+        marginLeft: '76%',
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     addButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
         marginLeft: 10,
         justifyContent: 'center',
     },
     removeButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
         justifyContent: 'center',
     },
     backButton: {
-        position: 'absolute',
-        left: 10,
-        top: 65,
-        backgroundColor: 'red',
+        width: '20%',
+        marginTop: 5,
+        marginLeft: 10,
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     buttonText: {
         color: '#ffffff',
@@ -189,11 +195,12 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
+        padding: 5
     },
     inputContainer: {
         flexDirection: 'row',
-        marginBottom: 20,
+        padding: 10,
+        marginHorizontal: 5,
     },
     itemContainer: {
         flexDirection: 'row',
@@ -203,7 +210,8 @@ const styles = StyleSheet.create({
         width: 100,
     },
     scrollContainer: {
-        maxHeight: 425, 
-        width: 375
+        height: '35%', 
+        width: '100%', 
+        padding: 10
     },
 });
