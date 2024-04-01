@@ -25,7 +25,7 @@ export default function Login({navigation}) {
           //console.log('Login data ==> ', {username, password});
           setLoading(false);
           const { data } = await axios.post(
-            'http://192.168.1.129:8080/api/v1/user/login', 
+            'http://10.229.167.211:8080/api/v1/user/login', 
             {username, password}
           );
           setLogin(data);

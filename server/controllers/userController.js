@@ -72,7 +72,7 @@ const userLogin = (req, res) => {
           id: results.rows[0].id,
           username: results.rows[0].username,
           email: results.rows[0].email,
-          vegeterian: results.rows[0].vegeterian,
+          vegetarian: results.rows[0].vegetarian,
           vegan: results.rows[0].vegan,
           halal: results.rows[0].halal,
           kosher: results.rows[0].kosher,

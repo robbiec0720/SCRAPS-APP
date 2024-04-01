@@ -4,11 +4,11 @@ dotenv.config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    host: process.env.HOST,
+    host: process.env.PSQL_HOST,
     port: 5432,
-    database: process.env.DATABASE,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
+    database: process.env.PSQL_DATABASE,
+    user: process.env.PSQL_USER,
+    password: process.env.PSQL_PASSWORD,
     ssl: {rejectUnauthorized: false}
 });
 

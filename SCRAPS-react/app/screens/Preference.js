@@ -2,21 +2,25 @@ import React, { createContext, useState, useContext } from 'react';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
+import { AuthContext } from '../context/authContext';
 import axios from 'axios';
 
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
+    const [login] = useContext(AuthContext);
 
     const handleSave = async () => {
         Keyboard.dismiss();
         console.log('Max Cook Time:', cookTime);
         console.log('Max Missing Ingredients:', missing);
+        const userjson = JSON.stringify(login.user)
+        console.log('ingredients:', ingredients)
         try {
             const { data } = await axios.post(
-                'http://192.168.1.129:5000/recommend', 
-                {cookTime}
+                'http://10.229.167.211:9000/recommend', 
+                {cookTime, missing, userjson, ingredients}
               );
         } catch (err) {
             console.log(err);
