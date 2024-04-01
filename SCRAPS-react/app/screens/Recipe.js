@@ -6,26 +6,44 @@ import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const handleLinkPress = (recipe) => {
-    if (recipe.link) {
-        Linking.openURL(recipe.link);
+const handleLinkPress = async(url) => {
+    console.log(url);
+    try {
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            console.log("Don't know how to open URI: ", url);
+        }
+    } catch (error) {
+        console.error('Error opening link:', error);
     }
 };
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, ingredients }) => {
+    const diff = recipe.ingredients.filter(i => !ingredients.includes(i));
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{recipe.title}</Text>
-            <Text style={styles.cuisineType}>{recipe.cuisine_type}</Text>
-            <Text style={styles.ingredientsTitle}>Ingredients:</Text>
-            <View style={styles.ingredientsContainer}>
-                {recipe.ingredients.map((ingredient, index) => (
-                    <Text key={index} style={styles.ingredient}>{ingredient}</Text>
-                ))}
-            </View>
-            <TouchableOpacity onPress={handleLinkPress}>
+            <Text>
+                <Text style={styles.infoTitle}>Cook Time: </Text>
+                <Text style={styles.info}>{recipe.cook_time}</Text>
+            </Text>
+            
+            {diff.length > 0 && (
+                <Text>
+                    <Text style={styles.infoTitle}>Missing Ingredients: </Text>
+                    <Text style={styles.info}>{diff.join(', ')}</Text>
+                </Text>
+            )}
+
+            <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
                 {recipe.link && (
-                    <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
+                    <Text>
+                        <Text style={styles.infoTitle}>Recipe Link: </Text>
+                        <Text style={styles.link}>{recipe.link}</Text>
+                    </Text>
                 )}
             </TouchableOpacity>
       </View>
@@ -37,33 +55,40 @@ export default function Home({navigation}) {
         {
           id: 1,
           title: 'Spaghetti Carbonara',
-          cuisine_type: 'Italian',
-          ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
-          link: 'https://bing,com',
+          cook_time: '30',
+          ingredients: ['spaghetti', 'eggs', 'pancetta', 'parmesan cheese', 'black pepper'],
+          link: 'https://bing.com',
         },
         {
           id: 2,
           title: 'Chicken Curry',
-          cuisine_type: 'Indian',
-          ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
+          cook_time: '60',
+          ingredients: ['chicken', 'onion', 'tomato', 'curry powder', 'coconut milk'],
           link: 'https://google.com',
         },
         {
             id: 3,
             title: 'Bacon Cheeseburger',
-            cuisine_type: 'American',
-            ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
+            cook_time: '15',
+            ingredients: ['ground beef', 'bun', 'tomato', 'lettuce', 'cheese', 'bacon', 'ketchup'],
             link: 'https://google.com',
         },
         {
             id: 4,
             title: 'Cereal',
-            cuisine_type: 'American',
-            ingredients: ['Cereal', 'Milk'],
+            cook_time: '0',
+            ingredients: ['cereal', 'milk'],
+            link: 'https://google.com',
+        },
+        {
+            id: 5,
+            title: 'Cereal',
+            cook_time: '0',
+            ingredients: ['cereal', 'milk'],
             link: 'https://google.com',
         },
         // Add more recipes as needed
-      ];
+    ];
 
     const { ingredients } = useIngredients();
     const { cookTime, missing } = useInfo();
@@ -74,24 +99,21 @@ export default function Home({navigation}) {
             <View style={styles.header}>
                 <Text style={styles.boldtext}>Recipes</Text>
             </View>
-            
-            {recipes.length > 0 && (
-                <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    {recipes.map((recipe, index) => (
-                        <View style={styles.recipeContainer}>
-                            <RecipeCard recipe={recipe}></RecipeCard>
-                        </View>
-                    ))}
-                </ScrollView>
-            )}
-
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.navigate("Preference")}  
             >
                 <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
-
+            {recipes.length > 0 && (
+                <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
+                    {recipes.map((recipe, index) => (
+                        <View style={styles.recipeContainer}>
+                            <RecipeCard recipe={recipe} ingredients={ingredients}></RecipeCard>
+                        </View>
+                    ))}
+                </ScrollView>
+            )}
             <StatusBar style="auto" />
         </View>
     );
@@ -101,13 +123,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
         justifyContent: 'center',
     },
     scrollContainer: {
-        // maxHeight: 350, 
-        width: 375,
-        marginTop: 50,
+        width: '100%',
+        padding: 10
     },
     row: {
         flexDirection: 'row',
@@ -117,7 +137,7 @@ const styles = StyleSheet.create({
     header: {
         padding: 20,
         backgroundColor: '#FA7070',
-        width: 500,
+        width: '100%',
         alignItems: 'center',
     },
     boldtext: {
@@ -126,13 +146,14 @@ const styles = StyleSheet.create({
         color: '#fff', 
     },
     backButton: {
-        position: 'absolute',
-        left: 10,
-        top: 65,
-        backgroundColor: 'red',
+        width: '20%',
+        marginTop: 5,
+        marginLeft: 10,
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     buttonText: {
         color: '#ffffff',
@@ -152,18 +173,15 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         flexDirection: 'row',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#FA7070',
     },
-    cuisineType: {
-        fontSize: 16,
-        marginBottom: 10,
-    },
-    ingredientsTitle: {
+    infoTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
@@ -171,12 +189,13 @@ const styles = StyleSheet.create({
     ingredientsContainer: {
         marginBottom: 10,
     },
-    ingredient: {
-        fontSize: 16,
+    info: {
+        fontSize: 14,
         marginBottom: 5,
     },
     link: {
         fontSize: 14,
+        marginBottom: 5, 
         color: 'blue',
         textDecorationLine: 'underline',
     },

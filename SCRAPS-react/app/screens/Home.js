@@ -17,7 +17,7 @@ export default function Home({navigation}) {
             </View>
 
             {images.length > 0 && (
-                <ScrollView contentContainerStyle={styles.container}>
+                <ScrollView contentContainerStyle={styles.scrollContainer}>
                     {images.map((uri, index) => (
                         <View key={index} style={styles.imageContainer}>
                             <Image source={{ uri }} style={styles.image} />
@@ -31,14 +31,12 @@ export default function Home({navigation}) {
                     ))}
                 </ScrollView>
             )}
-
             <TouchableOpacity
                 style={styles.continueButton}
                 onPress={() => navigation.navigate("Preference")}  
             >
                 <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
-
             <StatusBar style="auto" />
         </View>
     );
@@ -50,6 +48,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    scrollContainer: {
+        width: '100%',
+        paddingHorizontal: 10,
+        paddingBottom: 115,
+        marginTop: 35
     },
     header: {
         padding: 20,
@@ -74,17 +78,17 @@ const styles = StyleSheet.create({
     },
     removeButton: {
         position: 'absolute',
-        right: 10,
+        right: 0,
         top: 10,
-        backgroundColor: 'red',
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
     },
     continueButton: {
         position: 'absolute',
         right: 10,
-        bottom: 100,
-        backgroundColor: 'red',
+        top: 70,
+        backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
     },
