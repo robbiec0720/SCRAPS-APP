@@ -5,6 +5,9 @@ import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 
+const { ingredients } = useIngredients();
+const { cookTime, missing } = useInfo();
+
 const handleLinkPress = (recipe) => {
     if (recipe.link) {
         Linking.openURL(recipe.link);
@@ -12,16 +15,21 @@ const handleLinkPress = (recipe) => {
 };
 
 const RecipeCard = ({ recipe }) => {
+    const diff = recipe.ingredients.filter(i => !ingredients.includes(i))
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{recipe.title}</Text>
-            <Text style={styles.cuisineType}>{recipe.cuisine_type}</Text>
-            <Text style={styles.ingredientsTitle}>Ingredients:</Text>
-            <View style={styles.ingredientsContainer}>
-                {recipe.ingredients.map((ingredient, index) => (
-                    <Text key={index} style={styles.ingredient}>{ingredient}</Text>
-                ))}
-            </View>
+            <Text style={styles.infoTitle}>Cook Time:</Text>
+            <Text style={styles.info}>{recipe.cook_time}</Text>
+            <Text style={styles.infoTitle}>Missing Ingredients:</Text>
+            {diff > 0 && (
+                <View style={styles.ingredientsContainer}>
+                    {diff.map((ingredient, index) => (
+                        <Text key={index} style={styles.info}>{ingredient}</Text>
+                    ))}
+                </View>
+            )}
             <TouchableOpacity onPress={handleLinkPress}>
                 {recipe.link && (
                     <Text style={styles.link}>Recipe Link: {recipe.link}</Text>
@@ -36,36 +44,34 @@ export default function Home({navigation}) {
         {
           id: 1,
           title: 'Spaghetti Carbonara',
-          cuisine_type: 'Italian',
+          cook_time: '30',
           ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
           link: 'https://bing,com',
         },
         {
           id: 2,
           title: 'Chicken Curry',
-          cuisine_type: 'Indian',
+          cook_time: '60',
           ingredients: ['Chicken', 'Onion', 'Tomato', 'Curry Powder', 'Coconut Milk'],
           link: 'https://google.com',
         },
         {
             id: 3,
             title: 'Bacon Cheeseburger',
-            cuisine_type: 'American',
+            cook_time: '15',
             ingredients: ['Ground Beef', 'Bun', 'Tomato', 'Lettuce', 'Cheese', 'Bacon', 'Ketchup'],
             link: 'https://google.com',
         },
         {
             id: 4,
             title: 'Cereal',
-            cuisine_type: 'American',
+            cook_time: '0',
             ingredients: ['Cereal', 'Milk'],
             link: 'https://google.com',
         },
         // Add more recipes as needed
       ];
 
-    const { ingredients } = useIngredients();
-    const { cookTime, missing } = useInfo();
     const [login, setLogin] = useContext(AuthContext);
 
     return (
@@ -158,11 +164,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
-    cuisineType: {
-        fontSize: 16,
-        marginBottom: 10,
-    },
-    ingredientsTitle: {
+    infoTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
@@ -170,8 +172,8 @@ const styles = StyleSheet.create({
     ingredientsContainer: {
         marginBottom: 10,
     },
-    ingredient: {
-        fontSize: 16,
+    info: {
+        fontSize: 14,
         marginBottom: 5,
     },
     link: {
