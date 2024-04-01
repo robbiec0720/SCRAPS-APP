@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'r
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const handleLinkPress = (recipe) => {
     if (recipe.link) {

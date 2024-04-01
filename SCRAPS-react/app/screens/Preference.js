@@ -4,6 +4,7 @@ import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
@@ -22,6 +23,8 @@ export default function Preference({navigation}) {
                 'http://10.229.167.211:9000/recommend', 
                 {cookTime, missing, userjson, ingredients}
               );
+        console.log("data",data);
+        await AsyncStorage.setItem('@recipes', JSON.stringify(data));
         } catch (err) {
             console.log(err);
         }
