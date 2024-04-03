@@ -26,16 +26,11 @@ export default function Preference({navigation}) {
               );
         console.log("data",data);
         await AsyncStorage.setItem('@recipes', JSON.stringify(data));
+        navigation.navigate("Recipe");
         } catch (err) {
             console.log(err);
         }
     };
-
-    const handleNavigate = () => {
-        navigation.navigate("Recipe");
-    }
-
-    const handleContinue = handleSend.bind(this, handleNavigate);
 
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
@@ -107,7 +102,7 @@ export default function Preference({navigation}) {
             </View>
             <TouchableOpacity
                 style={styles.continueButton}
-                onPress={handleContinue}  
+                onPress={handleSend}  
             >
                 <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>

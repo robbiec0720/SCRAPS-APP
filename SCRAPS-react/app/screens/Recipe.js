@@ -91,8 +91,6 @@ export default function Home({navigation}) {
     ];
 
     const { ingredients } = useIngredients();
-    const { cookTime, missing } = useInfo();
-    const [login, setLogin] = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
@@ -109,7 +107,7 @@ export default function Home({navigation}) {
                 <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
                     {recipes.map((recipe, index) => (
                         <View style={styles.recipeContainer}>
-                            <RecipeCard recipe={recipe} ingredients={ingredients}></RecipeCard>
+                            <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
                         </View>
                     ))}
                 </ScrollView>
