@@ -5,8 +5,20 @@ import os
 from dotenv import load_dotenv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras import layers 
+from tensorflow.keras.layers import Dense, Activation, Dropout, Conv2D, MaxPool2D, GlobalAveragePooling2D
+from tensorflow.keras.models import Sequential
+import keras
+import tensorflow as tf
 load_dotenv()
+
+def load_model():
+    return keras.models.load_model('model/model.keras')
+    pass
+
+model = load_model()
+
 
 app = Flask(__name__)
 
