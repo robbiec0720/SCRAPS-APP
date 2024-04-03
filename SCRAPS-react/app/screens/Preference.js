@@ -1,11 +1,9 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
@@ -15,21 +13,21 @@ export default function Preference({navigation}) {
 
     const handleSend = async () => {
         Keyboard.dismiss();
-        console.log('Max Cook Time:', cookTime);
-        console.log('Max Missing Ingredients:', missing);
-        console.log('ingredients:', ingredients)
-        const userjson = JSON.stringify(login.user)
-        try {
-            const { data } = await axios.post(
-                'http://10.229.167.211:9000/recommend', 
-                {cookTime, missing, userjson, ingredients}
-              );
-        console.log("data",data);
-        await AsyncStorage.setItem('@recipes', JSON.stringify(data));
+        // console.log('Max Cook Time:', cookTime);
+        // console.log('Max Missing Ingredients:', missing);
+        // console.log('ingredients:', ingredients)
+        // const userjson = JSON.stringify(login.user)
+        // try {
+        //     const { data } = await axios.post(
+        //         'http://10.229.230.5:9000/recommend', 
+        //         {cookTime, missing, userjson, ingredients}
+        //       );
+        // console.log("data",data);
+        // await AsyncStorage.setItem('@recipes', JSON.stringify(data));
         navigation.navigate("Recipe");
-        } catch (err) {
-            console.log(err);
-        }
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     const handleAddIngredient = () => {

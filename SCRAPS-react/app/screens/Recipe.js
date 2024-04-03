@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -51,46 +51,26 @@ const RecipeCard = ({ recipe, ingredients }) => {
 };    
 
 export default function Home({navigation}) {
-    const recipes = [
-        {
-          id: 1,
-          title: 'Spaghetti Carbonara',
-          cook_time: '30',
-          ingredients: ['spaghetti', 'eggs', 'pancetta', 'parmesan cheese', 'black pepper'],
-          link: 'https://bing.com',
-        },
-        {
-          id: 2,
-          title: 'Chicken Curry',
-          cook_time: '60',
-          ingredients: ['chicken', 'onion', 'tomato', 'curry powder', 'coconut milk'],
-          link: 'https://google.com',
-        },
-        {
-            id: 3,
-            title: 'Bacon Cheeseburger',
-            cook_time: '15',
-            ingredients: ['ground beef', 'bun', 'tomato', 'lettuce', 'cheese', 'bacon', 'ketchup'],
-            link: 'https://google.com',
-        },
-        {
-            id: 4,
-            title: 'Cereal',
-            cook_time: '0',
-            ingredients: ['cereal', 'milk'],
-            link: 'https://google.com',
-        },
-        {
-            id: 5,
-            title: 'Cereal',
-            cook_time: '0',
-            ingredients: ['cereal', 'milk'],
-            link: 'https://google.com',
-        },
-        // Add more recipes as needed
-    ];
+    const [newIngredient, setNewIngredient] = useState('');
+    const { ingredients, addIngredient, removeIngredient } = useIngredients();
+    const { cookTime, missing, setCookTime, setMissing } = useInfo();
+    const [login] = useContext(AuthContext); 
 
-    const { ingredients } = useIngredients();
+    const userjson = JSON.stringify(login.user)
+    
+    useEffect(() => {
+        (async () => {
+            try {
+                console.log("RIP");
+                const { data } = await axios.post(
+                    'http://10.229.230.5:9000/recommend', 
+                    {cookTime, missing, userjson, ingredients}
+                  );
+            console.log("data",data);
+            } catch (err) {
+                console.log(err);
+            }
+    })}, [cookTime, missing, userjson, ingredients])
 
     return (
         <View style={styles.container}>
@@ -103,15 +83,15 @@ export default function Home({navigation}) {
             >
                 <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
-            {recipes.length > 0 && (
+            {/* {recipes.length > 0 && (
                 <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
                     {recipes.map((recipe, index) => (
-                        <View style={styles.recipeContainer}>
+                        <View key={index} style={styles.recipeContainer}>
                             <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
                         </View>
                     ))}
                 </ScrollView>
-            )}
+            )} */}
             <StatusBar style="auto" />
         </View>
     );
