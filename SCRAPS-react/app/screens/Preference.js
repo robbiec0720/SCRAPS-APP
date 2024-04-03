@@ -13,12 +13,12 @@ export default function Preference({navigation}) {
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
     const [login] = useContext(AuthContext);
 
-    const handleSave = async () => {
+    const handleSend = async () => {
         Keyboard.dismiss();
         console.log('Max Cook Time:', cookTime);
         console.log('Max Missing Ingredients:', missing);
-        const userjson = JSON.stringify(login.user)
         console.log('ingredients:', ingredients)
+        const userjson = JSON.stringify(login.user)
         try {
             const { data } = await axios.post(
                 'http://10.229.167.211:9000/recommend', 
@@ -30,6 +30,12 @@ export default function Preference({navigation}) {
             console.log(err);
         }
     };
+
+    const handleNavigate = () => {
+        navigation.navigate("Recipe");
+    }
+
+    const handleContinue = handleSend.bind(this, handleNavigate);
 
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
@@ -73,12 +79,6 @@ export default function Preference({navigation}) {
                         onChangeText={text => setMissing(text)}
                     />
                 </View>
-                <TouchableOpacity
-                    style={styles.saveButton}
-                    onPress={handleSave}  
-                >
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>Ingredients</Text>
@@ -107,7 +107,7 @@ export default function Preference({navigation}) {
             </View>
             <TouchableOpacity
                 style={styles.continueButton}
-                onPress={() => navigation.navigate("Recipe")}  
+                onPress={handleContinue}  
             >
                 <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
