@@ -14,8 +14,20 @@ import tensorflow as tf
 load_dotenv()
 
 def load_model():
-    return keras.models.load_model('model/model.keras')
-    pass
+    input_shape = (256, 256, 3)
+
+    bmodel = InceptionV3(weights="imagenet", input_shape=input_shape, include_top=False)
+    bmodel.trainable = False
+    model = Sequential()
+    model.add(bmodel)
+    model.add(GlobalAveragePooling2D())
+    model.add(Dense(64, activation="relu"))
+    model.add(Dropout(0.3))
+    model.add(Dense(36, activation='softmax'))
+    model.summary()
+    model.load_weights("model/temp_model.hdf5")
+    return model
+
 
 model = load_model()
 
