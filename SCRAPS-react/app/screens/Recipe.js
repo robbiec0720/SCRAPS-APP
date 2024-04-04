@@ -64,9 +64,8 @@ const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
 };
 
 export default function Home({navigation}) {
-    const [newIngredient, setNewIngredient] = useState('');
-    const { ingredients, addIngredient, removeIngredient } = useIngredients();
-    const { cookTime, missing, setCookTime, setMissing } = useInfo();
+    const { ingredients } = useIngredients();
+    const { cookTime, missing } = useInfo();
     const [loading, setLoading] = useState(false);
     const [recipes, setRecipes] = useState([]);
     const [login] = useContext(AuthContext); 
@@ -80,8 +79,7 @@ export default function Home({navigation}) {
                 setRecipes(data);
                 setLoading(true);
             } catch (error) {
-                // Handle errors her
-                
+                // Handle errors here
                 console.error('Error fetching recipes:', error)
             }
         })();
@@ -115,8 +113,14 @@ export default function Home({navigation}) {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.boldtext}>Loding Recipes...</Text>
+                    <Text style={styles.boldtext}>Loading Recipes...</Text>
                 </View>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("Preference")}  
+                >
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -131,11 +135,6 @@ const styles = StyleSheet.create({
     scrollContainer: {
         width: '100%',
         padding: 10
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
     },
     header: {
         padding: 20,

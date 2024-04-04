@@ -1,34 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
-import { AuthContext } from '../context/authContext';
 
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
-    const [login] = useContext(AuthContext);
-
-    const handleSend = async () => {
-        Keyboard.dismiss();
-        // console.log('Max Cook Time:', cookTime);
-        // console.log('Max Missing Ingredients:', missing);
-        // console.log('ingredients:', ingredients)
-        // const userjson = JSON.stringify(login.user)
-        // try {
-        //     const { data } = await axios.post(
-        //         'http://10.229.230.5:9000/recommend', 
-        //         {cookTime, missing, userjson, ingredients}
-        //       );
-        // console.log("data",data);
-        // await AsyncStorage.setItem('@recipes', JSON.stringify(data));
-        navigation.navigate("Recipe");
-        // } catch (err) {
-        //     console.log(err);
-        // }
-    };
 
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
@@ -47,12 +26,20 @@ export default function Preference({navigation}) {
             <View style={styles.header}>
                 <Text style={styles.boldtext}>Preferences</Text>
             </View>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate("HomeTabs")}  
-            >
-                <Text style={styles.buttonText}>Go Back</Text>
-            </TouchableOpacity>
+            <View style={styles.row}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("HomeTabs")}  
+                >
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.continueButton}
+                    onPress={() => navigation.navigate("Recipe")}  
+                >
+                    <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.table}>
                 <View style={styles.row}>
                     <Text style={styles.label}>Max Cook Time (minutes):</Text>
@@ -98,12 +85,6 @@ export default function Preference({navigation}) {
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                style={styles.continueButton}
-                onPress={handleSend}  
-            >
-                <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
             <StatusBar style="auto" />
         </View>
     )
@@ -132,18 +113,10 @@ const styles = StyleSheet.create({
         fontSize: 20, 
         color: '#fff', 
     },
-    saveButton: {
-        backgroundColor: '#FA7070',
-        padding: 8,
-        borderRadius: 5,
-        justifyContent: 'center',
-        marginBottom: 10,
-    },
     continueButton: {
         width: '20%',
-        marginBottom: 10,
-        marginRight: 5,
-        marginLeft: '76%',
+        marginTop: 5,
+        marginLeft: '55%',
         backgroundColor: '#FA7070',
         padding: 8,
         borderRadius: 5,
@@ -201,6 +174,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
         marginHorizontal: 5,
+        marginBottom: 20
     },
     itemContainer: {
         flexDirection: 'row',
