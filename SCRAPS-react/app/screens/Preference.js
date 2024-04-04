@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
@@ -6,12 +6,34 @@ import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {images} from '../context/imagecontext';
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
     const [login] = useContext(AuthContext);
+
+
+    //async use effect for pinging flask server
+    useEffect(() => {
+        console.log("started useEffect");
+        (async () => {
+            images.array.forEach(async (image) => {
+                const {data} = await axios.post(
+                    'http://172.26.45.24:9000/',
+                    {"image": img}
+                );
+                console.log(data);
+                data["ingredients"].forEach( async (ingredient) => {
+                    addIngredient(ingredient);
+                }
+
+                )
+            });
+        })
+    }, []);
+
+    
 
     const handleSave = async () => {
         Keyboard.dismiss();
