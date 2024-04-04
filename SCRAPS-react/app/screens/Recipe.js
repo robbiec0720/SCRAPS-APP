@@ -50,51 +50,76 @@ const RecipeCard = ({ recipe, ingredients }) => {
     );
 };    
 
+const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
+    try {
+        const { data } = await axios.post(
+            'http://10.229.53.208:9000/recommend', 
+            {cookTime, missing, userjson, ingredients}
+            );
+        //console.log("data",data);
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export default function Home({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
+    const [loading, setLoading] = useState(false);
+    const [recipes, setRecipes] = useState([]);
     const [login] = useContext(AuthContext); 
-
     const userjson = JSON.stringify(login.user)
-    
+
     useEffect(() => {
         (async () => {
             try {
-                console.log("RIP");
-                const { data } = await axios.post(
-                    'http://10.229.230.5:9000/recommend', 
-                    {cookTime, missing, userjson, ingredients}
-                  );
-            console.log("data",data);
-            } catch (err) {
-                console.log(err);
+                // Await the recipes from CallRecipes
+                const data = await CallRecipes(ingredients, cookTime, missing, userjson);
+                setRecipes(data);
+                setLoading(true);
+            } catch (error) {
+                // Handle errors her
+                
+                console.error('Error fetching recipes:', error)
             }
-    })}, [cookTime, missing, userjson, ingredients])
+        })();
+    }, []);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.boldtext}>Recipes</Text>
+    if(loading) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.boldtext}>Recipes</Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("Preference")}  
+                >
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
+                {recipes.length > 0 && (
+                    <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
+                        {recipes.map((recipe, index) => (
+                            <View key={index} style={styles.recipeContainer}>
+                                <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
+                            </View>
+                        ))}
+                    </ScrollView>
+                )}
+                <StatusBar style="auto" />
             </View>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate("Preference")}  
-            >
-                <Text style={styles.buttonText}>Go Back</Text>
-            </TouchableOpacity>
-            {/* {recipes.length > 0 && (
-                <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
-                    {recipes.map((recipe, index) => (
-                        <View key={index} style={styles.recipeContainer}>
-                            <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
-                        </View>
-                    ))}
-                </ScrollView>
-            )} */}
-            <StatusBar style="auto" />
-        </View>
-    );
+    );}
+    else {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.boldtext}>Loding Recipes...</Text>
+                </View>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

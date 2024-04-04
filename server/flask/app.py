@@ -151,7 +151,7 @@ def get_data():
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
     sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
 
-    num_recipes = 5
+    num_recipes = 20
     limited_recipes = sorted_recipes[:num_recipes]
 
 
