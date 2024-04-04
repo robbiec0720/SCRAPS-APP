@@ -20,7 +20,7 @@ export default function Preference({navigation}) {
         (async () => {
             images.array.forEach(async (image) => {
                 const {data} = await axios.post(
-                    'http://172.26.45.24:9000/',
+                    'http://10.229.251.95:9000/',
                     {"image": img}
                 );
                 console.log(data);
