@@ -21,7 +21,7 @@ const handleLinkPress = async(url) => {
 };
 
 const RecipeCard = ({ recipe, ingredients }) => {
-    const diff = recipe.ingredients.filter(i => !ingredients.includes(i));
+    const diff = recipe.ingredients.filter(i => !ingredients.includes(i.toLowerCase()));
 
     return (
         <View style={styles.container}>
@@ -31,11 +31,12 @@ const RecipeCard = ({ recipe, ingredients }) => {
                 <Text style={styles.info}>{recipe.cook_time}</Text>
             </Text>
             
+            <Text style={styles.infoTitle}>Missing Ingredients: </Text>
             {diff.length > 0 && (
-                <Text>
-                    <Text style={styles.infoTitle}>Missing Ingredients: </Text>
-                    <Text style={styles.info}>{diff.join(', ')}</Text>
-                </Text>
+                <Text style={styles.info}>{diff.join(', ')}</Text>
+            )}
+            {diff.length == 0 && (
+                <Text style={styles.info}>none</Text>
             )}
 
             <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
