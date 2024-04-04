@@ -31,13 +31,15 @@ const RecipeCard = ({ recipe, ingredients }) => {
                 <Text style={styles.info}>{recipe.cook_time}</Text>
             </Text>
             
-            <Text style={styles.infoTitle}>Missing Ingredients: </Text>
-            {diff.length > 0 && (
-                <Text style={styles.info}>{diff.join(', ')}</Text>
-            )}
-            {diff.length == 0 && (
-                <Text style={styles.info}>none</Text>
-            )}
+            <Text>
+                <Text style={styles.infoTitle}>Missing Ingredients: </Text>
+                {diff.length > 0 && (
+                    <Text style={styles.info}>{diff.join(', ')}</Text>
+                )}
+                {diff.length == 0 && (
+                    <Text style={styles.info}>none</Text>
+                )}
+            </Text>
 
             <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
                 {recipe.link && (
