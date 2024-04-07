@@ -124,10 +124,6 @@ export default function DietaryRestrictions(){
                     <View style={styles.submit}>
                             <SubmitButton buttonName={"DONE WITH PREFERENCES"} />
                     </View>
-                    <View style={styles.userContainer}>
-                        <Text>User Object:</Text>
-                        <Text>{JSON.stringify(login.user, null, 2)}</Text>
-                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
