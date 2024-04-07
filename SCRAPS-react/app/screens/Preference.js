@@ -1,12 +1,12 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+// import { useImages } from '../context/imagecontext';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {images} from '../context/imagecontext';
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
@@ -15,23 +15,6 @@ export default function Preference({navigation}) {
 
 
     //async use effect for pinging flask server
-    useEffect(() => {
-        console.log("started useEffect");
-        (async () => {
-            images.array.forEach(async (image) => {
-                const {data} = await axios.post(
-                    'http://10.229.251.95:9000/',
-                    {"image": img}
-                );
-                console.log(data);
-                data["ingredients"].forEach( async (ingredient) => {
-                    addIngredient(ingredient);
-                }
-
-                )
-            });
-        })
-    }, []);
 
     
 
