@@ -68,7 +68,7 @@ def get_data():
     user = data['userjson']
     user_ingredients = data['ingredients']
     user_ingredients = str(user_ingredients)
-    print(user_ingredients)
+    print(user)
 
     # s_ingredients = data['ingredients']
     # print(s_ingredients)

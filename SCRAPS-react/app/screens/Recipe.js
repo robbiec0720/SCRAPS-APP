@@ -56,7 +56,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         const { data } = await axios.post(
-            'http://10.229.53.208:9000/recommend', 
+            'http://10.229.29.135:9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log("data",data);

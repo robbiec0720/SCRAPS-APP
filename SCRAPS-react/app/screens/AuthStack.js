@@ -7,6 +7,7 @@ import Register from "../screens/Register";
 import UserProfile from "./UserProfile";
 import ResetEmail from "./ResetEmail";
 import ResetPassword from "./ResetPassword";
+import DietaryRestrictions from "./DietaryRestrictions";
 
 
 export default function AuthStack() {
@@ -22,6 +23,7 @@ export default function AuthStack() {
                 <Stack.Screen name = "UserProfile" component={UserProfile} options={{headerShown:false}}/>
                 <Stack.Screen name = "ResetEmail" component={ResetEmail} options={{headerShown:false}}/>
                 <Stack.Screen name = "ResetPassword" component={ResetPassword} options={{headerShown:false}}/>
+                <Stack.Screen name = "DietaryRestrictions" component={DietaryRestrictions} options={{headerShown:false}}/>
             </>
         ) : (
             <>
