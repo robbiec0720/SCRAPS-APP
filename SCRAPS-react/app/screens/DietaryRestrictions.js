@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } fr
 import React, { useContext, useState } from 'react';
 import SubmitButton from '../component/SubmitButton';
 import { AuthContext } from "../context/authContext";
+import axios from 'axios';
 
 export default function DietaryRestrictions(){
     const [login, setLogin] = useContext(AuthContext);
@@ -34,6 +35,18 @@ export default function DietaryRestrictions(){
             }
         }));
     };
+
+    const handleSave = async () => {
+      
+        try {
+            await axios.post(
+                'http://10.229.29.135:8080/updateDietaryRestrictions', 
+                {login.user.id}
+                );
+        } catch (err) {
+            console.log(err);
+        }
+    }
     
     
     return (
@@ -122,7 +135,10 @@ export default function DietaryRestrictions(){
                         </View>
                     </View>
                     <View style={styles.submit}>
-                            <SubmitButton buttonName={"DONE WITH PREFERENCES"} />
+                            <SubmitButton 
+                                buttonName={"DONE WITH PREFERENCES"} 
+                                handleSubmit={handleSave}
+                            />
                     </View>
                 </View>
             </ScrollView>

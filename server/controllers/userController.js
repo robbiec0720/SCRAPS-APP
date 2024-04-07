@@ -145,6 +145,24 @@ const resetEmail = (req, res) => {
   }); 
 };
 
+const updateDietaryRestrictions = (req, res) => {
+  const { user } = req.body;
+
+  console.log(user);
+
+  db.query(user.updateDietaryRestrictions, [user.vegetarian, user.vegan, user.halal, 
+    user.kosher, user.lactose, user.gluten, user.nut,
+    user.shellfish, user.pescatarian, user.id], (err, results)=> {
+  
+    
+
+    return res.status(201).send({
+      success:true,
+      message:'dietary restrictions updated'
+    })
+    
+})}
+
 
 module.exports = {
   getUsers,
@@ -152,4 +170,5 @@ module.exports = {
   userLogin,
   resetPassword,
   resetEmail,
+  updateDietaryRestrictions,
 };

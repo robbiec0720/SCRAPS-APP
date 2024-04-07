@@ -9,6 +9,8 @@ router.post("/register", userController.createUser);
 router.post("/login", userController.userLogin);
 router.post("/resetPassword", userController.resetPassword);
 router.post("/resetEmail", userController.resetEmail);
+router.post("/updateDietaryRestrictions", userController.updateDietaryRestrictions);
+
 
 
 module.exports = router;
