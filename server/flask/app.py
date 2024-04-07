@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify
+from tempfile import NamedTemporaryFile
+import cv2
+import numpy as np
+from werkzeug.utils import secure_filename
 import psycopg2
 from psycopg2 import OperationalError
 import os
@@ -11,7 +15,11 @@ from tensorflow.keras.layers import Dense, Activation, Dropout, Conv2D, MaxPool2
 from tensorflow.keras.models import Sequential
 import keras
 import tensorflow as tf
+import json
+TEMP_PATH = "temp_storage/"
 load_dotenv()
+
+
 
 def load_model():
     input_shape = (256, 256, 3)
@@ -28,8 +36,27 @@ def load_model():
     model.load_weights("model/temp_model.hdf5")
     return model
 
-
+def load_classes():
+    classes = []
+    with open("classes.json", "r") as f:
+        classes = json.load(f)
+    return classes
 model = load_model()
+classes = load_classes()
+
+def predict(img):
+    img = tf.convert_to_tensor(img)
+    img_tensor = tf.expand_dims(img, 0)
+    pred =  model.predict(img_tensor)
+    max_indx = 0
+    max_val = 0
+    for i, val in enumerate(pred[0]):
+        if val > max_val:
+            max_val = val
+            max_indx = i
+    print(classes[max_indx])
+    return [classes[max_indx]]
+
 
 
 app = Flask(__name__)
@@ -180,6 +207,38 @@ def get_data():
     #return recipes
     
     return jsonify({"recipes": limited_recipes})
+
+@app.route("/detect", methods=["POST"])
+def run_model():
+    #return basic data for now
+
+
+    #parse image
+    ##PARSE STEPS
+    imgBytes = request.get_data()
+    nparr = np.fromstring(imgBytes, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    # img = []
+    # temp_file = NamedTemporaryFile(suffix=".jpeg")
+    # temp_file.write(imgBytes)
+    # temp_file.flush()
+    # img = cv2.imread(temp_file.name)
+    # temp_file.close()
+    # print(img, flush=True)
+    # with open(NamedTemporaryFile(), 'wb') as f:
+    #     f.write(imgBytes)
+    #     img = cv2.imread(f.name)
+        
+        
+    img = cv2.resize(img, (256, 256))
+    # img = tf.expand_dims(img, 0)
+
+
+    # return jsonify({"ingredients" : ["apple", "banana", "ground beef", "scallions"]})
+    ##get classes
+    rclasses = predict(img)
+    return jsonify({"ingredients": rclasses})
+
 
 
 
