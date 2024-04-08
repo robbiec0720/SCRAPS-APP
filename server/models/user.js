@@ -22,9 +22,9 @@ const updateDietaryRestrictions = `
         lactose = $5,
         gluten = $6,
         nut = $7,
-        shellfish = $8
+        shellfish = $8,
         pescatarian = $9
-    WHERE user_id = $10;
+    WHERE id = $10;
 `;
 
 module.exports = {

@@ -146,22 +146,33 @@ const resetEmail = (req, res) => {
 };
 
 const updateDietaryRestrictions = (req, res) => {
-  const { user } = req.body;
 
-  console.log(user);
+  const { vegetarian, vegan, halal, kosher, 
+    lactose, gluten, nut, shellfish, pescatarian, id } = req.body;
 
-  db.query(user.updateDietaryRestrictions, [user.vegetarian, user.vegan, user.halal, 
-    user.kosher, user.lactose, user.gluten, user.nut,
-    user.shellfish, user.pescatarian, user.id], (err, results)=> {
-  
-    
+  console.log(vegetarian);
 
-    return res.status(201).send({
-      success:true,
-      message:'dietary restrictions updated'
-    })
-    
-})}
+  db.query(user.updateDietaryRestrictions, [
+    vegetarian,
+    vegan,
+    halal,
+    kosher,
+    lactose,
+    gluten,
+    nut,
+    shellfish,
+    pescatarian,
+    id
+  ], (err, results) => {
+    if (err) {
+      console.error('Error updating dietary restrictions:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+
+    // Return success response
+    return res.status(201).json({ success: true, message: 'Dietary restrictions updated' });
+  });
+}
 
 
 module.exports = {

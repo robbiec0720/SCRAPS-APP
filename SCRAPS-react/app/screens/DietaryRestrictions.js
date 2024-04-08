@@ -18,10 +18,7 @@ export default function DietaryRestrictions(){
         Halal: false,
     });
 
-    // const handleClick = (buttonName) => {
-    //     setClickedButtons({ ...clickedButtons, [buttonName]: !clickedButtons[buttonName] });
-    // };
-
+   
 
     const handleClick = (buttonName) => {
         setClickedButtons({ ...clickedButtons, [buttonName]: !clickedButtons[buttonName] });
@@ -37,12 +34,23 @@ export default function DietaryRestrictions(){
     };
 
     const handleSave = async () => {
-      
         try {
-            await axios.post(
-                'http://10.229.29.135:8080/updateDietaryRestrictions', 
-                {login.user.id}
+            const { data } = await axios.post(
+                'http://192.168.1.129:8080/api/v1/user/updateDietaryRestrictions', 
+                {
+                    vegetarian: login.user.vegetarian,
+                    vegan: login.user.vegan,
+                    halal: login.user.halal,
+                    kosher: login.user.kosher,
+                    lactose: login.user.lactose,
+                    gluten: login.user.gluten,
+                    nut: login.user.nut,
+                    shellfish: login.user.shellfish,
+                    pescatarian: login.user.pescatarian,
+                    id: login.user.id
+                }
                 );
+            alert(data && data.message);
         } catch (err) {
             console.log(err);
         }
