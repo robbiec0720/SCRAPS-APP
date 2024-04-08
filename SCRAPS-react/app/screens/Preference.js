@@ -1,17 +1,22 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Keyboard, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+// import { useImages } from '../context/imagecontext';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 export default function Preference({navigation}) {
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
     const [login] = useContext(AuthContext);
+
+
+    //async use effect for pinging flask server
+
+    
 
     const handleSave = async () => {
         Keyboard.dismiss();
