@@ -56,7 +56,7 @@ export default function Home({navigation}) {
                 <Text style={styles.boldtext}>SCRAPS</Text>
             </View>
 
-            {images.length > 0 && (
+            {images.length > 0 ? (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     {images.map((uri, index) => (
                         <View key={index} style={styles.imageContainer}>
@@ -70,6 +70,14 @@ export default function Home({navigation}) {
                         </View>
                     ))}
                 </ScrollView>
+            ) : (
+                <View style={styles.instructionsContainer}>
+                    <Text style={styles.instructionsText}>How to Use SCRAPS:</Text>
+                    <Text style={styles.instructionsText}>1. Go to camera to take pictures of your ingredients.</Text>
+                    <Text style={styles.instructionsText}>2. Come back to this page to view or remove images.</Text>
+                    <Text style={styles.instructionsText}>3. Click continue to select your preferences and check ingredients.</Text>
+                    <Text style={styles.instructionsText}>4. Click continue to view the recommended recipes.</Text>
+                </View>
             )}
             <TouchableOpacity
                 style={styles.continueButton}
@@ -135,5 +143,17 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#ffffff',
         fontSize: 14,
+    },
+    instructionsContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+    },
+    instructionsText: {
+        fontSize: 20, 
+        textAlign: 'center',
+        marginBottom: 10,
+        lineHeight: 28, 
     },
 });

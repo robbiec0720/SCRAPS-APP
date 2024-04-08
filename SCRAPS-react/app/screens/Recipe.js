@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -21,7 +21,7 @@ const handleLinkPress = async(url) => {
 };
 
 const RecipeCard = ({ recipe, ingredients }) => {
-    const diff = recipe.ingredients.filter(i => !ingredients.includes(i));
+    const diff = recipe.ingredients.filter(i => !ingredients.includes(i.toLowerCase()));
 
     return (
         <View style={styles.container}>
@@ -31,12 +31,15 @@ const RecipeCard = ({ recipe, ingredients }) => {
                 <Text style={styles.info}>{recipe.cook_time}</Text>
             </Text>
             
-            {diff.length > 0 && (
-                <Text>
-                    <Text style={styles.infoTitle}>Missing Ingredients: </Text>
+            <Text>
+                <Text style={styles.infoTitle}>Missing Ingredients: </Text>
+                {diff.length > 0 && (
                     <Text style={styles.info}>{diff.join(', ')}</Text>
-                </Text>
-            )}
+                )}
+                {diff.length == 0 && (
+                    <Text style={styles.info}>none</Text>
+                )}
+            </Text>
 
             <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
                 {recipe.link && (
@@ -50,73 +53,80 @@ const RecipeCard = ({ recipe, ingredients }) => {
     );
 };    
 
-export default function Home({navigation}) {
-    const recipes = [
-        {
-          id: 1,
-          title: 'Spaghetti Carbonara',
-          cook_time: '30',
-          ingredients: ['spaghetti', 'eggs', 'pancetta', 'parmesan cheese', 'black pepper'],
-          link: 'https://bing.com',
-        },
-        {
-          id: 2,
-          title: 'Chicken Curry',
-          cook_time: '60',
-          ingredients: ['chicken', 'onion', 'tomato', 'curry powder', 'coconut milk'],
-          link: 'https://google.com',
-        },
-        {
-            id: 3,
-            title: 'Bacon Cheeseburger',
-            cook_time: '15',
-            ingredients: ['ground beef', 'bun', 'tomato', 'lettuce', 'cheese', 'bacon', 'ketchup'],
-            link: 'https://google.com',
-        },
-        {
-            id: 4,
-            title: 'Cereal',
-            cook_time: '0',
-            ingredients: ['cereal', 'milk'],
-            link: 'https://google.com',
-        },
-        {
-            id: 5,
-            title: 'Cereal',
-            cook_time: '0',
-            ingredients: ['cereal', 'milk'],
-            link: 'https://google.com',
-        },
-        // Add more recipes as needed
-    ];
+const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
+    try {
+        const { data } = await axios.post(
+            'http://192.168.1.129:9000/recommend', 
+            {cookTime, missing, userjson, ingredients}
+            );
+        //console.log("data",data);
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+};
 
+export default function Home({navigation}) {
     const { ingredients } = useIngredients();
     const { cookTime, missing } = useInfo();
-    const [login, setLogin] = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
+    const [recipes, setRecipes] = useState([]);
+    const [login] = useContext(AuthContext); 
+    const userjson = JSON.stringify(login.user)
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.boldtext}>Recipes</Text>
+    useEffect(() => {
+        (async () => {
+            try {
+                // Await the recipes from CallRecipes
+                const data = await CallRecipes(ingredients, cookTime, missing, userjson);
+                setRecipes(data);
+                setLoading(true);
+            } catch (error) {
+                // Handle errors here
+                console.error('Error fetching recipes:', error)
+            }
+        })();
+    }, []);
+
+    if(loading) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.boldtext}>Recipes</Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("Preference")}  
+                >
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
+                {recipes.length > 0 && (
+                    <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
+                        {recipes.map((recipe, index) => (
+                            <View key={index} style={styles.recipeContainer}>
+                                <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
+                            </View>
+                        ))}
+                    </ScrollView>
+                )}
+                <StatusBar style="auto" />
             </View>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate("Preference")}  
-            >
-                <Text style={styles.buttonText}>Go Back</Text>
-            </TouchableOpacity>
-            {recipes.length > 0 && (
-                <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
-                    {recipes.map((recipe, index) => (
-                        <View style={styles.recipeContainer}>
-                            <RecipeCard recipe={recipe} ingredients={ingredients}></RecipeCard>
-                        </View>
-                    ))}
-                </ScrollView>
-            )}
-            <StatusBar style="auto" />
-        </View>
-    );
+    );}
+    else {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.boldtext}>Loading Recipes...</Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("Preference")}  
+                >
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -128,11 +138,6 @@ const styles = StyleSheet.create({
     scrollContainer: {
         width: '100%',
         padding: 10
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
     },
     header: {
         padding: 20,

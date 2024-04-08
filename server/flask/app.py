@@ -119,7 +119,7 @@ def get_data():
     user = data['userjson']
     user_ingredients = data['ingredients']
     user_ingredients = str(user_ingredients)
-    print(user_ingredients)
+    print(user)
 
     # s_ingredients = data['ingredients']
     # print(s_ingredients)
@@ -202,11 +202,23 @@ def get_data():
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
     sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
 
-    limited_recipes = sorted_recipes[:100]
+    num_recipes = 20
+    limited_recipes = sorted_recipes[:num_recipes]
+
+
+    desired_fields = {0 : "id", 1 : "title", 2 : "link", 3 : "ingredients", 13 :"cook_time"}
+    
+
+    filtered_data = [{desired_fields[key]: recipe[key] for key in desired_fields} for recipe in limited_recipes]
+
+    for i in range(num_recipes):
+        filtered_data[i]["id"] = str(filtered_data[i]["id"])
+        filtered_data[i]["cook_time"] = str(filtered_data[i]["cook_time"])
+        filtered_data[i]["ingredients"] = filtered_data[i]["ingredients"].split(";")
     
     #return recipes
     
-    return jsonify({"recipes": limited_recipes})
+    return filtered_data
 
 @app.route("/detect", methods=["POST"])
 def run_model():

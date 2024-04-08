@@ -5,11 +5,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 export default function SubmitButton({
      buttonName,
      handleSubmit, 
-     loading
+     loading,
+     clicked,
+     userHasRestriction,
+
 })
     {
     return (
-        <TouchableOpacity style={stlyes.submitBtn} onPress={handleSubmit}>
+        <TouchableOpacity style={[stlyes.submitBtn, userHasRestriction && stlyes.clickedButton]} onPress={handleSubmit}>
             <Text style={stlyes.btnText}>
                 {loading ? "Submitted" : buttonName}
             </Text>
@@ -19,17 +22,21 @@ export default function SubmitButton({
 
 const stlyes = StyleSheet.create({
     submitBtn: {
-        backgroundColor: '#1e2225',
+        backgroundColor: '#FA7070',
         height: 50,
-        marginHorizontal: 25,
+        // marginHorizontal: 25,
         borderRadius: 80,
         justifyContent: 'center',
         marginBottom: 20,
     },
     btnText: {
         color: '#ffffff',
-        textAlign: 'center',
+        textAlign: 'left',
+        marginLeft: "5%",
         fontSize: 24,
         fontWeight: '400',
+    },
+    clickedButton: {
+        backgroundColor: 'green', // Change background color to green when clicked
     },
 })

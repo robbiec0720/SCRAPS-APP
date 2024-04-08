@@ -145,6 +145,35 @@ const resetEmail = (req, res) => {
   }); 
 };
 
+const updateDietaryRestrictions = (req, res) => {
+
+  const { vegetarian, vegan, halal, kosher, 
+    lactose, gluten, nut, shellfish, pescatarian, id } = req.body;
+
+  console.log(vegetarian);
+
+  db.query(user.updateDietaryRestrictions, [
+    vegetarian,
+    vegan,
+    halal,
+    kosher,
+    lactose,
+    gluten,
+    nut,
+    shellfish,
+    pescatarian,
+    id
+  ], (err, results) => {
+    if (err) {
+      console.error('Error updating dietary restrictions:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+
+    // Return success response
+    return res.status(201).json({ success: true, message: 'Dietary restrictions updated' });
+  });
+}
+
 
 module.exports = {
   getUsers,
@@ -152,4 +181,5 @@ module.exports = {
   userLogin,
   resetPassword,
   resetEmail,
+  updateDietaryRestrictions,
 };

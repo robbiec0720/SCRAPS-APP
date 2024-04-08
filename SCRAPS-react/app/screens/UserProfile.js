@@ -40,6 +40,7 @@ export default function UserProfile({ navigation }) {
                 <View style={styles.dietaryRestrictionsBtn}>
                     <SubmitButton
                         buttonName={"Dietary Restrictions"}
+                        handleSubmit={() => {navigation.navigate('DietaryRestrictions')}}
                     />
                 </View>
                 <TouchableOpacity>

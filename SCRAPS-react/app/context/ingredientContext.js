@@ -8,7 +8,7 @@ export const IngredientProvider = ({ children }) => {
     const [ingredients, setIngredients] = useState(['tomato']);
   
     const addIngredient = (ingredient) => {
-        setIngredients((currentIngredients) => [...currentIngredients, ingredient]);
+        setIngredients((currentIngredients) => [...currentIngredients, ingredient.toLowerCase()]);
     };
   
     const removeIngredient = (index) => {
