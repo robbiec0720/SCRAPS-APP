@@ -17,7 +17,7 @@ export default function UserProfile({ navigation }) {
     }
 
     return(
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.homeContainer}>
             <ScrollView style = {loginStyles.scrollView}>
                 <View style = {styles.header}>
                     <Text style = {styles.boldtext}>USER PROFILE</Text>

@@ -31,8 +31,8 @@ const stlyes = StyleSheet.create({
     },
     btnText: {
         color: '#ffffff',
-        textAlign: 'left',
-        marginLeft: "5%",
+        textAlign: 'center',
+        // marginLeft: "5%",
         fontSize: 24,
         fontWeight: '400',
     },

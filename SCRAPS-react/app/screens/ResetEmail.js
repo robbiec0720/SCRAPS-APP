@@ -34,7 +34,7 @@ export default function ResetEmail({navigation}){
     }
 
     return(
-        <View style = {styles.container}>
+        <View style = {styles.homeContainer}>
             <View style = {styles.header}>
                 <Text style = {styles.boldtext}>Reset Password</Text>
             </View>

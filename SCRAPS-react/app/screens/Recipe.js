@@ -26,7 +26,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
     const diff = recipe.ingredients.filter(i => !ingredients.includes(i.toLowerCase()));
 
     return (
-        <View style={styles.container}>
+        <View>
             <Text style={recipeStyles.title}>{recipe.title}</Text>
             <Text>
                 <Text style={recipeStyles.infoTitle}>Cook Time: </Text>
@@ -58,7 +58,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         const { data } = await axios.post(
-            'http://192.168.1.129:9000/recommend', 
+            'http://10.183.165.168:9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log('data',data);
@@ -92,7 +92,7 @@ export default function Home({navigation}) {
 
     if(loading) {
         return (
-            <View style={styles.container}>
+            <View style={recipeStyles.container}>
                 <View style={styles.header}>
                     <Text style={styles.boldtext}>RECIPES</Text>
                 </View>
@@ -103,7 +103,7 @@ export default function Home({navigation}) {
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
                 {recipes.length > 0 ? (
-                    <ScrollView contentContainerStyle={recipeStyles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
+                    <ScrollView styles={recipeStyles.scrollContainer}>
                         {recipes.map((recipe, index) => (
                             <View key={index} style={recipeStyles.recipeContainer}>
                                 <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
@@ -120,7 +120,7 @@ export default function Home({navigation}) {
     );}
     else {
         return (
-            <View style={styles.container}>
+            <View style={recipeStyles.container}>
                 <View style={styles.header}>
                     <Text style={styles.boldtext}>LOADING RECIPES...</Text>
                 </View>

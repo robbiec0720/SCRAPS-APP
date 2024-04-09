@@ -38,7 +38,7 @@ export default function Register({navigation}) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.homeContainer}>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>USER PROFILE</Text>
             </View>

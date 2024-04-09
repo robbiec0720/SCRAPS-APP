@@ -52,13 +52,13 @@ export default function Home({navigation}) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={homeStyles.container}>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>SCRAPS</Text>
             </View>
 
             {images.length > 0 ? (
-                <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
+                <ScrollView style={homeStyles.scrollContainer}>
                     {images.map((uri, index) => (
                         <View key={index}>
                             <Image source={{ uri }} style={homeStyles.image} />

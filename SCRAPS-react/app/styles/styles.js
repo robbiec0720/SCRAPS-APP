@@ -6,6 +6,13 @@ export const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#e1d5c9',
     },
+    homeContainer: {
+        marginTop: '15%',
+        height: '100%',
+        backgroundColor: '#e1d5c9',
+        flexGrow: 1,
+        paddingBottom: 90
+    },
     header: {
         padding: 20,
         backgroundColor: '#FA7070',

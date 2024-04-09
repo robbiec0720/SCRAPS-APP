@@ -37,7 +37,7 @@ export default function DietaryRestrictions(){
     const handleSave = async () => {
         try {
             const { data } = await axios.post(
-                'http://192.168.1.129:8080/api/v1/user/updateDietaryRestrictions', 
+                'http://10.183.165.168:8080/api/v1/user/updateDietaryRestrictions', 
                 {
                     vegetarian: login.user.vegetarian,
                     vegan: login.user.vegan,
@@ -58,12 +58,12 @@ export default function DietaryRestrictions(){
     }
     
     return (
-        <View style={styles.container}>
-            <ScrollView style = {styles.scrollView}>
+        <View style={styles.homeContainer}>
+            <ScrollView style = {loginStyles.scrollView}>
                 <View style = {loginStyles.header}>
                     <Text style = {styles.boldtext}>DIETARY RESTRICTIONS</Text>
                 </View>
-                <View style={styles.container}>
+                <View>
                     <View style={loginStyles.card}>
                         <Text style={loginStyles.cardheader}>ALLERGIES</Text>
                         <View style={loginStyles.buttonContainer}>

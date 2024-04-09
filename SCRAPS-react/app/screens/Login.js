@@ -1,16 +1,15 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Text, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { AuthContext } from '../context/authContext';
-import { styles } from '../styles/styles'
-import { loginStyles } from '../styles/loginStyles'
-import InputField from '../component/InputField';
-import SubmitButton from '../component/SubmitButton';
+import { AuthContext } from "../context/authContext";
+import InputField from "../component/InputField";
+import SubmitButton from "../component/SubmitButton";
 
 export default function Login({navigation}) {
     const [login, setLogin] = useContext(AuthContext);
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -32,7 +31,7 @@ export default function Login({navigation}) {
           setLogin(data);
           await AsyncStorage.setItem('@auth', JSON.stringify(data));
           alert(data && data.message);
-          navigation.navigate('UserProfile');
+          navigation.navigate("UserProfile");
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
@@ -46,12 +45,12 @@ export default function Login({navigation}) {
     // }
     // getLocalStorageData();
     return (
-        <View style={styles.container}>
+        <View style={styles.homeContainer}>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>USER PROFILE</Text>
             </View>
-            <View style={loginStyles.registerContainer}>
-                <Text style={loginStyles.createAccountText}>Login</Text>
+            <View style={styles.registerContainer}>
+                <Text style={styles.createAccountText}>Login</Text>
                 <View style={{ marginHorizontal: 20}}>
                    <InputField
                     inputFieldName={'Username'} 
@@ -68,21 +67,20 @@ export default function Login({navigation}) {
             </View>
             {/* <Text> {JSON.stringify({ username, email, password}, null, 4)} </Text> */}
             <SubmitButton 
-             buttonName={'Login'} 
+             buttonName={"Login"} 
              loading={loading}
              handleSubmit={handleSubmit}
              />
             <Text style={styles.loginText}>
-                Don't have an accountt?{' '} 
+                Don't have an accountt?{" "} 
                 <Text 
                     style={styles.loginLinkText}
                     onPress={() => navigation.navigate('Register')}
                 >
                     Register here
-                </Text>{' '}
+                </Text>{" "}
             </Text>
-        <StatusBar style='auto' />
+        <StatusBar style="auto" />
       </View>
     );
 }
-    

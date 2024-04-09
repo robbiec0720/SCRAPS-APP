@@ -1,15 +1,21 @@
 import { StyleSheet } from 'react-native';
 
 export const recipeStyles = StyleSheet.create({
+    container: {
+        marginTop: '15%',
+        height: '100%',
+        backgroundColor: '#e1d5c9',
+        paddingBottom: 80
+    },
     scrollContainer: {
         width: '100%',
         padding: 10
     },
     recipeContainer: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#e1d5c9',
         borderRadius: 10,
         padding: 20,
-        marginBottom: 20,
+        margin: 10,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -43,17 +49,5 @@ export const recipeStyles = StyleSheet.create({
         marginBottom: 5, 
         color: 'blue',
         textDecorationLine: 'underline',
-    },
-    instructionsContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    instructionsText: {
-        fontSize: 20, 
-        textAlign: 'center',
-        marginBottom: 10,
-        lineHeight: 28, 
     },
 });

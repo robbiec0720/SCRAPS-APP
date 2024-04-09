@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const homeStyles = StyleSheet.create({
+    container: {
+        marginTop: '15%',
+        height: '100%',
+        backgroundColor: '#e1d5c9',
+        paddingBottom: 150
+    },
     scrollContainer: {
         width: '100%',
         paddingHorizontal: 10,

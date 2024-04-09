@@ -72,6 +72,7 @@ export const loginStyles = StyleSheet.create({
         fontSize: 20, 
         color: '#fff', 
         marginBottom: '5%',
+        alignText: 'center'
     },
     card: {
         borderRadius: 10,
@@ -86,7 +87,7 @@ export const loginStyles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         borderColor: '#000',
-        borderWidth: 1.5, 
+        borderWidth: 1.5
     },
     buttonContainer: {
         justifyContent: 'flex-start', // Align buttons to the left
