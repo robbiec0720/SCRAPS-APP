@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, View } from 'react-native';
 import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles'
-import InputField from "../component/InputField";
-import SubmitButton from "../component/SubmitButton";
+import InputField from '../component/InputField';
+import SubmitButton from '../component/SubmitButton';
 import axios from 'axios';
 
 
@@ -52,8 +52,8 @@ export default function Register({navigation}) {
                     />
                    <InputField 
                     inputFieldName={'Email'} 
-                    keyboardType="email-address" 
-                    autoComplete="email"
+                    keyboardType='email-address' 
+                    autoComplete='email'
                     value={email} 
                     setValue={setEmail} 
                     />
@@ -67,20 +67,20 @@ export default function Register({navigation}) {
             </View>
             {/* <Text> {JSON.stringify({ username, email, password}, null, 4)} </Text> */}
             <SubmitButton 
-             buttonName={"Register"} 
+             buttonName={'Register'} 
              loading={loading}
              handleSubmit={handleSubmit}
              />
             <Text style={loginStyles.loginText}>
-                Already have an account?{" "} 
+                Already have an account?{' '} 
                 <Text 
                     style={loginStyles.loginLinkText}
                     onPress={() => navigation.navigate('Login')}
                 >
                     login here
-                </Text>{" "}
+                </Text>{' '}
             </Text>
-        <StatusBar style="auto" />
+        <StatusBar style='auto' />
       </View>
     );
 }

@@ -28,19 +28,19 @@ export default function UserProfile({ navigation }) {
                 </View>
                 <View style = {loginStyles.resetEmailBtn}>
                     <SubmitButton 
-                        buttonName={"Reset Email"}
+                        buttonName={'Reset Email'}
                         handleSubmit={() => {navigation.navigate('ResetEmail')}}
                     />
                 </View>
                 <View style = {loginStyles.resetPasswordBtn}>
                     <SubmitButton 
-                        buttonName={"Reset Password"}
+                        buttonName={'Reset Password'}
                         handleSubmit={() => {navigation.navigate('ResetPassword')}}
                     />
                 </View>
                 <View style={loginStyles.dietaryRestrictionsBtn}>
                     <SubmitButton
-                        buttonName={"Dietary Restrictions"}
+                        buttonName={'Dietary Restrictions'}
                         handleSubmit={() => {navigation.navigate('DietaryRestrictions')}}
                     />
                 </View>

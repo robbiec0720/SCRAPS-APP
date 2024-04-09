@@ -31,13 +31,13 @@ export default function Preference({navigation}) {
             <View style={prefStyles.row}>
                 <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => navigation.navigate("HomeTabs")}  
+                    onPress={() => navigation.navigate('HomeTabs')}  
                 >
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={prefStyles.continueButton}
-                    onPress={() => navigation.navigate("Recipe")}  
+                    onPress={() => navigation.navigate('Recipe')}  
                 >
                     <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
@@ -47,7 +47,7 @@ export default function Preference({navigation}) {
                     <Text style={prefStyles.label}>Max Cook Time (minutes):</Text>
                     <TextInput
                         style={[prefStyles.input, prefStyles.rightAligned]}
-                        keyboardType="numeric"
+                        keyboardType='numeric'
                         value={cookTime}
                         onChangeText={text => setCookTime(text)}
                     />
@@ -56,7 +56,7 @@ export default function Preference({navigation}) {
                     <Text style={prefStyles.label}>Max Missing Ingredients:</Text>
                     <TextInput
                         style={[prefStyles.input, prefStyles.rightAligned]}
-                        keyboardType="numeric"
+                        keyboardType='numeric'
                         value={missing}
                         onChangeText={text => setMissing(text)}
                     />
@@ -79,7 +79,7 @@ export default function Preference({navigation}) {
             <View style={prefStyles.inputContainer}>
                 <TextInput
                     style={prefStyles.input}
-                    placeholder="Enter Ingredient"
+                    placeholder='Enter Ingredient'
                     value={newIngredient}
                     onChangeText={setNewIngredient}
                 />
@@ -87,7 +87,7 @@ export default function Preference({navigation}) {
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
-            <StatusBar style="auto" />
+            <StatusBar style='auto' />
         </View>
     )
 }

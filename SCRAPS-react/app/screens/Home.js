@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useImages } from '../context/imagecontext';
@@ -25,15 +25,15 @@ export default function Home({navigation}) {
                 const data = await FileSystem.uploadAsync('http:/10.183.201.118:9000/detect',
                 img, {
                     headers: {
-                        "content-type": "image/jpeg"
+                        'content-type': 'image/jpeg'
                     },
-                    httpMethod: "POST",
+                    httpMethod: 'POST',
                     uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
                 });
                 const parseData = JSON.parse(data.body);
                 console.log(parseData)
                 
-                parseData["ingredients"].forEach(async (ingr) => {
+                parseData['ingredients'].forEach(async (ingr) => {
                     // newIngrs.push(ingr);
                     if(!ingredients.includes(ingr))
                         addIngredient(ingr);
@@ -48,7 +48,7 @@ export default function Home({navigation}) {
         // ingrSet.forEach((ingr) => {
         //     addIngredient(ingr);
         // })
-        navigation.navigate("Preference");
+        navigation.navigate('Preference');
     };
 
     return (
@@ -89,7 +89,7 @@ export default function Home({navigation}) {
             >
                 <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
-            <StatusBar style="auto" />
+            <StatusBar style='auto' />
         </View>
     );
 }

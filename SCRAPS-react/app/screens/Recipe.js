@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
@@ -15,7 +15,7 @@ const handleLinkPress = async(url) => {
         if (supported) {
             await Linking.openURL(url);
         } else {
-            console.log("Don't know how to open URI: ", url);
+            console.log('Do not know how to open URI: ', url);
         }
     } catch (error) {
         console.error('Error opening link:', error);
@@ -61,7 +61,7 @@ const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
             'http://192.168.1.129:9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
-        //console.log("data",data);
+        //console.log('data',data);
         return data;
     } catch (err) {
         console.log(err);
@@ -98,7 +98,7 @@ export default function Home({navigation}) {
                 </View>
                 <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => navigation.navigate("Preference")}  
+                    onPress={() => navigation.navigate('Preference')}  
                 >
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
@@ -115,7 +115,7 @@ export default function Home({navigation}) {
                         <Text style={styles.instructionsText}>No recipes where found</Text>
                     </View>
                 )}
-                <StatusBar style="auto" />
+                <StatusBar style='auto' />
             </View>
     );}
     else {
@@ -126,7 +126,7 @@ export default function Home({navigation}) {
                 </View>
                 <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => navigation.navigate("Preference")}  
+                    onPress={() => navigation.navigate('Preference')}  
                 >
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
