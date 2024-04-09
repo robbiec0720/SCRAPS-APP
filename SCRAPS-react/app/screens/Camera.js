@@ -149,6 +149,5 @@ export default function CameraScreen() {
                     </View></>
             )}
         </View>
-        
     );
 }

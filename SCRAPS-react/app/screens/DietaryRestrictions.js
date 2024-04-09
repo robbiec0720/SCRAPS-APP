@@ -21,8 +21,6 @@ export default function DietaryRestrictions(){
         Halal: false,
     });
 
-   
-
     const handleClick = (buttonName) => {
         setClickedButtons({ ...clickedButtons, [buttonName]: !clickedButtons[buttonName] });
 
