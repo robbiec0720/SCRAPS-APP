@@ -1,11 +1,12 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useImages } from '../context/imagecontext'; // Make sure the path is correct
+import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useImages } from '../context/imagecontext';
 import { useIngredients } from '../context/ingredientContext';
+import { styles } from '../styles/styles'
+import { homeStyles } from '../styles/homeStyles'
 import * as FileSystem from 'expo-file-system';
-// import * as tf from '@tensorflow/tfjs';
-import axios from 'axios';
+
 export default function Home({navigation}) {
     const { images, setImages } = useImages();
     const {ingredients, addIngredient} = useIngredients();
@@ -57,12 +58,12 @@ export default function Home({navigation}) {
             </View>
 
             {images.length > 0 ? (
-                <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
                     {images.map((uri, index) => (
-                        <View key={index} style={styles.imageContainer}>
-                            <Image source={{ uri }} style={styles.image} />
+                        <View key={index}>
+                            <Image source={{ uri }} style={homeStyles.image} />
                             <TouchableOpacity
-                                style={styles.removeButton}
+                                style={homeStyles.removeButton}
                                 onPress={() => removeImage(index)}
                             >
                                 <Text style={styles.buttonText}>Remove</Text>
@@ -73,14 +74,17 @@ export default function Home({navigation}) {
             ) : (
                 <View style={styles.instructionsContainer}>
                     <Text style={styles.instructionsText}>How to Use SCRAPS:</Text>
-                    <Text style={styles.instructionsText}>1. Go to camera to take pictures of your ingredients.</Text>
-                    <Text style={styles.instructionsText}>2. Come back to this page to view or remove images.</Text>
-                    <Text style={styles.instructionsText}>3. Click continue to select your preferences and check ingredients.</Text>
-                    <Text style={styles.instructionsText}>4. Click continue to view the recommended recipes.</Text>
+                    <Text style={styles.instructionsText}>1. Navigate to the profile page and either login or create an account.</Text>
+                    <Text style={styles.instructionsText}>2. Edit dietary restrictions if necessary.</Text>
+                    <Text style={styles.instructionsText}>3. Go to camera to take pictures of your ingredients.</Text>
+                    <Text style={styles.instructionsText}>4. Come back to this page to view or remove images.</Text>
+                    <Text style={styles.instructionsText}>5. Click continue to select your preferences and check ingredients.</Text>
+                    <Text style={styles.instructionsText}>6. Click continue to view the recommended recipes.</Text>
                 </View>
             )}
+
             <TouchableOpacity
-                style={styles.continueButton}
+                style={homeStyles.continueButton}
                 onPress={() => navigatePreference()}  
             >
                 <Text style={styles.buttonText}>Continue</Text>
@@ -89,71 +93,3 @@ export default function Home({navigation}) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    scrollContainer: {
-        width: '100%',
-        paddingHorizontal: 10,
-        paddingBottom: 115,
-        marginTop: 35
-    },
-    header: {
-        padding: 20,
-        backgroundColor: '#FA7070',
-        width: '100%',
-        alignItems: 'center',
-    },
-    boldtext: {
-        fontWeight: 'bold',
-        fontSize: 20, 
-        color: '#fff', 
-    },
-    imagesContainer: {
-        paddingVertical: 20,
-    },
-    image: {
-        width: 300, 
-        height: 200,
-        resizeMode: 'cover', 
-        marginVertical: 10, 
-        borderRadius: 10,
-    },
-    removeButton: {
-        position: 'absolute',
-        right: 0,
-        top: 10,
-        backgroundColor: '#FA7070',
-        padding: 8,
-        borderRadius: 5,
-    },
-    continueButton: {
-        position: 'absolute',
-        right: 10,
-        top: 70,
-        backgroundColor: '#FA7070',
-        padding: 8,
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 14,
-    },
-    instructionsContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    instructionsText: {
-        fontSize: 20, 
-        textAlign: 'center',
-        marginBottom: 10,
-        lineHeight: 28, 
-    },
-});
