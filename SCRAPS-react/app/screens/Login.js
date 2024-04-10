@@ -8,6 +8,7 @@ import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles'
 import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
+import Config from "react-native-config";
 
 export default function Login({navigation}) {
     const [login, setLogin] = useContext(AuthContext);
@@ -27,7 +28,7 @@ export default function Login({navigation}) {
           //console.log('Login data ==> ', {username, password});
           setLoading(false);
           const { data } = await axios.post(
-            'http://10.228.214.152:8080/api/v1/user/login', 
+            Config.API_URL + '/api/v1/user/login', 
             {username, password}
           );
           setLogin(data);

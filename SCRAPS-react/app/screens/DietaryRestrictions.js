@@ -5,6 +5,7 @@ import { AuthContext } from '../context/authContext';
 import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles';
 import axios from 'axios';
+import Config from "react-native-config";
 
 
 export default function DietaryRestrictions(){
@@ -37,7 +38,7 @@ export default function DietaryRestrictions(){
     const handleSave = async () => {
         try {
             const { data } = await axios.post(
-                'http://10.183.165.168:8080/api/v1/user/updateDietaryRestrictions', 
+                Config.API_URL + '/api/v1/user/updateDietaryRestrictions', 
                 {
                     vegetarian: login.user.vegetarian,
                     vegan: login.user.vegan,
