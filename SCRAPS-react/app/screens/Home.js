@@ -22,7 +22,7 @@ export default function Home({navigation}) {
                 //     encoding: FileSystem.EncodingType.Base64,
 
                 // });
-                const data = await FileSystem.uploadAsync('http:/10.183.201.118:9000/detect',
+                const data = await FileSystem.uploadAsync('http:/10.228.214.152:9000/detect',
                 img, {
                     headers: {
                         'content-type': 'image/jpeg'

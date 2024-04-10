@@ -59,7 +59,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         const { data } = await axios.post(
-            Config.API_URL + '/recommend', 
+            'http:/10.228.214.152:9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log('data',data);
@@ -113,7 +113,7 @@ export default function Home({navigation}) {
                     </ScrollView>
                 ) : (
                     <View style={styles.instructionsContainer}>
-                        <Text style={styles.instructionsText}>No recipes where found</Text>
+                        <Text style={styles.instructionsText}>No recipes were found</Text>
                     </View>
                 )}
                 <StatusBar style='auto' />

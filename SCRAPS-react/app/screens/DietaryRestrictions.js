@@ -38,7 +38,7 @@ export default function DietaryRestrictions(){
     const handleSave = async () => {
         try {
             const { data } = await axios.post(
-                Config.API_URL + '/api/v1/user/updateDietaryRestrictions', 
+                'http:/10.228.214.152:8080/api/v1/user/updateDietaryRestrictions', 
                 {
                     vegetarian: login.user.vegetarian,
                     vegan: login.user.vegan,

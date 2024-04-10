@@ -113,10 +113,11 @@ def hello():
 @app.route("/recommend", methods=["POST"])
 def get_data():
     data = request.json
-    
+
     cook_time = data['cookTime']
     max_missing_ingredients = data['missing']
-    user = data['userjson']
+    user = [] if 'userjson' not in data else data['userjson']
+
     user_ingredients = data['ingredients']
     user_ingredients = str(user_ingredients)
     print(user)
@@ -141,32 +142,33 @@ def get_data():
     #Filter based on diet restrictions & Preference
     
     #Vegetarian
-    if(user[3] == True):
-        recipes = [recipe for recipe in recipes if recipe[5]]
-    #Vegan
-    if(user[4] == True):
-        recipes = [recipe for recipe in recipes if recipe[4]]
-    #halal
-    if(user[5] == True):
-        recipes = [recipe for recipe in recipes if recipe[8]]
-    #Kosher
-    if(user[6] == True):
-        recipes = [recipe for recipe in recipes if recipe[9]]
-    #Lactose
-    if(user[7] == True):
-        recipes = [recipe for recipe in recipes if recipe[6]]
-    #Gluten
-    if(user[8] == True):
-        recipes = [recipe for recipe in recipes if recipe[7]]
-    #Nut
-    if(user[9] == True):
-        recipes = [recipe for recipe in recipes if recipe[10]]
-    #Shellfish
-    if(user[10] == True):
-        recipes = [recipe for recipe in recipes if recipe[11]]
-    #Pescatarian
-    if(user[11] == True):
-        recipes = [recipe for recipe in recipes if recipe[12]]
+    if user != []:
+        if(user[3]):
+            recipes = [recipe for recipe in recipes if recipe[5]]
+        #Vegan
+        if(user[4]):
+            recipes = [recipe for recipe in recipes if recipe[4]]
+        #halal
+        if(user[5]):
+            recipes = [recipe for recipe in recipes if recipe[8]]
+        #Kosher
+        if(user[6]):
+            recipes = [recipe for recipe in recipes if recipe[9]]
+        #Lactose
+        if(user[7]):
+            recipes = [recipe for recipe in recipes if recipe[6]]
+        #Gluten
+        if(user[8]):
+            recipes = [recipe for recipe in recipes if recipe[7]]
+        #Nut
+        if(user[9]):
+            recipes = [recipe for recipe in recipes if recipe[10]]
+        #Shellfish
+        if(user[10]):
+            recipes = [recipe for recipe in recipes if recipe[11]]
+        #Pescatarian
+        if(user[11]):
+            recipes = [recipe for recipe in recipes if recipe[12]]
    
     #Filter based on Cook time
     recipes = [recipe for recipe in recipes if recipe[13] <= int(cook_time)]
@@ -191,6 +193,9 @@ def get_data():
         ingredients = ingredients.replace(";", " ")
         vocab.append(ingredients)
 
+    if(len(vocab) == 0):
+        return []
+    
     doctfidf = tfidf.fit_transform(vocab)
     querytfidf = tfidf.fit(vocab)
     querytfidf = querytfidf.transform([user_ingredients])
@@ -215,7 +220,7 @@ def get_data():
         filtered_data[i]["id"] = str(filtered_data[i]["id"])
         filtered_data[i]["cook_time"] = str(filtered_data[i]["cook_time"])
         filtered_data[i]["ingredients"] = filtered_data[i]["ingredients"].split(";")
-    
+    print(filtered_data)    
     #return recipes
     
     return filtered_data
