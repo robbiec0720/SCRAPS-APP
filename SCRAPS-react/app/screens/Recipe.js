@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
 import { useInfo } from '../context/infoContext';
 import { AuthContext } from '../context/authContext';
+import { styles } from '../styles/styles'
+import { recipeStyles } from '../styles/recipeStyles'
 import axios from 'axios';
 
 const handleLinkPress = async(url) => {
@@ -13,7 +15,7 @@ const handleLinkPress = async(url) => {
         if (supported) {
             await Linking.openURL(url);
         } else {
-            console.log("Don't know how to open URI: ", url);
+            console.log('Do not know how to open URI: ', url);
         }
     } catch (error) {
         console.error('Error opening link:', error);
@@ -24,28 +26,28 @@ const RecipeCard = ({ recipe, ingredients }) => {
     const diff = recipe.ingredients.filter(i => !ingredients.includes(i.toLowerCase()));
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{recipe.title}</Text>
+        <View>
+            <Text style={recipeStyles.title}>{recipe.title}</Text>
             <Text>
-                <Text style={styles.infoTitle}>Cook Time: </Text>
-                <Text style={styles.info}>{recipe.cook_time}</Text>
+                <Text style={recipeStyles.infoTitle}>Cook Time: </Text>
+                <Text style={recipeStyles.info}>{recipe.cook_time}</Text>
             </Text>
             
             <Text>
-                <Text style={styles.infoTitle}>Missing Ingredients: </Text>
+                <Text style={recipeStyles.infoTitle}>Missing Ingredients: </Text>
                 {diff.length > 0 && (
-                    <Text style={styles.info}>{diff.join(', ')}</Text>
+                    <Text style={recipeStyles.info}>{diff.join(', ')}</Text>
                 )}
                 {diff.length == 0 && (
-                    <Text style={styles.info}>none</Text>
+                    <Text style={recipeStyles.info}>none</Text>
                 )}
             </Text>
 
             <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
                 {recipe.link && (
                     <Text>
-                        <Text style={styles.infoTitle}>Recipe Link: </Text>
-                        <Text style={styles.link}>{recipe.link}</Text>
+                        <Text style={recipeStyles.infoTitle}>Recipe Link: </Text>
+                        <Text style={recipeStyles.link}>{recipe.link}</Text>
                     </Text>
                 )}
             </TouchableOpacity>
@@ -56,10 +58,10 @@ const RecipeCard = ({ recipe, ingredients }) => {
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         const { data } = await axios.post(
-            'http://192.168.1.129:9000/recommend', 
+            'http://10.183.165.168:9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
-        //console.log("data",data);
+        //console.log('data',data);
         return data;
     } catch (err) {
         console.log(err);
@@ -90,37 +92,41 @@ export default function Home({navigation}) {
 
     if(loading) {
         return (
-            <View style={styles.container}>
+            <View style={recipeStyles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.boldtext}>Recipes</Text>
+                    <Text style={styles.boldtext}>RECIPES</Text>
                 </View>
                 <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => navigation.navigate("Preference")}  
+                    onPress={() => navigation.navigate('Preference')}  
                 >
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
-                {recipes.length > 0 && (
-                    <ScrollView contentContainerStyle={styles.scrollContainer} maintainVisibleContentPosition={{ auto: true }}>
+                {recipes.length > 0 ? (
+                    <ScrollView styles={recipeStyles.scrollContainer}>
                         {recipes.map((recipe, index) => (
-                            <View key={index} style={styles.recipeContainer}>
+                            <View key={index} style={recipeStyles.recipeContainer}>
                                 <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
                             </View>
                         ))}
                     </ScrollView>
+                ) : (
+                    <View style={styles.instructionsContainer}>
+                        <Text style={styles.instructionsText}>No recipes where found</Text>
+                    </View>
                 )}
-                <StatusBar style="auto" />
+                <StatusBar style='auto' />
             </View>
     );}
     else {
         return (
-            <View style={styles.container}>
+            <View style={recipeStyles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.boldtext}>Loading Recipes...</Text>
+                    <Text style={styles.boldtext}>LOADING RECIPES...</Text>
                 </View>
                 <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => navigation.navigate("Preference")}  
+                    onPress={() => navigation.navigate('Preference')}  
                 >
                     <Text style={styles.buttonText}>Go Back</Text>
                 </TouchableOpacity>
@@ -128,80 +134,3 @@ export default function Home({navigation}) {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-    },
-    scrollContainer: {
-        width: '100%',
-        padding: 10
-    },
-    header: {
-        padding: 20,
-        backgroundColor: '#FA7070',
-        width: '100%',
-        alignItems: 'center',
-    },
-    boldtext: {
-        fontWeight: 'bold',
-        fontSize: 20, 
-        color: '#fff', 
-    },
-    backButton: {
-        width: '20%',
-        marginTop: 5,
-        marginLeft: 10,
-        backgroundColor: '#FA7070',
-        padding: 8,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 14,
-    },
-    recipeContainer: {
-        backgroundColor: '#ffffff',
-        borderRadius: 10,
-        padding: 20,
-        marginBottom: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        flexDirection: 'row',
-        // alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: '#FA7070',
-    },
-    infoTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    ingredientsContainer: {
-        marginBottom: 10,
-    },
-    info: {
-        fontSize: 14,
-        marginBottom: 5,
-    },
-    link: {
-        fontSize: 14,
-        marginBottom: 5, 
-        color: 'blue',
-        textDecorationLine: 'underline',
-    },
-});

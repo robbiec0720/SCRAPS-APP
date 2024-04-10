@@ -1,12 +1,9 @@
-import React, {useState, useContext} from "react";
-import { StatusBar } from 'expo-status-bar';
-import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { Alert, Text, View } from 'react-native';
 import axios from 'axios';
-import { AuthContext } from "../context/authContext";
-import InputField from "../component/InputField";
-import SubmitButton from "../component/SubmitButton";
-
+import InputField from '../component/InputField';
+import SubmitButton from '../component/SubmitButton';
+import { styles } from '../styles/styles'
 
 export default function ResetEmail({navigation}){
     const [password, setPassword] = useState('');
@@ -37,57 +34,37 @@ export default function ResetEmail({navigation}){
     }
 
     return(
-        <SafeAreaView style = {styles.container}>
+        <View style = {styles.homeContainer}>
             <View style = {styles.header}>
                 <Text style = {styles.boldtext}>Reset Password</Text>
             </View>
             <View>
                 <InputField
-                    inputFieldName={"Current Email"}
-                    keyboardType="email-address"
-                    autoComplete="email"
+                    inputFieldName={'Current Email'}
+                    keyboardType='email-address'
+                    autoComplete='email'
                     value={oldEmail}
                     setValue={setOldEmail}
                 />
                 <InputField
-                    inputFieldName={"New Email"}
-                    keyboardType="email-address"
-                    autoComplete="email"
+                    inputFieldName={'New Email'}
+                    keyboardType='email-address'
+                    autoComplete='email'
                     value={newEmail}
                     setValue={setNewEmail}
                 />
                 <InputField
-                    inputFieldName={"Password"}
+                    inputFieldName={'Password'}
                     value={password}
                     setValue={setPassword}
                     secureTextEntry={true}
                 />
             </View>
             <SubmitButton 
-                buttonName={"Submit"}
+                buttonName={'Submit'}
                 loading={loading}
                 handleSubmit={handleSubmit}
             />
-        </SafeAreaView>
+        </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#e1d5c9',
-    },
-    header: {
-        flex: 0,
-        padding: 20,
-        backgroundColor: '#FA7070',
-        width: '100%',
-        alignItems: 'center',
-    },
-    boldtext: {
-        fontWeight: 'bold',
-        fontSize: 20, 
-        color: '#fff', 
-    },
-
-})

@@ -45,7 +45,7 @@ export default function Login({navigation}) {
     // }
     // getLocalStorageData();
     return (
-        <View style={styles.container}>
+        <View style={styles.homeContainer}>
             <View style={styles.header}>
                 <Text style={styles.boldtext}>USER PROFILE</Text>
             </View>
@@ -84,48 +84,3 @@ export default function Login({navigation}) {
       </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      marginTop: '15%',
-      height: '100%',
-      backgroundColor: '#e1d5c9',
-    },
-    header: {
-        flex: 0,
-        padding: 20,
-        backgroundColor: '#FA7070',
-        width: '100%',
-        alignItems: 'center',
-    },
-    boldtext: {
-        fontWeight: 'bold',
-        fontSize: 20, 
-        color: '#fff', 
-    },
-    registerContainer: {
-      // backgroundColor: 'blue',
-      margin: '10%',
-    },
-    createAccountText: {
-      fontSize: 25,
-      fontWeight: "bold",
-      textAlign: 'center',
-      marginBottom: 15,
-    },
-    inputField: {
-      height:40,
-      marginBottom:20,
-      backgroundColor:'#ffffff',
-      borderRadius:10,
-      marginTop: 10,
-      paddingLeft: 10,
-    },
-    loginText:{
-      textAlign: 'center',
-    },
-    loginLinkText:{
-      color:'red',
-    }
-  });
-    
