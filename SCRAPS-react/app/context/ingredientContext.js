@@ -5,7 +5,7 @@ const IngredientContext = createContext();
 export const useIngredients = () => useContext(IngredientContext);
 
 export const IngredientProvider = ({ children }) => {
-    const [ingredients, setIngredients] = useState(['tomato', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't']);
+    const [ingredients, setIngredients] = useState([]);
   
     const addIngredient = (ingredient) => {
         setIngredients((currentIngredients) => [...currentIngredients, ingredient.toLowerCase()]);
