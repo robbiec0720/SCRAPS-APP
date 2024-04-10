@@ -7,7 +7,7 @@ import { AuthContext } from '../context/authContext';
 import { styles } from '../styles/styles'
 import { recipeStyles } from '../styles/recipeStyles'
 import axios from 'axios';
-import Config from "react-native-config";
+import { EXPO_URL } from "@env";
 
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -59,7 +59,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         const { data } = await axios.post(
-            Config.API_URL + '/recommend', 
+            `${EXPO_URL}`+'/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log('data',data);

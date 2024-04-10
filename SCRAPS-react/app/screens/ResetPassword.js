@@ -4,7 +4,7 @@ import axios from 'axios';
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
 import { styles } from '../styles/styles'
-import Config from "react-native-config";
+import { EXPO_URL } from "@env";
 
 export default function ResetPassword({navigation}){
     const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ export default function ResetPassword({navigation}){
             }
             setLoading(false);
             const { data } = await axios.post(
-                Config.API_URL + '/api/v1/user/resetPassword', 
+                `${EXPO_URL}`+'/api/v1/user/resetPassword', 
                 {oldPassword, email, newPassword}
             );
             alert(data && data.message);
