@@ -1,9 +1,11 @@
 import React, {useState, useContext} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { AuthContext } from "../context/authContext";
+import { styles } from '../styles/styles'
+import { loginStyles } from '../styles/loginStyles'
 import InputField from "../component/InputField";
 import SubmitButton from "../component/SubmitButton";
 
@@ -25,7 +27,7 @@ export default function Login({navigation}) {
           //console.log('Login data ==> ', {username, password});
           setLoading(false);
           const { data } = await axios.post(
-            'http://192.168.1.129:8080/api/v1/user/login', 
+            'http://10.228.214.152:8080/api/v1/user/login', 
             {username, password}
           );
           setLogin(data);
@@ -49,8 +51,8 @@ export default function Login({navigation}) {
             <View style={styles.header}>
                 <Text style={styles.boldtext}>USER PROFILE</Text>
             </View>
-            <View style={styles.registerContainer}>
-                <Text style={styles.createAccountText}>Login</Text>
+            <View style={loginStyles.registerContainer}>
+                <Text style={loginStyles.createAccountText}>Login</Text>
                 <View style={{ marginHorizontal: 20}}>
                    <InputField
                     inputFieldName={'Username'} 
@@ -71,10 +73,10 @@ export default function Login({navigation}) {
              loading={loading}
              handleSubmit={handleSubmit}
              />
-            <Text style={styles.loginText}>
+            <Text style={loginStyles.loginText}>
                 Don't have an accountt?{" "} 
                 <Text 
-                    style={styles.loginLinkText}
+                    style={loginStyles.loginLinkText}
                     onPress={() => navigation.navigate('Register')}
                 >
                     Register here
