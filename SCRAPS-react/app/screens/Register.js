@@ -25,7 +25,7 @@ export default function Register({navigation}) {
           }
           //console.log('Register data ==> ', {username, email, password});
           const { data } = await axios.post(
-            `${EXPO_URL}`+'/api/v1/user/register', 
+            `${EXPO_URL}`+':8080/api/v1/user/register', 
             {username, email, password}
           );
           alert(data && data.message);

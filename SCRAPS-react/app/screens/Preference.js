@@ -20,7 +20,7 @@ export default function Preference({navigation}) {
 
     const handleRemoveIngredient = (index) => {
         removeIngredient(index);
-        console.log(ingredients);
+        // console.log(ingredients);
     };
 
     const handleTextInputFocus = (textInputRef) => {

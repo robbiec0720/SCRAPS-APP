@@ -22,7 +22,7 @@ export default function ResetEmail({navigation}){
             }
             setLoading(false);
             const { data } = await axios.post(
-                `${EXPO_URL}`+'/api/v1/user/resetEmail', 
+                `${EXPO_URL}`+':8080/api/v1/user/resetEmail', 
                 {oldEmail, newEmail, password}
             );
             alert(data && data.message);

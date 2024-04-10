@@ -22,7 +22,7 @@ export default function ResetPassword({navigation}){
             }
             setLoading(false);
             const { data } = await axios.post(
-                `${EXPO_URL}`+'/api/v1/user/resetPassword', 
+                `${EXPO_URL}`+':8080/api/v1/user/resetPassword', 
                 {oldPassword, email, newPassword}
             );
             alert(data && data.message);

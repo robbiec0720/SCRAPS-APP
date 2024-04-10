@@ -28,7 +28,7 @@ export default function Login({navigation}) {
           //console.log('Login data ==> ', {username, password});
           setLoading(false);
           const { data } = await axios.post(
-            `${EXPO_URL}`+'/api/v1/user/login', 
+            `${EXPO_URL}`+':8080/api/v1/user/login', 
             {username, password}
           );
           setLogin(data);
