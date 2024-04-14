@@ -7,7 +7,7 @@ import { AuthContext } from '../context/authContext';
 import { styles } from '../styles/styles'
 import { recipeStyles } from '../styles/recipeStyles'
 import axios from 'axios';
-import Config from "react-native-config";
+import { EXPO_URL } from "@env";
 
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -24,7 +24,10 @@ const handleLinkPress = async(url) => {
 };
 
 const RecipeCard = ({ recipe, ingredients }) => {
+    // console.log('recipe ingredients', recipe.ingredients)
+    // console.log('user ingredeints', ingredients)
     const diff = recipe.ingredients.filter(i => !ingredients.includes(i.toLowerCase()));
+    // console.log('diff', diff)
 
     return (
         <View>
@@ -58,8 +61,9 @@ const RecipeCard = ({ recipe, ingredients }) => {
 
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
+        console.log(ingredients);
         const { data } = await axios.post(
-            'http:/10.228.214.152:9000/recommend', 
+            `${EXPO_URL}`+':9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log('data',data);

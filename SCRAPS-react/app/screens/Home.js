@@ -6,6 +6,7 @@ import { useIngredients } from '../context/ingredientContext';
 import { styles } from '../styles/styles'
 import { homeStyles } from '../styles/homeStyles'
 import * as FileSystem from 'expo-file-system';
+import {EXPO_URL} from '@env';
 
 export default function Home({navigation}) {
     const { images, setImages } = useImages();
@@ -22,7 +23,7 @@ export default function Home({navigation}) {
                 //     encoding: FileSystem.EncodingType.Base64,
 
                 // });
-                const data = await FileSystem.uploadAsync('http:/10.228.214.152:9000/detect',
+                const data = await FileSystem.uploadAsync(`${EXPO_URL}`+':9000/detect',
                 img, {
                     headers: {
                         'content-type': 'image/jpeg'

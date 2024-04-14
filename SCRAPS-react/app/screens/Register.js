@@ -6,7 +6,7 @@ import { loginStyles } from '../styles/loginStyles'
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
 import axios from 'axios';
-import Config from "react-native-config";
+import { EXPO_URL } from "@env";
 
 
 export default function Register({navigation}) {
@@ -25,7 +25,7 @@ export default function Register({navigation}) {
           }
           //console.log('Register data ==> ', {username, email, password});
           const { data } = await axios.post(
-            Config.API_URL + '/api/v1/user/register', 
+            `${EXPO_URL}`+':8080/api/v1/user/register', 
             {username, email, password}
           );
           alert(data && data.message);

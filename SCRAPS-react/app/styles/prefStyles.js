@@ -1,11 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export const prefStyles = StyleSheet.create({
+    container: {
+        marginTop: '15%',
+        height: '100%',
+        backgroundColor: '#e1d5c9',
+        paddingBottom: 80
+    },
     inputContainer: {
         flexDirection: 'row',
         padding: 10,
         marginHorizontal: 5,
-        marginBottom: 70,
     },
     itemContainer: {
         flexDirection: 'row',
@@ -16,9 +21,9 @@ export const prefStyles = StyleSheet.create({
         backgroundColor: '#e1d5c9'
     },
     scrollContainer: {
-        height: '35%', 
-        width: '100%', 
-        padding: 10,
+        height: '40%', 
+        width: '100%',
+        paddingHorizontal: 10
     },
     table: {
         flex: 1,

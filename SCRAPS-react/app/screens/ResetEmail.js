@@ -4,7 +4,7 @@ import axios from 'axios';
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
 import { styles } from '../styles/styles'
-import Config from "react-native-config";
+import { EXPO_URL } from "@env";
 
 export default function ResetEmail({navigation}){
     const [password, setPassword] = useState('');
@@ -22,7 +22,7 @@ export default function ResetEmail({navigation}){
             }
             setLoading(false);
             const { data } = await axios.post(
-                Config.API_URL + '/api/v1/user/resetEmail', 
+                `${EXPO_URL}`+':8080/api/v1/user/resetEmail', 
                 {oldEmail, newEmail, password}
             );
             alert(data && data.message);
