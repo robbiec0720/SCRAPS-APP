@@ -117,7 +117,7 @@ export default function Home({navigation}) {
                     </ScrollView>
                 ) : (
                     <View style={styles.instructionsContainer}>
-                        <Text style={styles.instructionsText}>No recipes where found</Text>
+                        <Text style={styles.instructionsText}>No recipes were found</Text>
                     </View>
                 )}
                 <StatusBar style='auto' />

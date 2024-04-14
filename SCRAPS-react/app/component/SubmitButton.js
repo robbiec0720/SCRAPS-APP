@@ -28,10 +28,10 @@ const stlyes = StyleSheet.create({
         borderRadius: 80,
         justifyContent: 'center',
         marginBottom: 20,
+        alignItems: 'center'
     },
     btnText: {
         color: '#ffffff',
-        textAlign: 'center',
         // marginLeft: "5%",
         fontSize: 24,
         fontWeight: '400',
