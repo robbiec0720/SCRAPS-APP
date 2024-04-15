@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, View } from 'react-native';
+import { AuthContext } from '../context/authContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles'
 import InputField from '../component/InputField';
@@ -10,6 +12,7 @@ import { EXPO_URL } from "@env";
 
 
 export default function Register({navigation}) {
+    const [login, setLogin] = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,12 +32,17 @@ export default function Register({navigation}) {
             {username, email, password}
           );
           alert(data && data.message);
-          navigation.navigate('UserProfile.js');
-          // setLoading(false);
+
+          const {data: data2}  = await axios.post(
+            `${EXPO_URL}`+':8080/api/v1/user/login', 
+            {username, password}
+          );
+          setLogin(data2);
+          await AsyncStorage.setItem('@auth', JSON.stringify(data2));
+          navigation.navigate('UserProfile');
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
-            //console.log(error);
         }
     }
 

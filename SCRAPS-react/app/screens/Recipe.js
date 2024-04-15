@@ -31,29 +31,37 @@ const RecipeCard = ({ recipe, ingredients }) => {
 
     return (
         <View>
-            <Text style={recipeStyles.title}>{recipe.title}</Text>
-            <Text>
-                <Text style={recipeStyles.infoTitle}>Cook Time: </Text>
-                <Text style={recipeStyles.info}>{recipe.cook_time}</Text>
-            </Text>
-            
-            <Text>
-                <Text style={recipeStyles.infoTitle}>Missing Ingredients: </Text>
-                {diff.length > 0 && (
-                    <Text style={recipeStyles.info}>{diff.join(', ')}</Text>
-                )}
-                {diff.length == 0 && (
-                    <Text style={recipeStyles.info}>none</Text>
-                )}
-            </Text>
-
             <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
-                {recipe.link && (
-                    <Text>
-                        <Text style={recipeStyles.infoTitle}>Recipe Link: </Text>
-                        <Text style={recipeStyles.link}>{recipe.link}</Text>
-                    </Text>
-                )}
+                <Text style={recipeStyles.title}>{recipe.title}</Text>
+
+                <Text>
+                    <Text style={recipeStyles.infoTitle}>Cook Time: </Text>
+                    <Text style={recipeStyles.info}>{recipe.cook_time}</Text>
+                </Text>
+                
+                <Text>
+                    <Text style={recipeStyles.infoTitle}>Missing Ingredients: </Text>
+                    {diff.length > 0 && (
+                        <Text style={recipeStyles.info}>{diff.join(', ')}</Text>
+                    )}
+                    {diff.length == 0 && (
+                        <Text style={recipeStyles.info}>none</Text>
+                    )}
+                </Text>
+                
+                <Text>
+                    <Text style={recipeStyles.infoTitle}>Match Score: </Text>
+                    <Text style={recipeStyles.info}>TBD</Text>
+                </Text>
+                
+                {/* <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
+                    {recipe.link && (
+                        <Text>
+                            <Text style={recipeStyles.link}>Recipe Link</Text>
+                            <Text style={recipeStyles.link}>{recipe.link}</Text>
+                        </Text>
+                    )}
+                </TouchableOpacity> */}
             </TouchableOpacity>
       </View>
     );
