@@ -29,7 +29,7 @@ export default function Register({navigation}) {
             {username, email, password}
           );
           alert(data && data.message);
-          navigation.navigate('Login');
+          navigation.navigate('UserProfile.js');
           // setLoading(false);
         } catch (error) {
             alert(error.response.data.message);
