@@ -13,15 +13,25 @@ from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras import layers 
 from tensorflow.keras.layers import Dense, Activation, Dropout, Conv2D, MaxPool2D, GlobalAveragePooling2D
 from tensorflow.keras.models import Sequential
+from inference_sdk import InferenceHTTPClient, InferenceConfiguration
 import keras
 import tensorflow as tf
 import json
-TEMP_PATH = "temp_storage/"
 load_dotenv()
 
 
 
 def load_model():
+    cli = InferenceHTTPClient(
+        api_url=os.getenv('FLOW_URL'),
+        api_key=os.getenv('FLOW_KEY')
+    )
+    config = InferenceConfiguration(confidence_threshold=0.05)
+    cli.configure(config)
+
+
+
+
     input_shape = (256, 256, 3)
 
     bmodel = InceptionV3(weights="imagenet", input_shape=input_shape, include_top=False)
@@ -34,17 +44,19 @@ def load_model():
     model.add(Dense(36, activation='softmax'))
     model.summary()
     model.load_weights("model/temp_model.hdf5")
-    return model
+    return (cli, model)
 
 def load_classes():
     classes = []
     with open("classes.json", "r") as f:
         classes = json.load(f)
     return classes
-model = load_model()
+
+
+detector, model = load_model()
 classes = load_classes()
 
-def predict(img):
+def classify(img):
     img = tf.convert_to_tensor(img)
     img_tensor = tf.expand_dims(img, 0)
     pred =  model.predict(img_tensor)
@@ -54,8 +66,7 @@ def predict(img):
         if val > max_val:
             max_val = val
             max_indx = i
-    print(classes[max_indx])
-    return [classes[max_indx]]
+    return classes[max_indx]
 
 
 
@@ -230,26 +241,29 @@ def run_model():
     imgBytes = request.get_data()
     nparr = np.fromstring(imgBytes, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    # img = []
-    # temp_file = NamedTemporaryFile(suffix=".jpeg")
-    # temp_file.write(imgBytes)
-    # temp_file.flush()
-    # img = cv2.imread(temp_file.name)
-    # temp_file.close()
-    # print(img, flush=True)
-    # with open(NamedTemporaryFile(), 'wb') as f:
-    #     f.write(imgBytes)
-    #     img = cv2.imread(f.name)
+
+    result = detector.infer(img, model_id=os.getenv("FLOW_MODEL_ID"))
+
+    classes = set()
+    for pred in result["predictions"]:
+        if pred['confidence'] > 0.90:
+            classes.add(pred['class'])
+            continue
+        x = int(pred['x'] - (pred['width'] / 2))
+        y = int(pred['y'] - (pred['height'] / 2))
+        xi = int(x + pred['width'])
+        yi = int(y + pred['height'])
+        crimg  = img[y:yi, x:xi]
+        crimg = cv2.resize(img, (256, 256))
+        classes.add(classify(crimg))
         
-        
-    img = cv2.resize(img, (256, 256))
+    # img = cv2.resize(img, (256, 256))
     # img = tf.expand_dims(img, 0)
 
 
     # return jsonify({"ingredients" : ["apple", "banana", "ground beef", "scallions"]})
     ##get classes
-    rclasses = predict(img)
-    return jsonify({"ingredients": rclasses})
+    return jsonify({"ingredients": list(classes)})
 
 
 
