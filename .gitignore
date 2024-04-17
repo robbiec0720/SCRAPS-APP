@@ -7,6 +7,9 @@ settings.json
 SCRAPS-react/node_modules/
 server/node_modules/
 server/flask/venv
+server/flask/model
+server/flask/__pycache__/
+
 
 # Expo
 .expo/
