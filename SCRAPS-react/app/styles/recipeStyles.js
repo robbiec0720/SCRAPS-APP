@@ -45,7 +45,8 @@ export const recipeStyles = StyleSheet.create({
         marginBottom: 5,
     },
     link: {
-        fontSize: 14,
+        fontSize: 18,
+        fontWeight: 'bold',
         marginBottom: 5, 
         color: 'blue',
         textDecorationLine: 'underline',

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React, { useContext, useState } from 'react';
 import SubmitButton from '../component/SubmitButton';
 import { AuthContext } from '../context/authContext';
@@ -8,7 +8,7 @@ import axios from 'axios';
 import { EXPO_URL } from "@env";
 
 
-export default function DietaryRestrictions(){
+export default function DietaryRestrictions({navigation}){
     const [login, setLogin] = useContext(AuthContext);
     const [clickedButtons, setClickedButtons] = useState({
         Shellfish: false,
@@ -53,6 +53,7 @@ export default function DietaryRestrictions(){
                 }
                 );
             alert(data && data.message);
+            navigation.navigate('UserProfile');
         } catch (err) {
             console.log(err);
         }
@@ -145,7 +146,7 @@ export default function DietaryRestrictions(){
                     </View>
                     <View style={loginStyles.submit}>
                             <SubmitButton 
-                                buttonName={'DONE WITH PREFERENCES'} 
+                                buttonName={'Save Preferences'} 
                                 handleSubmit={handleSave}
                             />
                     </View>

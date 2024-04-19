@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const userRoutes = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
 
-dotenv.config();
+dotenv.config({path: '../.env'});
 
 const app = express();
 

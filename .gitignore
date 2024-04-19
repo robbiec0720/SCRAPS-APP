@@ -2,8 +2,14 @@
 full_dataset.tsv
 settings.json
 
+
 # dependencies
-node_modules/
+SCRAPS-react/node_modules/
+server/node_modules/
+server/flask/venv
+server/flask/model
+server/flask/__pycache__/
+
 
 # Expo
 .expo/
@@ -31,7 +37,7 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env
 
 # typescript
 *.tsbuildinfo
