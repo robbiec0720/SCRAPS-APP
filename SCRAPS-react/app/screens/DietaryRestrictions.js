@@ -5,7 +5,7 @@ import { AuthContext } from '../context/authContext';
 import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles';
 import axios from 'axios';
-import { EXPO_URL } from "@env";
+import { EXPO_NODE_URL } from "@env";
 
 
 export default function DietaryRestrictions({navigation}){
@@ -38,7 +38,7 @@ export default function DietaryRestrictions({navigation}){
     const handleSave = async () => {
         try {
             const { data } = await axios.post(
-                `${EXPO_URL}`+':8080/api/v1/user/updateDietaryRestrictions', 
+                `${EXPO_NODE_URL}`+':8080/api/v1/user/updateDietaryRestrictions', 
                 {
                     vegetarian: login.user.vegetarian,
                     vegan: login.user.vegan,

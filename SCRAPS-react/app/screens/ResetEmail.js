@@ -4,7 +4,7 @@ import axios from 'axios';
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
 import { styles } from '../styles/styles'
-import { EXPO_URL } from "@env";
+import { EXPO_NODE_URL } from "@env";
 
 export default function ResetEmail({navigation}){
     const [password, setPassword] = useState('');
@@ -22,7 +22,7 @@ export default function ResetEmail({navigation}){
             }
             setLoading(false);
             const { data } = await axios.post(
-                `${EXPO_URL}`+':8080/api/v1/user/resetEmail', 
+                `${EXPO_NODE_URL}`+':8080/api/v1/user/resetEmail', 
                 {oldEmail, newEmail, password}
             );
             alert(data && data.message);

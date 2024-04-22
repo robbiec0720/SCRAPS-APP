@@ -7,7 +7,7 @@ import { AuthContext } from '../context/authContext';
 import { styles } from '../styles/styles'
 import { recipeStyles } from '../styles/recipeStyles'
 import axios from 'axios';
-import { EXPO_URL } from "@env";
+import { EXPO_FLASK_URL } from "@env";
 
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -71,7 +71,7 @@ const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
         console.log(ingredients);
         const { data } = await axios.post(
-            `${EXPO_URL}`+':9000/recommend', 
+            `${EXPO_FLASK_URL}`+':9000/recommend', 
             {cookTime, missing, userjson, ingredients}
             );
         //console.log('data',data);

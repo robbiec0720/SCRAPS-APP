@@ -8,7 +8,7 @@ import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles'
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
-import { EXPO_URL } from '@env';
+import { EXPO_NODE_URL } from '@env';
 
 export default function Login({navigation}) {
     const [login, setLogin] = useContext(AuthContext);
@@ -28,7 +28,7 @@ export default function Login({navigation}) {
           //console.log('Login data ==> ', {username, password});
           setLoading(false);
           const { data } = await axios.post(
-            `${EXPO_URL}`+':8080/api/v1/user/login', 
+            `${EXPO_NODE_URL}`+':8080/api/v1/user/login', 
             {username, password}
           );
           setLogin(data);
