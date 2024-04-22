@@ -75,7 +75,7 @@ export default function Login({navigation}) {
              handleSubmit={handleSubmit}
              />
             <Text style={loginStyles.loginText}>
-                Don't have an accountt?{' '} 
+                Don't have an account?{' '} 
                 <Text 
                     style={loginStyles.loginLinkText}
                     onPress={() => navigation.navigate('Register')}

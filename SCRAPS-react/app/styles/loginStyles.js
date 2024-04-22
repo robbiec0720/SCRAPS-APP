@@ -72,7 +72,7 @@ export const loginStyles = StyleSheet.create({
         fontSize: 20, 
         color: '#fff', 
         marginBottom: '5%',
-        alignText: 'center'
+        alignItems: 'center'
     },
     card: {
         borderRadius: 10,
