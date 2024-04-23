@@ -51,7 +51,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
                 
                 <Text>
                     <Text style={recipeStyles.infoTitle}>Match Score: </Text>
-                    <Text style={recipeStyles.info}>TBD</Text>
+                    <Text style={recipeStyles.info}>{Math.round(recipe.score * 10000) / 100}%</Text>
                 </Text>
                 
                 {/* <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>

@@ -125,58 +125,44 @@ def get_data():
 
     cook_time = data['cookTime']
     max_missing_ingredients = data['missing']
-    user = [] if 'userjson' not in data else data['userjson']
+    user = json.loads(data['userjson']) if 'userjson' in data else []
 
     user_ingredients = data['ingredients']
     user_ingredients = str(user_ingredients)
     print(user)
 
-    # s_ingredients = data['ingredients']
-    # print(s_ingredients)
-    # try:
-    #     data = request.get_json()
-    #     if not data:
-    #         return jsonify({'error: no JSON recieved'}), 400
-        
-    #     cookTime = data.get('cookTime')
-    #     print("COOKTIME", cookTime)
-
-    #     return jsonify({'message': cookTime }), 200 
-    
-    # except Exception as e:
-    #     return jsonify({'error': str(e)}), 400
-    
     recipes = fetch_recipes()
 
     #Filter based on diet restrictions & Preference
     
-    #Vegetarian
     if user != []:
-        if(user[3]):
+        #Vegetarian
+        if (user["vegetarian"]):
+            print(1)
             recipes = [recipe for recipe in recipes if recipe[5]]
         #Vegan
-        if(user[4]):
+        if (user["vegan"]):
             recipes = [recipe for recipe in recipes if recipe[4]]
         #halal
-        if(user[5]):
+        if(user["halal"]):
             recipes = [recipe for recipe in recipes if recipe[8]]
         #Kosher
-        if(user[6]):
+        if(user["kosher"]):
             recipes = [recipe for recipe in recipes if recipe[9]]
         #Lactose
-        if(user[7]):
+        if(user["lactose"]):
             recipes = [recipe for recipe in recipes if recipe[6]]
         #Gluten
-        if(user[8]):
+        if(user["gluten"]):
             recipes = [recipe for recipe in recipes if recipe[7]]
         #Nut
-        if(user[9]):
+        if(user["nut"]):
             recipes = [recipe for recipe in recipes if recipe[10]]
         #Shellfish
-        if(user[10]):
+        if(user["shellfish"]):
             recipes = [recipe for recipe in recipes if recipe[11]]
         #Pescatarian
-        if(user[11]):
+        if(user["pescatarian"]):
             recipes = [recipe for recipe in recipes if recipe[12]]
    
     #Filter based on Cook time
@@ -214,22 +200,22 @@ def get_data():
    
     zipped_recipes = list(zip(filtered_recipes, cosineSimilarities))
     sorted_recipes = sorted(zipped_recipes, key=lambda x: x[1], reverse=True)
-    sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
+    # sorted_recipes = [filtered_recipes[0] for filtered_recipes in sorted_recipes]
 
     num_recipes = 20
     limited_recipes = sorted_recipes[:num_recipes]
 
-
-    desired_fields = {0 : "id", 1 : "title", 2 : "link", 3 : "ingredients", 13 :"cook_time"}
-    
-
-    filtered_data = [{desired_fields[key]: recipe[key] for key in desired_fields} for recipe in limited_recipes]
-
-    for i in range(num_recipes):
-        filtered_data[i]["id"] = str(filtered_data[i]["id"])
-        filtered_data[i]["cook_time"] = str(filtered_data[i]["cook_time"])
-        filtered_data[i]["ingredients"] = filtered_data[i]["ingredients"].split(";")
-    print(filtered_data)    
+    filtered_data = []
+    for recipe, similarity in limited_recipes:
+        filtered_recipe = {}
+        filtered_recipe["id"] = recipe[0]
+        filtered_recipe["title"] = recipe[1]
+        filtered_recipe["link"] = recipe[2]
+        filtered_recipe["ingredients"] = recipe[3].split(";")
+        filtered_recipe["cook_time"] = recipe[13]
+        filtered_recipe["score"] = similarity
+        # print(filtered_data)
+        filtered_data.append(filtered_recipe)   
     #return recipes
     
     return filtered_data
