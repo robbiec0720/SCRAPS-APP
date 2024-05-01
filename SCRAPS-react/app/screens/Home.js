@@ -16,8 +16,8 @@ import {EXPO_FLASK_URL} from '@env';
 
 /**
  * Component for the Home screen.
- * 
- * This component displays the SCRAPS logo in the header.
+ * @function Home
+ * @description This component displays the SCRAPS logo in the header.
  * If there are images available, it renders them in a scrollable view with a 'Remove' button for each image.
  * If there are no images, it displays instructions on how to use SCRAPS.
  * It provides a 'Continue' button to navigate to the preference screen.
@@ -25,24 +25,28 @@ import {EXPO_FLASK_URL} from '@env';
  * @param {object} navigation - The navigation object used for navigating between screens.
  * @returns {JSX.Element} - The rendered Home screen component.
  */
-
 export default function Home({navigation}) {
     // Get images and functions related to images from the image context
     const { images, setImages } = useImages();
     // Get ingredients and functions related to ingredients from the ingredient context
     const {ingredients, addIngredient} = useIngredients();
 
-    // Function to remove an image from the images array
+    /**
+     * Function to remove an image from the images array
+     * @function removeImage
+     * @returns {void}
+     */
     const removeImage = (index) => {
         setImages(images.filter((_, i) => i !== index));
     };
 
     /**
      * Function for navigating to the preference screen based on detected ingredients in images.
-     * 
-     * This function iterates through the images array, sends each image to the server for ingredient detection,
+     * @function navigatePreference
+     * @description This function iterates through the images array, sends each image to the server for ingredient detection,
      * and updates the ingredient list based on the detected ingredients.
      * After processing all images, it navigates to the preference screen.
+     * @returns {void}
      */
 
     const navigatePreference = async () => {

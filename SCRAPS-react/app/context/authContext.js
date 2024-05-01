@@ -10,14 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const AuthContext = createContext();
 
 /**
- * A context provider component for managing authentication state.
- * 
+ * @description A context provider component for managing authentication state.
+ * @function AuthProvider 
  * @param {object} props - The props object containing the following properties:
  * @param {React.ReactNode} props.children - The child components that will have access to the authentication context.
- * @returns {JSX.Element} A context provider component wrapping its children with the authentication context.
+ * @returns {JSX.Element} - context provider component wrapping its children with the authentication context.
  */
-
-
 const AuthProvider = ({ children }) => {
     const[login, setLogin] = useState({
         user:null,
@@ -25,8 +23,9 @@ const AuthProvider = ({ children }) => {
     
     /**
      * Function for loading user authentication data from local storage.
-     * 
-     * This function asynchronously retrieves user authentication data
+     * @function useEffect
+     * @returns {void}
+     * @description This function asynchronously retrieves user authentication data
      * from local storage using the specified key '@auth'. It then parses
      * the retrieved data and updates the component state with the user
      * data if available.

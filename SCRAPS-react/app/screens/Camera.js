@@ -14,10 +14,10 @@ import * as Haptics from 'expo-haptics';
 
 /**
  * A screen component for capturing images using the device camera.
- * 
- * @returns {JSX.Element} A screen component containing camera functionality, including single and batch mode image capture, flash control, and image saving.
+ * @function CameraScreen 
+ * @returns {JSX.Element}
+ * @description  A screen component containing camera functionality, including single and batch mode image capture, flash control, and image saving.
  */
-
 export default function CameraScreen() {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const[image, setImage] = useState([]);
@@ -29,11 +29,11 @@ export default function CameraScreen() {
 
     /**
      * Effect hook for requesting camera permissions and setting camera permission status.
-     * 
-     * This effect hook is used to asynchronously request camera permissions and set the state
+     * @function useEffect
+     * @returns {void}
+     * @description This effect hook is used to asynchronously request camera permissions and set the state
      * variable `hasCameraPermission` based on the permission status.
      */
-
     useEffect(() => {
         (async () => {
             MediaLibrary.requestPermissionsAsync();
@@ -48,8 +48,9 @@ export default function CameraScreen() {
 
     /**
      * Function for taking a picture with the camera.
-     * 
-     * This function utilizes the camera reference (`cameraRef`) to take a picture asynchronously
+     * @function takePicture
+     * @returns {void}
+     * @description This function utilizes the camera reference (`cameraRef`) to take a picture asynchronously
      * when invoked. It triggers haptic feedback to indicate the action, then captures the picture
      * using the `takePictureAsync` method provided by the camera reference. The captured image URI
      * is then added to the `image` state array based on the current mode ('single' or 'batch').
@@ -73,14 +74,14 @@ export default function CameraScreen() {
 
     /**
      * Function for saving captured images.
-     * 
-     * This function checks if there are any captured images available in the `image` state array.
+     * @function saveImage
+     * @returns {void}
+     * @description This function checks if there are any captured images available in the `image` state array.
      * If images are present, it iterates over each image URI and adds them to the image context
      * using the `addImage` function provided by the image context. After successfully adding the
      * images, it clears the `image` state array. If any errors occur during the process, they are
      * logged to the console.
      */
-    
     const saveImage = async () => {
         if (image.length > 0) {
             try {

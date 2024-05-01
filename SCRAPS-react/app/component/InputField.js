@@ -8,7 +8,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 /**
  * A customizable input field component.
- * 
+ * @function InputField
  * @param {object} props - The props object containing the following properties:
  * @param {string} props.inputFieldName - The label displayed above the input field.
  * @param {string} [props.autoComplete] - Determines whether auto-completion is enabled for the input field.

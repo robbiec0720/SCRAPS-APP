@@ -16,9 +16,8 @@ import { EXPO_FLASK_URL } from "@env";
 
 /**
  * Function to handle pressing a link.
- * 
- * This function checks if the provided URL can be opened, and if supported, it opens the URL using the device's default browser.
- * 
+ * @function handleLinkPress
+ * @description This function checks if the provided URL can be opened, and if supported, it opens the URL using the device's default browser.
  * @param {string} url - The URL to be opened.
  * @returns {Promise<void>} A promise that resolves once the URL is opened or rejects if an error occurs.
  */
@@ -38,10 +37,9 @@ const handleLinkPress = async(url) => {
 
 /**
  * Recipe card component to display recipe information.
- * 
- * This component renders a recipe card with details such as title, cook time, missing ingredients, and match score.
+ * @function RecipeCard
+ * @description This component renders a recipe card with details such as title, cook time, missing ingredients, and match score.
  * It also provides a clickable link to view the full recipe.
- * 
  * @param {object} recipe - The recipe object containing information such as title, cook time, ingredients, score, and link.
  * @param {string[]} ingredients - An array of ingredients available to the user.
  * @returns {JSX.Element} A recipe card component displaying recipe details and a clickable link to view the full recipe.
@@ -92,11 +90,10 @@ const RecipeCard = ({ recipe, ingredients }) => {
 
 /**
  * Function to call the backend API to fetch recommended recipes.
- * 
- * This function sends a POST request to the backend server endpoint '/recommend' with the provided parameters.
+ * @function CallRecipes
+ * @description This function sends a POST request to the backend server endpoint '/recommend' with the provided parameters.
  * It expects the server to respond with recommended recipes based on the user's ingredients, cook time preference,
  * and maximum missing ingredients allowed.
- * 
  * @param {string[]} ingredients - An array of ingredients available to the user.
  * @param {number} cookTime - The maximum cook time preference specified by the user (in minutes).
  * @param {number} missing - The maximum number of missing ingredients allowed in a recommended recipe.
@@ -119,11 +116,10 @@ const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
 
 /**
  * Home component responsible for displaying recommended recipes based on user preferences.
- * 
- * This component fetches and displays recommended recipes based on the user's ingredients, cook time preference, and maximum allowed missing ingredients.
+ * @function RecipeHome
+ * @description This component fetches and displays recommended recipes based on the user's ingredients, cook time preference, and maximum allowed missing ingredients.
  * It utilizes the `useIngredients` and `useInfo` hooks to access ingredient and preference data.
  * The `useContext` hook is used to access authentication context to retrieve user information.
- * 
  * @param {object} navigation - Navigation object for navigating between screens.
  */
 export default function Home({navigation}) {
@@ -137,12 +133,11 @@ export default function Home({navigation}) {
 
     /**
      * React useEffect hook to fetch and set recommended recipes when the component mounts.
-     * 
-     * This effect runs once when the component mounts. It asynchronously calls the CallRecipes function to fetch
+     * @function useEffect
+     * @description This effect runs once when the component mounts. It asynchronously calls the CallRecipes function to fetch
      * recommended recipes based on the user's ingredients, cook time preference, and maximum allowed missing ingredients.
      * Upon receiving the recipes from the server, it sets the recipes state and updates the loading state to indicate
      * that the data has been loaded.
-     * 
      * @param {string[]} ingredients - An array of ingredients available to the user.
      * @param {number} cookTime - The maximum cook time preference specified by the user (in minutes).
      * @param {number} missing - The maximum number of missing ingredients allowed in a recommended recipe.

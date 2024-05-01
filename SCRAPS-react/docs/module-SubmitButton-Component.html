@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Button-Component</title>
+    <title>JSDoc: Module: SubmitButton-Component</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Button-Component</h1>
+    <h1 class="page-title">Module: SubmitButton-Component</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Defines the button for the application.</p></div>
+            <div class="description"><p>Defines the Submit Button for the application.</p></div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_Button.js.html">component/Button.js</a>, <a href="component_Button.js.html#line5">line 5</a>
+        <a href="component_SubmitButton.js.html">component/SubmitButton.js</a>, <a href="component_SubmitButton.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -144,7 +144,7 @@
     
 
     
-    <h4 class="name" id="~Button"><span class="type-signature">(inner) </span>Button<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    <h4 class="name" id="~SubmitButton"><span class="type-signature">(inner) </span>SubmitButton<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
     
@@ -152,7 +152,7 @@
 
 
 <div class="description">
-    <p>A customizable button component with an optional icon and text.</p>
+    <p>A customizable submit button component.</p>
 </div>
 
 
@@ -218,8 +218,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -232,7 +230,7 @@
 
         <tr>
             
-                <td class="name"><code>title</code></td>
+                <td class="name"><code>buttonName</code></td>
             
 
             <td class="type">
@@ -245,14 +243,6 @@
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -263,7 +253,7 @@
 
         <tr>
             
-                <td class="name"><code>onPress</code></td>
+                <td class="name"><code>handleSubmit</code></td>
             
 
             <td class="type">
@@ -276,14 +266,6 @@
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -294,97 +276,69 @@
 
         <tr>
             
-                <td class="name"><code>icon</code></td>
+                <td class="name"><code>loading</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>The name of the Ionicons icon to be displayed on the button.</p></td>
+            <td class="description last"><p>Determines whether the button is in a loading state.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>color</code></td>
+                <td class="name"><code>clicked</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>The color of the icon (default: '#f1f1f1').</p></td>
+            <td class="description last"><p>Determines whether the button has been clicked.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>size</code></td>
+                <td class="name"><code>userHasRestriction</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>The size of the icon (default: determined by Ionicons size).</p></td>
+            <td class="description last"><p>Determines whether the user has restrictions.</p></td>
         </tr>
 
     
@@ -432,7 +386,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_Button.js.html">component/Button.js</a>, <a href="component_Button.js.html#line11">line 11</a>
+        <a href="component_SubmitButton.js.html">component/SubmitButton.js</a>, <a href="component_SubmitButton.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -461,7 +415,7 @@
 
         
 <div class="param-desc">
-    <p>A TouchableOpacity component representing the button.</p>
+    <p>A TouchableOpacity component representing the submit button.</p>
 </div>
 
 

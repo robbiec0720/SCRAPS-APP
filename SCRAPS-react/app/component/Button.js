@@ -10,7 +10,7 @@ import {Ionicons} from '@expo/vector-icons'
 
 /**
  * A customizable button component with an optional icon and text.
- * 
+ * @function Button
  * @param {object} props - The props object containing the following properties:
  * @param {string} props.title - The text displayed on the button.
  * @param {function} props.onPress - The function to be called when the button is pressed.
@@ -19,7 +19,6 @@ import {Ionicons} from '@expo/vector-icons'
  * @param {number} [props.size] - The size of the icon (default: determined by Ionicons size).
  * @returns {JSX.Element} A TouchableOpacity component representing the button.
  */
-
 export default function Button({title, onPress, icon, color, size}) {
     return(
         <TouchableOpacity onPress={onPress}>

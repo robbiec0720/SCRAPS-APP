@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Button-Component</title>
+    <title>JSDoc: Module: InputField-Component</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Button-Component</h1>
+    <h1 class="page-title">Module: InputField-Component</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Defines the button for the application.</p></div>
+            <div class="description"><p>Defines the input field for the application.</p></div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_Button.js.html">component/Button.js</a>, <a href="component_Button.js.html#line5">line 5</a>
+        <a href="component_InputField.js.html">component/InputField.js</a>, <a href="component_InputField.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -144,7 +144,7 @@
     
 
     
-    <h4 class="name" id="~Button"><span class="type-signature">(inner) </span>Button<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    <h4 class="name" id="~InputField"><span class="type-signature">(inner) </span>InputField<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
     
@@ -152,7 +152,7 @@
 
 
 <div class="description">
-    <p>A customizable button component with an optional icon and text.</p>
+    <p>A customizable input field component.</p>
 </div>
 
 
@@ -222,6 +222,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -232,7 +234,7 @@
 
         <tr>
             
-                <td class="name"><code>title</code></td>
+                <td class="name"><code>inputFieldName</code></td>
             
 
             <td class="type">
@@ -255,15 +257,167 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last"><p>The text displayed on the button.</p></td>
+            <td class="description last"><p>The label displayed above the input field.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>onPress</code></td>
+                <td class="name"><code>autoComplete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Determines whether auto-completion is enabled for the input field.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Specifies the type of keyboard to display.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>secureTextEntry</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"><p>Determines whether the text entered in the input field is obscured.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The current value of the input field.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setValue</code></td>
             
 
             <td class="type">
@@ -286,105 +440,12 @@
             
 
             
-
-            <td class="description last"><p>The function to be called when the button is pressed.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>icon</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
+                <td class="default">
                 
                 </td>
             
 
-            
-
-            <td class="description last"><p>The name of the Ionicons icon to be displayed on the button.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The color of the icon (default: '#f1f1f1').</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>size</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The size of the icon (default: determined by Ionicons size).</p></td>
+            <td class="description last"><p>The function to be called when the input field value changes.</p></td>
         </tr>
 
     
@@ -432,7 +493,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_Button.js.html">component/Button.js</a>, <a href="component_Button.js.html#line11">line 11</a>
+        <a href="component_InputField.js.html">component/InputField.js</a>, <a href="component_InputField.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -461,7 +522,7 @@
 
         
 <div class="param-desc">
-    <p>A TouchableOpacity component representing the button.</p>
+    <p>A View containing a text label and a TextInput component representing the input field.</p>
 </div>
 
 

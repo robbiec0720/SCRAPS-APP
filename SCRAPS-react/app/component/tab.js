@@ -16,10 +16,10 @@ const Tab = createBottomTabNavigator()
 
 /**
  * A custom bottom tab navigator component.
- * 
- * @returns {JSX.Element} A BottomTabNavigator component representing the application tabs.
+ * @function CustomTabbutton 
+ * @returns {JSX.Element} 
+ * @description A BottomTabNavigator component representing the application tabs.
  */
-
 const CustomTabbutton = ({children, onPress}) => {
     return (
         <TouchableOpacity
@@ -42,6 +42,12 @@ const CustomTabbutton = ({children, onPress}) => {
     )
 }
 
+/**
+ * A custom bottom tab navigator component.
+ * @function Tabs
+ * @returns {JSX.Element} 
+ * @description A Tab component representing the application tabs.
+ */
 const Tabs = () => {
     return(
         <Tab.Navigator 

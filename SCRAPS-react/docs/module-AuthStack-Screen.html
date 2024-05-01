@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: context/infoContext.js</title>
+    <title>JSDoc: Module: AuthStack-Screen</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,46 +17,242 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: context/infoContext.js</h1>
+    <h1 class="page-title">Module: AuthStack-Screen</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import React, { createContext, useState, useContext } from 'react';
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Defines User Profile UI flow.</p></div>
+        
+
+        
+            
 
 
-/**
- * @module Info-Context
- * @description Enables prefernces across the application
- */
 
-const InfoContext = createContext();
 
-export const useInfo = () => useContext(InfoContext);
 
-/**
- * A context provider component for managing information state.
- * @function InfoProvider
- * @param {object} props - The props object containing the following properties:
- * @param {React.ReactNode} props.children - The child components that will have access to the information context.
- * @returns {JSX.Element} A context provider component wrapping its children with the information context.
- */
-export const InfoProvider = ({ children }) => {
-    const [cookTime, setCookTime] = useState('60');
-    const [missing, setMissing] = useState('5');
-  
-    return (
-      &lt;InfoContext.Provider value={{ cookTime, missing, setCookTime, setMissing }}>
-        {children}
-      &lt;/InfoContext.Provider>
-    );
-  };</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="screens_AuthStack.js.html">screens/AuthStack.js</a>, <a href="screens_AuthStack.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~AuthStack"><span class="type-signature">(inner) </span>AuthStack<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>A stack navigator component containing login, register, profile, and password reset screens.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="screens_AuthStack.js.html">screens/AuthStack.js</a>, <a href="screens_AuthStack.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

@@ -15,15 +15,13 @@ import { EXPO_NODE_URL } from "@env";
 
 /**
  * Component for managing user dietary restrictions.
- * 
- * This component displays buttons for various dietary restrictions,
+ * @function DietaryRestrictions
+ * @returns {void}
+ * @description This component displays buttons for various dietary restrictions,
  * allowing the user to toggle them on and off.
  * It also includes a save button to update the user's dietary restrictions.
- * 
  * @param {object} navigation - The navigation object provided by React Navigation.
- * @returns {JSX.Element} - Returns the JSX element for the dietary restrictions screen.
  */
-
 export default function DietaryRestrictions({navigation}){
     // State variables for managing user login and clicked buttons
     const [login, setLogin] = useContext(AuthContext);
@@ -41,15 +39,13 @@ export default function DietaryRestrictions({navigation}){
 
     /**
      * Handles the click event for a button.
-     * 
-     * This function toggles the state of a button when clicked.
+     * @function handleClick
+     * @returns {void}
+     * @description This function toggles the state of a button when clicked.
      * It updates the state of `clickedButtons` to reflect the clicked status of the button.
      * It also updates the user context stored in `login.user` to reflect the clicked status of the button.
-     * 
      * @param {string} buttonName The name of the button that was clicked.
-     * @returns {void}
      */
-
     const handleClick = (buttonName) => {
         setClickedButtons({ ...clickedButtons, [buttonName]: !clickedButtons[buttonName] });
 
@@ -65,13 +61,13 @@ export default function DietaryRestrictions({navigation}){
 
     /**
      * Handles the save operation for updating dietary restrictions.
-     * 
+     * @function handleSave
+     * @returns {void}
+     * @description
      * This function sends a POST request to the server to update the user's dietary restrictions.
      * It includes the user's dietary restrictions as parameters in the request payload.
      * After the request is sent, it displays an alert with the response message, if available.
-     * Finally, it navigates to the user profile screen.
-     * 
-     * @returns {void}
+     * Finally, it navigates to the user profile screen
      */
 
     const handleSave = async () => {

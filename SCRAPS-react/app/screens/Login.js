@@ -17,8 +17,8 @@ import { EXPO_NODE_URL } from '@env';
 
 /**
  * A component for user login.
- * 
- * This component provides a login form where users can enter their username and password.
+ * @function Login
+ * @description This component provides a login form where users can enter their username and password.
  * Upon submission, it sends a POST request to the server to authenticate the user.
  * If authentication is successful, it stores the user data in AsyncStorage and navigates to the UserProfile screen.
  * If authentication fails, it displays an error message.
@@ -38,11 +38,11 @@ export default function Login({navigation}) {
 
     /**
      * Function to handle form submission.
-     * 
-     * This function validates the form fields, sends a POST request to the server to authenticate the user,
+     * @function handleSubmit
+     * @description This function validates the form fields, sends a POST request to the server to authenticate the user,
      * and handles the response accordingly.
+     * @returns {void}
      */
-
     const handleSubmit = async () => {
         try {
           setLoading(true);

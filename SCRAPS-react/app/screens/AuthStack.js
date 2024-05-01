@@ -16,10 +16,10 @@ import DietaryRestrictions from "./DietaryRestrictions";
 
 /**
  * A stack navigator component for handling authentication screens.
- * 
- * @returns {JSX.Element} A stack navigator component containing login, register, profile, and password reset screens.
+ * @function AuthStack 
+ * @returns {JSX.Element}
+ * @description A stack navigator component containing login, register, profile, and password reset screens.
  */
-
 export default function AuthStack() {
     // Get the login state from the AuthContext
     const [login] = useContext(AuthContext);
