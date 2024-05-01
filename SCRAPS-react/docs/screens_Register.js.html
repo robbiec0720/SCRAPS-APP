@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: screens/Login.js</title>
+    <title>JSDoc: Source: screens/Register.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: screens/Login.js</h1>
+    <h1 class="page-title">Source: screens/Register.js</h1>
 
     
 
@@ -29,90 +29,85 @@
             <pre class="prettyprint source linenums"><code>import React, {useState, useContext} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import { AuthContext } from '../context/authContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles'
 import InputField from '../component/InputField';
 import SubmitButton from '../component/SubmitButton';
-import { EXPO_NODE_URL } from '@env';
+import axios from 'axios';
+import { EXPO_NODE_URL } from "@env";
 
 /**
- * @module Login-Screen
- * @description Defines Login UI.
+ * @module Register-Screen
+ * @description User Registeration UI.
  */
+
 
 /**
- * A component for user login.
- * @function Login
- * @description This component provides a login form where users can enter their username and password.
- * Upon submission, it sends a POST request to the server to authenticate the user.
- * If authentication is successful, it stores the user data in AsyncStorage and navigates to the UserProfile screen.
- * If authentication fails, it displays an error message.
- * 
- * @param {object} navigation - The navigation object provided by React Navigation.
- * @returns {JSX.Element} A component containing a login form.
+ * Register Component.
+ * This component renders a form for user registration.
+ * @param {object} navigation - Navigation object provided by React Navigation.
+ * @returns {JSX.Element} JSX.Element representing the Register component.
  */
-
-export default function Login({navigation}) {
-    // Get the login state and setter function from the AuthContext
+export default function Register({navigation}) {
     const [login, setLogin] = useContext(AuthContext);
-
-    // State variables for username, password, and loading state
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     /**
-     * Function to handle form submission.
-     * @function handleSubmit
-     * @description This function validates the form fields, sends a POST request to the server to authenticate the user,
-     * and handles the response accordingly.
-     * @returns {void}
+     * Handles the form submission for user registration.
+     * @returns {Promise&lt;void>} A Promise that resolves when the registration is successful.
      */
     const handleSubmit = async () => {
         try {
           setLoading(true);
-          if(!username || !password){
+          if(!username || !email || !password){
             Alert.alert('Please fill all fields');
             setLoading(false);
             return;
           }
-          //console.log('Login data ==> ', {username, password});
-          setLoading(false);
+          //console.log('Register data ==> ', {username, email, password});
           const { data } = await axios.post(
+            `${EXPO_NODE_URL}`+':8080/api/v1/user/register', 
+            {username, email, password}
+          );
+          alert(data &amp;&amp; data.message);
+
+          const {data: data2}  = await axios.post(
             `${EXPO_NODE_URL}`+':8080/api/v1/user/login', 
             {username, password}
           );
-          setLogin(data);
-          await AsyncStorage.setItem('@auth', JSON.stringify(data));
-          alert(data &amp;&amp; data.message);
+          setLogin(data2);
+          await AsyncStorage.setItem('@auth', JSON.stringify(data2));
           navigation.navigate('UserProfile');
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
-            //console.log(error);
         }
     }
 
-    // const getLocalStorageData = async () => {
-    //   let data = await AsyncStorage.getItem('@auth');
-    //   console.log('local storage', data);
-    // }
-    // getLocalStorageData();
     return (
         &lt;View style={styles.homeContainer}>
             &lt;View style={styles.header}>
                 &lt;Text style={styles.boldtext}>USER PROFILE&lt;/Text>
             &lt;/View>
             &lt;View style={loginStyles.registerContainer}>
-                &lt;Text style={loginStyles.createAccountText}>Login&lt;/Text>
+                &lt;Text style={loginStyles.createAccountText}>Create Account&lt;/Text>
                 &lt;View style={{ marginHorizontal: 20}}>
                    &lt;InputField
                     inputFieldName={'Username'} 
                     value={username} 
                     setValue={setUsername} 
+                    />
+                   &lt;InputField 
+                    inputFieldName={'Email'} 
+                    keyboardType='email-address' 
+                    autoComplete='email'
+                    value={email} 
+                    setValue={setEmail} 
                     />
                    &lt;InputField 
                     inputFieldName={'Password'} 
@@ -124,24 +119,24 @@ export default function Login({navigation}) {
             &lt;/View>
             {/* &lt;Text> {JSON.stringify({ username, email, password}, null, 4)} &lt;/Text> */}
             &lt;SubmitButton 
-             buttonName={'Login'} 
+             buttonName={'Register'} 
              loading={loading}
              handleSubmit={handleSubmit}
              />
             &lt;Text style={loginStyles.loginText}>
-                Don't have an account?{' '} 
+                Already have an account?{' '} 
                 &lt;Text 
                     style={loginStyles.loginLinkText}
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={() => navigation.navigate('Login')}
                 >
-                    Register here
+                    login here
                 &lt;/Text>{' '}
             &lt;/Text>
         &lt;StatusBar style='auto' />
       &lt;/View>
     );
 }
-</code></pre>
+  </code></pre>
         </article>
     </section>
 

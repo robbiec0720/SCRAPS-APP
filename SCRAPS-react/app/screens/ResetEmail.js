@@ -6,12 +6,22 @@ import SubmitButton from '../component/SubmitButton';
 import { styles } from '../styles/styles'
 import { EXPO_NODE_URL } from "@env";
 
+/**
+ * @module ResetEmail-Screen
+ * @param {object} navigation - Navigation object provided by React Navigation.
+ * @description Reset Email UI.
+ * @returns {JSX.Element} JSX.Element representing the ResetEmail screen component.
+ */
 export default function ResetEmail({navigation}){
     const [password, setPassword] = useState('');
     const [oldEmail, setOldEmail] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [loading, setLoading] = useState(false);
 
+     /**
+     * Handles the form submission for resetting email.
+     * @returns {Promise<void>} A Promise that resolves when the email reset is successful.
+     */
     const handleSubmit = async () => {
         try{
             setLoading(true);

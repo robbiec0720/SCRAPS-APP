@@ -10,7 +10,18 @@ import SubmitButton from '../component/SubmitButton';
 import axios from 'axios';
 import { EXPO_NODE_URL } from "@env";
 
+/**
+ * @module Register-Screen
+ * @description User Registeration UI.
+ */
 
+
+/**
+ * Register Component.
+ * This component renders a form for user registration.
+ * @param {object} navigation - Navigation object provided by React Navigation.
+ * @returns {JSX.Element} JSX.Element representing the Register component.
+ */
 export default function Register({navigation}) {
     const [login, setLogin] = useContext(AuthContext);
     const [username, setUsername] = useState('');
@@ -18,6 +29,10 @@ export default function Register({navigation}) {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Handles the form submission for user registration.
+     * @returns {Promise<void>} A Promise that resolves when the registration is successful.
+     */
     const handleSubmit = async () => {
         try {
           setLoading(true);

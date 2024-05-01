@@ -6,10 +6,21 @@ import { loginStyles } from '../styles/loginStyles'
 import SubmitButton from '../component/SubmitButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+/**
+ * User Profile Screen Component.
+ * @module UserProfile-Screen
+ * @description User Profile UI.
+ * @param {object} navigation - Navigation object provided by React Navigation.
+ * @returns {JSX.Element} JSX.Element representing the UserProfile screen component.
+ */
 export default function UserProfile({ navigation }) {
     const [login, setLogin] = useContext(AuthContext);
 
+    /**
+     * Handles the logout action.
+     * Clears the user login state and removes authentication token from AsyncStorage.
+     * @returns {Promise<void>} A Promise that resolves when logout is successful.
+     */
     const handleLogout = async () => {
         setLogin({user: null});
         await AsyncStorage.removeItem('@auth');

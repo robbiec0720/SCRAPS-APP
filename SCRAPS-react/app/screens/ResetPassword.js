@@ -6,12 +6,23 @@ import SubmitButton from '../component/SubmitButton';
 import { styles } from '../styles/styles'
 import { EXPO_NODE_URL } from "@env";
 
+/**
+ * Reset Password Screen Component.
+ * @module ResetPassword-Screen
+ * @description Reset Password UI.
+ * @param {object} navigation - Navigation object provided by React Navigation.
+ * @returns {JSX.Element} JSX.Element representing the ResetPassword screen component.
+ */
 export default function ResetPassword({navigation}){
     const [email, setEmail] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Handles the form submission for resetting password.
+     * @returns {Promise<void>} A Promise that resolves when the password reset is successful.
+     */
     const handleSubmit = async () => {
         try{
             setLoading(true);
