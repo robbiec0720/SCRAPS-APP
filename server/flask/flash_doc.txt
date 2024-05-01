@@ -1,0 +1,63 @@
+NAME
+    app
+
+FUNCTIONS
+    classify(img)
+        Performs image classification using a pre-trained model.
+        
+        Args:
+        img (numpy.ndarray): The input image to be classified.
+        
+        Returns:
+        str: The predicted class label for the input image.
+    
+    fetch_recipes()
+        Fetches all recipes from the database.
+        
+        Returns:
+        list: A list of tuples representing recipes retrieved from the database. Each tuple contains the data fields of a recipe.
+    
+    get_data()
+        Recommends recipes based on user preferences and constraints.
+        
+        Returns:
+        list: A list of recommended recipes along with their details, such as ID, title, link, ingredients, cook time, and similarity score.
+    
+    get_db_connection()
+        Establishes a connection to the PostgreSQL database using the provided environment variables.
+        
+        Returns:
+        psycopg2.extensions.connection: A connection object if the connection is successful, else None.
+    
+    hello()
+    
+    load_classes()
+        Loads the classes from a JSON file.
+        
+        Returns:
+        list: A list of class labels.
+    
+    load_model()
+        Loads a pre-trained image classification model and configures an inference client.
+        
+        Returns:
+        Tuple: A tuple containing the configured InferenceHTTPClient and the loaded Keras model.
+    
+    run_model()
+        Detects objects in an image and returns detected ingredient classes.
+        
+        Returns:
+        dict: A dictionary containing a list of detected ingredient classes.
+
+DATA
+    app = <Flask 'app'>
+    classes = ['Apple', 'Apricot', 'Avocado', 'Banana', 'Beetroot', 'Blueb...
+    detector = <inference_sdk.http.client.InferenceHTTPClient object>
+    dotenv_path = '/Users/rushilaggarwal/SCRAPS-APP/server/flask/../../.en...
+    model = <keras.src.engine.sequential.Sequential object>
+    request = <LocalProxy unbound>
+
+FILE
+    /Users/rushilaggarwal/SCRAPS-APP/server/flask/app.py
+
+

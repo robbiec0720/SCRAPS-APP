@@ -23,6 +23,12 @@ load_dotenv(dotenv_path)
 
 
 def load_model():
+    """
+    Loads a pre-trained image classification model and configures an inference client.
+
+    Returns:
+    Tuple: A tuple containing the configured InferenceHTTPClient and the loaded Keras model.
+    """
     cli = InferenceHTTPClient(
         api_url=os.getenv('FLOW_URL'),
         api_key=os.getenv('FLOW_KEY')
@@ -49,6 +55,12 @@ def load_model():
     return (cli, model)
 
 def load_classes():
+    """
+    Loads the classes from a JSON file.
+
+    Returns:
+    list: A list of class labels.
+    """
     classes = []
     with open("360_classes.json", "r") as f:
         classes = json.load(f)
@@ -59,7 +71,15 @@ detector, model = load_model()
 classes = load_classes()
 
 def classify(img):
-    
+    """
+    Performs image classification using a pre-trained model.
+
+    Args:
+    img (numpy.ndarray): The input image to be classified.
+
+    Returns:
+    str: The predicted class label for the input image.
+    """
     nimg = tf.convert_to_tensor(img, dtype=tf.float32)
     nimg /= 255
     img_tensor = tf.expand_dims(nimg, 0)
@@ -71,6 +91,12 @@ def classify(img):
 app = Flask(__name__)
 
 def get_db_connection():
+    """
+    Establishes a connection to the PostgreSQL database using the provided environment variables.
+
+    Returns:
+    psycopg2.extensions.connection: A connection object if the connection is successful, else None.
+    """
     try:
         conn = psycopg2.connect(
             host=os.getenv('PSQL_HOST'),
@@ -82,23 +108,13 @@ def get_db_connection():
         print(f"Connection error: {e}")
         return None
 
-# def fetch_users(username):
-#     conn = get_db_connection()
-#     if conn is not None:
-#         try:
-#             cursor = conn.cursor()
-#             cursor.execute('SELECT * FROM users WHERE username = %s;', (username,))
-#             users = cursor.fetchall()
-#             cursor.close()
-#             conn.close()
-#             return users
-#         except psycopg2.Error as e:
-#             print(f"Error fetching users: {e}")
-#             return None
-#     else:
-#         return None
-
 def fetch_recipes():
+    """
+    Fetches all recipes from the database.
+
+    Returns:
+    list: A list of tuples representing recipes retrieved from the database. Each tuple contains the data fields of a recipe.
+    """
     conn = get_db_connection()
     if conn is not None:
         try:
@@ -121,6 +137,12 @@ def hello():
 
 @app.route("/recommend", methods=["POST"])
 def get_data():
+    """
+    Recommends recipes based on user preferences and constraints.
+
+    Returns:
+    list: A list of recommended recipes along with their details, such as ID, title, link, ingredients, cook time, and similarity score.
+    """
     data = request.json
 
     cook_time = data['cookTime']
@@ -222,7 +244,12 @@ def get_data():
 
 @app.route("/detect", methods=["POST"])
 def run_model():
+    """
+    Detects objects in an image and returns detected ingredient classes.
 
+    Returns:
+    dict: A dictionary containing a list of detected ingredient classes.
+    """
     ##PARSE STEPS
     imgBytes = request.get_data()
     nparr = np.fromstring(imgBytes, np.uint8)
