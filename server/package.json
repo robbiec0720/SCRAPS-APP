@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js"
+    "start": "node server.js",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "author": "team squirtle",
   "license": "ISC",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jsdoc": "^4.0.2",
     "supertest": "^6.3.4"
   }
 }

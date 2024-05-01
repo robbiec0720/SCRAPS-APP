@@ -10,6 +10,7 @@ router.post("/login", userController.userLogin);
 router.post("/resetPassword", userController.resetPassword);
 router.post("/resetEmail", userController.resetEmail);
 router.post("/updateDietaryRestrictions", userController.updateDietaryRestrictions);
+router.post("/getAllUsers", userController.getUsers);
 
 
 
