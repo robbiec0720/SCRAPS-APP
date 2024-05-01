@@ -7,6 +7,12 @@ const bodyParser = require('body-parser');
 
 dotenv.config({path: '../.env'});
 
+/**
+ * @module server
+ * @description Entry point of SCRAPS application
+ */
+
+
 const app = express();
 
 app.use(cors());
@@ -22,6 +28,15 @@ app.get("",(req, res) => {
     });
 });
 
+/**
+ * GET request handler for the home page.
+ * @name GET /
+ * @function
+ * @memberof module:server
+ * @inner
+ * @param {Object} req - The HTTP request object
+ * @param {Object} res - The HTTP response object
+ */
 app.use('/api/v1/user', userRoutes);
 
 //port
