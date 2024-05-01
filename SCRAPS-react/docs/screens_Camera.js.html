@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Camera.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Camera.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
+import Button from '../component/Button';
+import { useImages } from '../context/imagecontext';
+import { cameraStyles } from '../styles/cameraStyles'
+import * as MediaLibrary from 'expo-media-library';
+import * as Haptics from 'expo-haptics';
+
+/**
+ * A screen component for capturing images using the device camera.
+ * 
+ * @returns {JSX.Element} A screen component containing camera functionality, including single and batch mode image capture, flash control, and image saving.
+ */
+
+export default function CameraScreen() {
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const[image, setImage] = useState([]);
+    const[type, setType] = useState(Camera.Constants.Type.back);
+    const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+    const [mode, setMode] = useState('single');
+    const cameraRef = useRef(null);
+    const { addImage } = useImages();
+
+    /**
+     * Effect hook for requesting camera permissions and setting camera permission status.
+     * 
+     * This effect hook is used to asynchronously request camera permissions and set the state
+     * variable `hasCameraPermission` based on the permission status.
+     */
+
+    useEffect(() => {
+        (async () => {
+            MediaLibrary.requestPermissionsAsync();
+            const cameraStatus = await Camera.requestCameraPermissionsAsync();
+            setHasCameraPermission(cameraStatus.status === 'granted');
+        })();
+    }, [])
+
+    if(hasCameraPermission === false){
+        return &lt;Text> No access to Camera&lt;/Text>
+    }
+
+    /**
+     * Function for taking a picture with the camera.
+     * 
+     * This function utilizes the camera reference (`cameraRef`) to take a picture asynchronously
+     * when invoked. It triggers haptic feedback to indicate the action, then captures the picture
+     * using the `takePictureAsync` method provided by the camera reference. The captured image URI
+     * is then added to the `image` state array based on the current mode ('single' or 'batch').
+     * If an error occurs during the picture capture process, it is logged to the console.
+     */
+    const takePicture = async () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+        if (cameraRef.current) {
+            try {
+                const data = await cameraRef.current.takePictureAsync();
+                if (mode === 'batch') {
+                    setImage([...image, data.uri]);
+                } else {
+                    setImage([data.uri]);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+    /**
+     * Function for saving captured images.
+     * 
+     * This function checks if there are any captured images available in the `image` state array.
+     * If images are present, it iterates over each image URI and adds them to the image context
+     * using the `addImage` function provided by the image context. After successfully adding the
+     * images, it clears the `image` state array. If any errors occur during the process, they are
+     * logged to the console.
+     */
+    
+    const saveImage = async () => {
+        if (image.length > 0) {
+            try {
+                //const savedImages = await Promise.all(image.map(image => MediaLibrary.createAssetAsync(image)));
+                alert('Pictures saved!');
+                image.forEach(image => addImage(image));
+                setImage([]);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+    return (
+        &lt;View style={cameraStyles.container}>
+            {mode === 'single' ? (
+                &lt;>&lt;View style={cameraStyles.header}>
+                    &lt;Button size={25} icon={flash === Camera.Constants.FlashMode.off ? 'flash-off' : 'flash'} onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} />
+                    &lt;Text style={cameraStyles.headerTitle}>Camera&lt;/Text>
+                &lt;/View>
+                {image.length === 0 ? (
+                    &lt;Camera
+                        style={cameraStyles.camera}
+                        type={type}
+                        flashMode={flash}
+                        autoFocus={Camera.Constants.AutoFocus.on}
+                        ref={cameraRef}
+                    >
+                    &lt;/Camera>
+                ) : (
+                    &lt;Image source={{uri: image[0]}} style={cameraStyles.camera}/>
+                )}
+                {image.length === 0 ? (
+                    &lt;View style={cameraStyles.modeSelection}>
+                            &lt;TouchableOpacity style={mode === 'single' ? cameraStyles.modeButtonActive : cameraStyles.modeButton} onPress={() => setMode('single')}>
+                                &lt;Text style={mode === 'single' ? { color: '#000' } : { color: '#fff' }}>Single&lt;/Text>
+                            &lt;/TouchableOpacity>
+                            &lt;TouchableOpacity style={mode === 'batch' ? cameraStyles.modeButtonActive : cameraStyles.modeButton} onPress={() => setMode('batch')}>
+                                &lt;Text style={mode === 'batch' ? { color: '#000' } : { color: '#fff' }}>Batch&lt;/Text>
+                            &lt;/TouchableOpacity>
+                        &lt;/View>
+                ) : (
+                    &lt;View style={cameraStyles.modeSelection}>
+                            &lt;TouchableOpacity style={mode === 'single' ? cameraStyles.modeButton : cameraStyles.modeButton}>
+                                &lt;Text style={mode === 'single' ? { color: '#fff' } : { color: '#fff' }}>&lt;/Text>
+                            &lt;/TouchableOpacity>
+                            &lt;TouchableOpacity style={mode === 'batch' ? cameraStyles.modeButton : cameraStyles.modeButton}>
+                                &lt;Text style={mode === 'batch' ? { color: '#fff' } : { color: '#fff' }}>&lt;/Text>
+                            &lt;/TouchableOpacity>
+                        &lt;/View>
+                )}
+                &lt;View style={cameraStyles.buttonContainer}>
+                    {image.length > 0 ?
+                        &lt;View style={cameraStyles.imageActionButtons}>
+                            &lt;Button style={cameraStyles.button} size={50} icon='reload' onPress={() => setImage([])} />
+                            &lt;Button style={cameraStyles.button} size={50} icon='checkmark-sharp' onPress={saveImage} />
+                        &lt;/View>
+                        :
+                        &lt;Button size={100} style={cameraStyles.button} icon='radio-button-on' onPress={takePicture} />}
+                &lt;/View>&lt;/>
+            ) : (
+                &lt;>&lt;View style={cameraStyles.header}>
+                        &lt;Button size={25} icon={flash === Camera.Constants.FlashMode.off ? 'flash-off' : 'flash'} onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} />
+                        &lt;Text style={cameraStyles.headerTitle}>Camera&lt;/Text>
+                    &lt;/View>&lt;Camera
+                        style={cameraStyles.camera}
+                        type={type}
+                        flashMode={flash}
+                        autoFocus={Camera.Constants.AutoFocus.on}
+                        ref={cameraRef}
+                    >
+                    &lt;/Camera>
+                    {image.length === 0 ? (
+                        &lt;View style={cameraStyles.modeSelection}>
+                            &lt;TouchableOpacity style={mode === 'single' ? cameraStyles.modeButtonActive : cameraStyles.modeButton} onPress={() => setMode('single')}>
+                                &lt;Text style={mode === 'single' ? { color: '#000' } : { color: '#fff' }}>Single&lt;/Text>
+                            &lt;/TouchableOpacity>
+                            &lt;TouchableOpacity style={mode === 'batch' ? cameraStyles.modeButtonActive : cameraStyles.modeButton} onPress={() => setMode('batch')}>
+                                &lt;Text style={mode === 'batch' ? { color: '#000' } : { color: '#fff' }}>Batch&lt;/Text>
+                            &lt;/TouchableOpacity>
+                        &lt;/View>
+                    ) : (
+                        &lt;View style={cameraStyles.modeSelection}>
+                            &lt;TouchableOpacity style={mode === 'single' ? cameraStyles.modeButton : cameraStyles.modeButton}>
+                                &lt;Text style={mode === 'single' ? { color: '#fff' } : { color: '#fff' }}>&lt;/Text>
+                            &lt;/TouchableOpacity>
+                            &lt;TouchableOpacity style={mode === 'batch' ? cameraStyles.modeButton : cameraStyles.modeButton}>
+                                &lt;Text style={mode === 'batch' ? { color: '#fff' } : { color: '#fff' }}>&lt;/Text>
+                            &lt;/TouchableOpacity>
+                        &lt;/View>
+                    )}
+                    &lt;View style={cameraStyles.buttonContainer}>
+                        &lt;View style={cameraStyles.imageCountButton}>
+                            &lt;Text style={cameraStyles.imageCountText}>{image.length}&lt;/Text>
+                        &lt;/View>
+                        {image.length > 0 ?
+                            &lt;View style={cameraStyles.imageActionButtons}>
+                                &lt;Button style={cameraStyles.button} size={50} icon='reload' onPress={() => setImage([])} />
+                                &lt;Button size={100} style={cameraStyles.button} icon='radio-button-on' onPress={takePicture} />
+                                &lt;Button style={cameraStyles.button} size={50} icon='checkmark-sharp' onPress={saveImage} />
+                            &lt;/View>
+                            :
+                            &lt;Button size={100} style={cameraStyles.button} icon='radio-button-on' onPress={takePicture} />}
+                    &lt;/View>&lt;/>
+            )}
+        &lt;/View>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Button-component.html">Button-component</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#CallRecipes">CallRecipes</a></li><li><a href="global.html#CustomTabbutton">CustomTabbutton</a></li><li><a href="global.html#ImageProvider">ImageProvider</a></li><li><a href="global.html#InfoProvider">InfoProvider</a></li><li><a href="global.html#IngredientProvider">IngredientProvider</a></li><li><a href="global.html#RecipeCard">RecipeCard</a></li><li><a href="global.html#handleLinkPress">handleLinkPress</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 19:53:40 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

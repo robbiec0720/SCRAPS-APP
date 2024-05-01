@@ -1,4 +1,3 @@
-
 import React, { useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,11 +8,24 @@ import ResetEmail from "./ResetEmail";
 import ResetPassword from "./ResetPassword";
 import DietaryRestrictions from "./DietaryRestrictions";
 
+/**
+ * @module AuthStack-Screen
+ * @description Defines User Profile UI flow.
+ */
+
+
+/**
+ * A stack navigator component for handling authentication screens.
+ * 
+ * @returns {JSX.Element} A stack navigator component containing login, register, profile, and password reset screens.
+ */
 
 export default function AuthStack() {
+    // Get the login state from the AuthContext
     const [login] = useContext(AuthContext);
     const authenticatedUser = login?.user;
 
+    // Create a stack navigators
     const Stack = createNativeStackNavigator();
     
     return (

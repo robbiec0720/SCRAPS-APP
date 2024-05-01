@@ -8,6 +8,18 @@ import { TouchableOpacity, View } from "react-native";
 
 const Tab = createBottomTabNavigator()
 
+/**
+ * @module Tab-Component
+ * @description Defines the tabs for the application.
+ */
+
+
+/**
+ * A custom bottom tab navigator component.
+ * 
+ * @returns {JSX.Element} A BottomTabNavigator component representing the application tabs.
+ */
+
 const CustomTabbutton = ({children, onPress}) => {
     return (
         <TouchableOpacity

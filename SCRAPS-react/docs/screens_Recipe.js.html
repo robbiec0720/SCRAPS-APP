@@ -1,4 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Recipe.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Recipe.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Linking, ScrollView, TouchableOpacity } from 'react-native';
 import { useIngredients } from '../context/ingredientContext';
@@ -10,17 +38,12 @@ import axios from 'axios';
 import { EXPO_FLASK_URL } from "@env";
 
 /**
- * @module Recipe-Screen
- * @description Defines Recipe UI flow.
- */
-
-/**
  * Function to handle pressing a link.
  * 
  * This function checks if the provided URL can be opened, and if supported, it opens the URL using the device's default browser.
  * 
  * @param {string} url - The URL to be opened.
- * @returns {Promise<void>} A promise that resolves once the URL is opened or rejects if an error occurs.
+ * @returns {Promise&lt;void>} A promise that resolves once the URL is opened or rejects if an error occurs.
  */
 const handleLinkPress = async(url) => {
     console.log(url);
@@ -53,40 +76,40 @@ const RecipeCard = ({ recipe, ingredients }) => {
     // console.log('diff', diff)
 
     return (
-        <View>
-            <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
-                <Text style={recipeStyles.title}>{recipe.title}</Text>
+        &lt;View>
+            &lt;TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
+                &lt;Text style={recipeStyles.title}>{recipe.title}&lt;/Text>
 
-                <Text>
-                    <Text style={recipeStyles.infoTitle}>Cook Time: </Text>
-                    <Text style={recipeStyles.info}>{recipe.cook_time}</Text>
-                </Text>
+                &lt;Text>
+                    &lt;Text style={recipeStyles.infoTitle}>Cook Time: &lt;/Text>
+                    &lt;Text style={recipeStyles.info}>{recipe.cook_time}&lt;/Text>
+                &lt;/Text>
                 
-                <Text>
-                    <Text style={recipeStyles.infoTitle}>Missing Ingredients: </Text>
-                    {diff.length > 0 && (
-                        <Text style={recipeStyles.info}>{diff.join(', ')}</Text>
+                &lt;Text>
+                    &lt;Text style={recipeStyles.infoTitle}>Missing Ingredients: &lt;/Text>
+                    {diff.length > 0 &amp;&amp; (
+                        &lt;Text style={recipeStyles.info}>{diff.join(', ')}&lt;/Text>
                     )}
-                    {diff.length == 0 && (
-                        <Text style={recipeStyles.info}>none</Text>
+                    {diff.length == 0 &amp;&amp; (
+                        &lt;Text style={recipeStyles.info}>none&lt;/Text>
                     )}
-                </Text>
+                &lt;/Text>
                 
-                <Text>
-                    <Text style={recipeStyles.infoTitle}>Match Score: </Text>
-                    <Text style={recipeStyles.info}>{Math.round(recipe.score * 10000) / 100}%</Text>
-                </Text>
+                &lt;Text>
+                    &lt;Text style={recipeStyles.infoTitle}>Match Score: &lt;/Text>
+                    &lt;Text style={recipeStyles.info}>{Math.round(recipe.score * 10000) / 100}%&lt;/Text>
+                &lt;/Text>
                 
-                {/* <TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
-                    {recipe.link && (
-                        <Text>
-                            <Text style={recipeStyles.link}>Recipe Link</Text>
-                            <Text style={recipeStyles.link}>{recipe.link}</Text>
-                        </Text>
+                {/* &lt;TouchableOpacity onPress={() => handleLinkPress(recipe.link)}>
+                    {recipe.link &amp;&amp; (
+                        &lt;Text>
+                            &lt;Text style={recipeStyles.link}>Recipe Link&lt;/Text>
+                            &lt;Text style={recipeStyles.link}>{recipe.link}&lt;/Text>
+                        &lt;/Text>
                     )}
-                </TouchableOpacity> */}
-            </TouchableOpacity>
-      </View>
+                &lt;/TouchableOpacity> */}
+            &lt;/TouchableOpacity>
+      &lt;/View>
     );
 };    
 
@@ -101,7 +124,7 @@ const RecipeCard = ({ recipe, ingredients }) => {
  * @param {number} cookTime - The maximum cook time preference specified by the user (in minutes).
  * @param {number} missing - The maximum number of missing ingredients allowed in a recommended recipe.
  * @param {object} userjson - The JSON object containing user information.
- * @returns {Promise<object[]>} A promise that resolves to an array of recommended recipes retrieved from the server.
+ * @returns {Promise&lt;object[]>} A promise that resolves to an array of recommended recipes retrieved from the server.
  */
 const CallRecipes = async (ingredients, cookTime, missing, userjson) => {
     try {
@@ -164,45 +187,68 @@ export default function Home({navigation}) {
 
     if(loading) {
         return (
-            <View style={recipeStyles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.boldtext}>RECIPES</Text>
-                </View>
-                <TouchableOpacity
+            &lt;View style={recipeStyles.container}>
+                &lt;View style={styles.header}>
+                    &lt;Text style={styles.boldtext}>RECIPES&lt;/Text>
+                &lt;/View>
+                &lt;TouchableOpacity
                     style={styles.backButton}
                     onPress={() => navigation.navigate('Preference')}  
                 >
-                    <Text style={styles.buttonText}>Go Back</Text>
-                </TouchableOpacity>
+                    &lt;Text style={styles.buttonText}>Go Back&lt;/Text>
+                &lt;/TouchableOpacity>
                 {recipes.length > 0 ? (
-                    <ScrollView styles={recipeStyles.scrollContainer}>
+                    &lt;ScrollView styles={recipeStyles.scrollContainer}>
                         {recipes.map((recipe, index) => (
-                            <View key={index} style={recipeStyles.recipeContainer}>
-                                <RecipeCard key={index} recipe={recipe} ingredients={ingredients}></RecipeCard>
-                            </View>
+                            &lt;View key={index} style={recipeStyles.recipeContainer}>
+                                &lt;RecipeCard key={index} recipe={recipe} ingredients={ingredients}>&lt;/RecipeCard>
+                            &lt;/View>
                         ))}
-                    </ScrollView>
+                    &lt;/ScrollView>
                 ) : (
-                    <View style={styles.instructionsContainer}>
-                        <Text style={styles.instructionsText}>No recipes were found</Text>
-                    </View>
+                    &lt;View style={styles.instructionsContainer}>
+                        &lt;Text style={styles.instructionsText}>No recipes were found&lt;/Text>
+                    &lt;/View>
                 )}
-                <StatusBar style='auto' />
-            </View>
+                &lt;StatusBar style='auto' />
+            &lt;/View>
     );}
     else {
         return (
-            <View style={recipeStyles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.boldtext}>LOADING RECIPES...</Text>
-                </View>
-                <TouchableOpacity
+            &lt;View style={recipeStyles.container}>
+                &lt;View style={styles.header}>
+                    &lt;Text style={styles.boldtext}>LOADING RECIPES...&lt;/Text>
+                &lt;/View>
+                &lt;TouchableOpacity
                     style={styles.backButton}
                     onPress={() => navigation.navigate('Preference')}  
                 >
-                    <Text style={styles.buttonText}>Go Back</Text>
-                </TouchableOpacity>
-            </View>
+                    &lt;Text style={styles.buttonText}>Go Back&lt;/Text>
+                &lt;/TouchableOpacity>
+            &lt;/View>
         )
     }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Button-component.html">Button-component</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#CallRecipes">CallRecipes</a></li><li><a href="global.html#CustomTabbutton">CustomTabbutton</a></li><li><a href="global.html#ImageProvider">ImageProvider</a></li><li><a href="global.html#InfoProvider">InfoProvider</a></li><li><a href="global.html#IngredientProvider">IngredientProvider</a></li><li><a href="global.html#RecipeCard">RecipeCard</a></li><li><a href="global.html#handleLinkPress">handleLinkPress</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 19:53:40 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

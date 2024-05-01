@@ -8,21 +8,46 @@ import { homeStyles } from '../styles/homeStyles'
 import * as FileSystem from 'expo-file-system';
 import {EXPO_FLASK_URL} from '@env';
 
+/**
+ * @module Home-Screen
+ * @description Defines UI flow
+ */
+
+
+/**
+ * Component for the Home screen.
+ * 
+ * This component displays the SCRAPS logo in the header.
+ * If there are images available, it renders them in a scrollable view with a 'Remove' button for each image.
+ * If there are no images, it displays instructions on how to use SCRAPS.
+ * It provides a 'Continue' button to navigate to the preference screen.
+ * 
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} - The rendered Home screen component.
+ */
+
 export default function Home({navigation}) {
+    // Get images and functions related to images from the image context
     const { images, setImages } = useImages();
+    // Get ingredients and functions related to ingredients from the ingredient context
     const {ingredients, addIngredient} = useIngredients();
+
+    // Function to remove an image from the images array
     const removeImage = (index) => {
         setImages(images.filter((_, i) => i !== index));
     };
 
+    /**
+     * Function for navigating to the preference screen based on detected ingredients in images.
+     * 
+     * This function iterates through the images array, sends each image to the server for ingredient detection,
+     * and updates the ingredient list based on the detected ingredients.
+     * After processing all images, it navigates to the preference screen.
+     */
+
     const navigatePreference = async () => {
-        // const newIngrs = [];
         images.forEach(async (img) => {
             try {
-                // const b64 = await FileSystem.readAsStringAsync(img, {
-                //     encoding: FileSystem.EncodingType.Base64,
-
-                // });
                 const data = await FileSystem.uploadAsync(`${EXPO_FLASK_URL}`+':9000/detect',
                 img, {
                     headers: {
@@ -45,10 +70,6 @@ export default function Home({navigation}) {
             }
 
         });
-        // const ingrSet = Set(newIngrs);
-        // ingrSet.forEach((ingr) => {
-        //     addIngredient(ingr);
-        // })
         navigation.navigate('Preference');
     };
 

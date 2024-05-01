@@ -6,11 +6,33 @@ import { useInfo } from '../context/infoContext';
 import { styles } from '../styles/styles'
 import { prefStyles } from '../styles/prefStyles'
 
+/**
+ * @module Preference-Screen
+ * @description Defines Preference UI.
+ */
+
+/**
+ * A component for setting user preferences.
+ * 
+ * This component provides a form for users to set their preferences, including maximum cook time and maximum missing ingredients.
+ * Users can also add and remove ingredients from their preference list.
+ * 
+ * @param {object} navigation - The navigation object provided by React Navigation.
+ * @returns {JSX.Element} A component containing a form for setting preferences.
+ */
+
 export default function Preference({navigation}) {
+    // State variables for new ingredient, cook time, and missing ingredients
     const [newIngredient, setNewIngredient] = useState('');
     const { ingredients, addIngredient, removeIngredient } = useIngredients();
     const { cookTime, missing, setCookTime, setMissing } = useInfo();
 
+    /**
+     * Function to handle adding a new ingredient to the preference list.
+     * 
+     * This function adds a new ingredient to the list of ingredients if it is not empty.
+     * It then clears the input field for adding ingredients.
+     */
     const handleAddIngredient = () => {
         if (newIngredient.trim() !== '') {
             addIngredient(newIngredient);
@@ -18,11 +40,25 @@ export default function Preference({navigation}) {
         }
     };
 
+    /**
+     * Function to handle removing an ingredient from the preference list.
+     * 
+     * This function removes the ingredient at the specified index from the list of ingredients.
+     * 
+     * @param {number} index - The index of the ingredient to be removed.
+     */
     const handleRemoveIngredient = (index) => {
         removeIngredient(index);
         // console.log(ingredients);
     };
 
+    /**
+     * Function to handle focusing on text input field.
+     * 
+     * This function focuses on the text input field and selects its contents.
+     * 
+     * @param {object} textInputRef - Reference to the text input field.
+     */
     const handleTextInputFocus = (textInputRef) => {
         if (textInputRef) {
             textInputRef.focus();

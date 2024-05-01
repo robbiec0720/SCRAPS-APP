@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Preference.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Preference.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Text, View, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { useIngredients } from '../context/ingredientContext';
+import { useInfo } from '../context/infoContext';
+import { styles } from '../styles/styles'
+import { prefStyles } from '../styles/prefStyles'
+
+/**
+ * A component for setting user preferences.
+ * 
+ * This component provides a form for users to set their preferences, including maximum cook time and maximum missing ingredients.
+ * Users can also add and remove ingredients from their preference list.
+ * 
+ * @param {object} navigation - The navigation object provided by React Navigation.
+ * @returns {JSX.Element} A component containing a form for setting preferences.
+ */
+
+export default function Preference({navigation}) {
+    // State variables for new ingredient, cook time, and missing ingredients
+    const [newIngredient, setNewIngredient] = useState('');
+    const { ingredients, addIngredient, removeIngredient } = useIngredients();
+    const { cookTime, missing, setCookTime, setMissing } = useInfo();
+
+    /**
+     * Function to handle adding a new ingredient to the preference list.
+     * 
+     * This function adds a new ingredient to the list of ingredients if it is not empty.
+     * It then clears the input field for adding ingredients.
+     */
+    const handleAddIngredient = () => {
+        if (newIngredient.trim() !== '') {
+            addIngredient(newIngredient);
+            setNewIngredient('');
+        }
+    };
+
+    /**
+     * Function to handle removing an ingredient from the preference list.
+     * 
+     * This function removes the ingredient at the specified index from the list of ingredients.
+     * 
+     * @param {number} index - The index of the ingredient to be removed.
+     */
+    const handleRemoveIngredient = (index) => {
+        removeIngredient(index);
+        // console.log(ingredients);
+    };
+
+    /**
+     * Function to handle focusing on text input field.
+     * 
+     * This function focuses on the text input field and selects its contents.
+     * 
+     * @param {object} textInputRef - Reference to the text input field.
+     */
+    const handleTextInputFocus = (textInputRef) => {
+        if (textInputRef) {
+            textInputRef.focus();
+            textInputRef.setSelection(0, cookTime.length);
+        }
+    };
+
+    return (
+        // &lt;KeyboardAvoidingView
+        //     style={{ flex: 1 }}
+        //     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        // >
+        //     &lt;ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                &lt;View style={prefStyles.container}>
+                    &lt;View style={styles.header}>
+                        &lt;Text style={styles.boldtext}>PREFERENCES&lt;/Text>
+                    &lt;/View>
+                    &lt;View style={prefStyles.row}>
+                        &lt;TouchableOpacity
+                            style={styles.backButton}
+                            onPress={() => navigation.navigate('HomeTabs')}  
+                        >
+                            &lt;Text style={styles.buttonText}>Go Back&lt;/Text>
+                        &lt;/TouchableOpacity>
+                        &lt;TouchableOpacity
+                            style={prefStyles.continueButton}
+                            onPress={() => navigation.navigate('Recipe')}  
+                        >
+                            &lt;Text style={styles.buttonText}>Continue&lt;/Text>
+                        &lt;/TouchableOpacity>
+                    &lt;/View>
+                    &lt;View style={prefStyles.table}>
+                        &lt;View style={prefStyles.row}>
+                            &lt;Text style={prefStyles.label}>Max Cook Time (minutes):&lt;/Text>
+                            &lt;TextInput
+                                style={[prefStyles.input, prefStyles.rightAligned]}
+                                keyboardType='numeric'
+                                value={cookTime}
+                                onFocus={() => handleTextInputFocus(this.cookTimeInput)}
+                                ref={(input) => { this.cookTimeInput = input; }}
+                                onChangeText={text => setCookTime(text)}
+                            />
+                        &lt;/View>
+                        &lt;View style={prefStyles.row}>
+                            &lt;Text style={prefStyles.label}>Max Missing Ingredients:&lt;/Text>
+                            &lt;TextInput
+                                style={[prefStyles.input, prefStyles.rightAligned]}
+                                keyboardType='numeric'
+                                value={missing}
+                                onFocus={() => handleTextInputFocus(this.missingInput)}
+                                ref={(input) => { this.missingInput = input; }}
+                                onChangeText={text => setMissing(text)}
+                            />
+                        &lt;/View>
+                    &lt;/View>
+                    &lt;View style={styles.header}>
+                        &lt;Text style={styles.boldtext}>INGREDIENTS&lt;/Text>
+                    &lt;/View>
+                    &lt;View style={prefStyles.inputContainer}>
+                        &lt;TextInput
+                            style={prefStyles.input}
+                            placeholder='Enter Ingredient'
+                            value={newIngredient}
+                            onChangeText={setNewIngredient}
+                        />
+                        &lt;TouchableOpacity style={prefStyles.addButton} onPress={handleAddIngredient}>
+                            &lt;Text style={styles.buttonText}>Add&lt;/Text>
+                        &lt;/TouchableOpacity>
+                    &lt;/View>
+                    &lt;ScrollView style={prefStyles.scrollContainer}>
+                        {ingredients.length > 0 &amp;&amp; 
+                            (ingredients.map((ingredient, index) => (
+                                &lt;View key={index} style={prefStyles.row}>
+                                    &lt;Text style={prefStyles.label}>{ingredient}&lt;/Text>
+                                    &lt;TouchableOpacity onPress={() => handleRemoveIngredient(index)} style={prefStyles.removeButton}>
+                                        &lt;Text style={styles.buttonText}>Remove&lt;/Text>
+                                    &lt;/TouchableOpacity>
+                                &lt;/View>
+                        )))}
+                    &lt;/ScrollView>
+                    
+                    &lt;StatusBar style='auto' />
+                &lt;/View>
+        //     &lt;/ScrollView>
+        // &lt;/KeyboardAvoidingView>
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Button-component.html">Button-component</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#CallRecipes">CallRecipes</a></li><li><a href="global.html#CustomTabbutton">CustomTabbutton</a></li><li><a href="global.html#ImageProvider">ImageProvider</a></li><li><a href="global.html#InfoProvider">InfoProvider</a></li><li><a href="global.html#IngredientProvider">IngredientProvider</a></li><li><a href="global.html#RecipeCard">RecipeCard</a></li><li><a href="global.html#handleLinkPress">handleLinkPress</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 19:53:40 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

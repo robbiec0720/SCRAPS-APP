@@ -1,4 +1,32 @@
-import { View, Text, ScrollView } from 'react-native';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/DietaryRestrictions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/DietaryRestrictions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { View, Text, ScrollView } from 'react-native';
 import React, { useContext, useState } from 'react';
 import SubmitButton from '../component/SubmitButton';
 import { AuthContext } from '../context/authContext';
@@ -6,12 +34,6 @@ import { styles } from '../styles/styles'
 import { loginStyles } from '../styles/loginStyles';
 import axios from 'axios';
 import { EXPO_NODE_URL } from "@env";
-
-/**
- * @module DietaryRestrictions-Screen
- * @description Defines dietary restrictions UI.
- */
-
 
 /**
  * Component for managing user dietary restrictions.
@@ -91,7 +113,7 @@ export default function DietaryRestrictions({navigation}){
                     id: login.user.id
                 }
                 );
-            alert(data && data.message);
+            alert(data &amp;&amp; data.message);
             navigation.navigate('UserProfile');
         } catch (err) {
             console.log(err);
@@ -99,98 +121,121 @@ export default function DietaryRestrictions({navigation}){
     }
     
     return (
-        <View style={styles.homeContainer}>
-            <ScrollView style = {loginStyles.scrollView}>
-                <View style = {loginStyles.header}>
-                    <Text style = {styles.boldtext}>DIETARY RESTRICTIONS</Text>
-                </View>
-                <View>
-                    <View style={loginStyles.card}>
-                        <Text style={loginStyles.cardheader}>ALLERGIES</Text>
-                        <View style={loginStyles.buttonContainer}>
-                        <SubmitButton
+        &lt;View style={styles.homeContainer}>
+            &lt;ScrollView style = {loginStyles.scrollView}>
+                &lt;View style = {loginStyles.header}>
+                    &lt;Text style = {styles.boldtext}>DIETARY RESTRICTIONS&lt;/Text>
+                &lt;/View>
+                &lt;View>
+                    &lt;View style={loginStyles.card}>
+                        &lt;Text style={loginStyles.cardheader}>ALLERGIES&lt;/Text>
+                        &lt;View style={loginStyles.buttonContainer}>
+                        &lt;SubmitButton
                                 buttonName={'Shellfish'}
                                 handleSubmit={() => handleClick('Shellfish')}
                                 loading={false}
                                 clicked={clickedButtons['Shellfish']}
                                 userHasRestriction={login.user.shellfish} 
                             />
-                            <SubmitButton
+                            &lt;SubmitButton
                                 buttonName={'Lactose'}
                                 handleSubmit={() => handleClick('Lactose')}
                                 loading={false}
                                 clicked={clickedButtons['Lactose']}
                                 userHasRestriction={login.user.lactose} 
                             />
-                            <SubmitButton
+                            &lt;SubmitButton
                                 buttonName={'Gluten'}
                                 handleSubmit={() => handleClick('Gluten')}
                                 loading={false}
                                 clicked={clickedButtons['Gluten']}
                                 userHasRestriction={login.user.gluten} 
                             />
-                            <SubmitButton
+                            &lt;SubmitButton
                                 buttonName={'Nut'}
                                 handleSubmit={() => handleClick('Nut')}
                                 loading={false}
                                 clicked={clickedButtons['Nut']}
                                 userHasRestriction={login.user.nut} 
                             />
-                        </View>
-                    </View>
-                    <View style={loginStyles.card}>
-                        <Text style={loginStyles.cardheader}>RELATIONSHIP WITH MEAT</Text>
-                        <View style={loginStyles.buttonContainer}>
-                            <SubmitButton
+                        &lt;/View>
+                    &lt;/View>
+                    &lt;View style={loginStyles.card}>
+                        &lt;Text style={loginStyles.cardheader}>RELATIONSHIP WITH MEAT&lt;/Text>
+                        &lt;View style={loginStyles.buttonContainer}>
+                            &lt;SubmitButton
                                 buttonName={'Pescatarian'}
                                 handleSubmit={() => handleClick('Pescatarian')}
                                 loading={false}
                                 clicked={clickedButtons['Pescatarian']}
                                 userHasRestriction={login.user.pescatarian} 
                                 />
-                            <SubmitButton 
+                            &lt;SubmitButton 
                                 buttonName={'Vegetarian'}
                                 handleSubmit={() => handleClick('Vegetarian')}
                                 loading={false}
                                 clicked={clickedButtons['Vegetarian']}
                                 userHasRestriction={login.user.vegetarian} 
                             />
-                            <SubmitButton 
+                            &lt;SubmitButton 
                                 buttonName={'Vegan'}
                                 handleSubmit={() => handleClick('Vegan')}
                                 loading={false}
                                 clicked={clickedButtons['Vegan']}
                                 userHasRestriction={login.user.vegan} 
                             />
-                        </View>
-                    </View>
-                    <View style={loginStyles.card}>
-                        <Text style={loginStyles.cardheader}>RELIGION</Text>
-                        <View style={loginStyles.buttonContainer}>
-                            <SubmitButton 
+                        &lt;/View>
+                    &lt;/View>
+                    &lt;View style={loginStyles.card}>
+                        &lt;Text style={loginStyles.cardheader}>RELIGION&lt;/Text>
+                        &lt;View style={loginStyles.buttonContainer}>
+                            &lt;SubmitButton 
                                 buttonName={'Kosher'}
                                 handleSubmit={() => handleClick('Kosher')}
                                 loading={false}
                                 clicked={clickedButtons['Kosher']}
                                 userHasRestriction={login.user.kosher} 
                             />
-                            <SubmitButton 
+                            &lt;SubmitButton 
                                 buttonName={'Halal'}
                                 handleSubmit={() => handleClick('Halal')}
                                 loading={false}
                                 clicked={clickedButtons['Halal']}
                                 userHasRestriction={login.user.halal} 
                             />
-                        </View>
-                    </View>
-                    <View style={loginStyles.submit}>
-                            <SubmitButton 
+                        &lt;/View>
+                    &lt;/View>
+                    &lt;View style={loginStyles.submit}>
+                            &lt;SubmitButton 
                                 buttonName={'Save Preferences'} 
                                 handleSubmit={handleSave}
                             />
-                    </View>
-                </View>
-            </ScrollView>
-        </View>
+                    &lt;/View>
+                &lt;/View>
+            &lt;/ScrollView>
+        &lt;/View>
     )
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Button-component.html">Button-component</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#CallRecipes">CallRecipes</a></li><li><a href="global.html#CustomTabbutton">CustomTabbutton</a></li><li><a href="global.html#ImageProvider">ImageProvider</a></li><li><a href="global.html#InfoProvider">InfoProvider</a></li><li><a href="global.html#IngredientProvider">IngredientProvider</a></li><li><a href="global.html#RecipeCard">RecipeCard</a></li><li><a href="global.html#handleLinkPress">handleLinkPress</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 30 2024 19:53:40 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "doc": "jsdoc -c app/jsdoc.json"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "jsdoc": "^4.0.2",
     "metro-react-native-babel-preset": "^0.77.0",
     "react-native-dotenv": "^3.4.11"
   },
